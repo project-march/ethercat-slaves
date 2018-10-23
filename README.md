@@ -1,4 +1,7 @@
 # march-iv-slaves
 Repo for the General EtherCAT Slave code of the MARCH IV
-This is a test branch
+
+Developing the slave code will be a task of the MARCH IV Electrical engineers.
+
+
 
