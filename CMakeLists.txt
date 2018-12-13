@@ -1,6 +1,0 @@
-cmake_minimum_required(VERSION 3.3)
-project(march-iv-slaves)
-set(core_SRCS src/main.cpp)
-add_library(core ${core_SRCS})
-add_executable(exe src/main.cpp)
-target_link_libraries(exe core)
