@@ -7,9 +7,9 @@
 **/.travis.yml
 
 #For the platformio plugin for Visual Studio Code
-*/.pio/
-*/.pioenvs/
-*/.piolibdeps/
+**/.pio/
+**/.pioenvs/
+**/.piolibdeps/
 
 #For RT-labs projects
 **/.metadata
