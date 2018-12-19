@@ -39,8 +39,8 @@ void main_init(){
   //Starts both timers at 0.
   totalTimer.reset();
   totalTimer.start();
-  cycleTimer.start();
   cycleTimer.reset();
+  cycleTimer.start();
   // ledToggleLong.attach(&operate_status_led, statusPeriod/2);
   return;
 }
