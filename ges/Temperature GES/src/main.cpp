@@ -11,16 +11,21 @@ void finish_loop();
 // void operate_status_led();
 // void toggle_status_led();
 
+// LED on DieBieSlave, for testing communication
 DigitalOut statusLed(DBS_LED,0);
+// Serial communication with the pc for debugging
 Serial pc(DBS_UART_USB_TX, DBS_UART_USB_RX, 128000);
+// Ethercat communication with master
 Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS, &pc, 10);
 
+//Timers for debugging
 Timer cycleTimer;
 Timer totalTimer;
 
 // Ticker ledToggleLong;
 // Ticker ledToggleShort;
 
+// EtherCAT frequency
 const int ethercatFrequency = 1000;
 // const float statusPeriod = 10;
 // int statusNumber;
@@ -50,6 +55,9 @@ void main_loop(){
 
   if(mosi_LED_command == 1){
     statusLed = 1;
+  }
+  else{
+    statusLed = 0;
   }
   miso_LED_ack = mosi_LED_command;
 
