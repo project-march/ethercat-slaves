@@ -4,7 +4,6 @@
 
 #For Visual Studio Code IDE
 **/.vscode/
-**/.travis.yml
 
 #For the platformio plugin for Visual Studio Code
 **/.pio/
