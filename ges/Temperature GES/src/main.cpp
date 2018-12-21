@@ -1,7 +1,9 @@
 #include <mbed.h>
+#include "DBS_pindefs.h"
 #include "objectlist.h"
 #include "Ethercat.h"
-#include "DBS_pindefs.h"
+
+#define TESTDATA_MISO (2)
 
 void main_init();
 void main_loop();
@@ -12,11 +14,11 @@ void finish_loop();
 // void toggle_status_led();
 
 // LED on DieBieSlave, for testing communication
-DigitalOut statusLed(DBS_LED,0);
+DigitalOut statusLed(DBS_LED);
 // Serial communication with the pc for debugging
 Serial pc(DBS_UART_USB_TX, DBS_UART_USB_RX, 128000);
 // Ethercat communication with master
-Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS, &pc, 10);
+Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS);
 
 //Timers for debugging
 Timer cycleTimer;
@@ -33,8 +35,10 @@ const int ethercatFrequency = 1000;
 int main() {
   wait(5);
   pc.printf("\f\r\nTime compiled = %s.\r\nDate = %s.\r\nBlink LED GES.", __TIME__, __DATE__);
+  statusLed = 1;
   wait(5);
   main_init();
+  statusLed = 0;
   while(1) {
     main_loop();
   }
@@ -46,20 +50,25 @@ void main_init(){
   totalTimer.start();
   cycleTimer.reset();
   cycleTimer.start();
+  miso_LED_ack = 0;
   // ledToggleLong.attach(&operate_status_led, statusPeriod/2);
   return;
 }
 
 void main_loop(){
+  // Update the EtherCAT buffer
   ecat.update();
 
+  // Set led if ordered to from EtherCAT master
   if(mosi_LED_command == 1){
     statusLed = 1;
   }
   else{
     statusLed = 0;
   }
-  miso_LED_ack = mosi_LED_command;
+
+  // Set testdata to be sent back to the master
+  miso_LED_ack = TESTDATA_MISO;
 
   finish_loop();
 }
@@ -96,6 +105,7 @@ void finish_loop(){
     pc.printf("\r\n\n\n%i cycles performed. Took %f seconds for an average "
     "of %f per cycle. Was too slow %i times.",
     cycleCounter, totalTime, totalTime /( (float) cycleCounter), tooSlowCounter);
+    // pc.printf("\nled command: %i",mosi_LED_command);
     cycleCounter = 0;
     tooSlowCounter = 0;
     totalTimer.reset();

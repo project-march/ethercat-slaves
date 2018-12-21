@@ -1,34 +1,35 @@
+#ifndef OBJECTLIST_
+#define OBJECTLIST_
+#include <mbed.h>
 //First Define Custom PDO
 
-typedef struct
-{
-	uint8_t	miso_LED_ack;
-}_PDO_In_Struct;
+typedef struct _pdo_miso_struct{
+    uint8_t miso_LED_ack;
+}pdo_miso_struct;
 
-typedef struct 
-{
-	uint8_t	mosi_LED_command;
-}_PDO_Out_Struct;
+typedef struct _pdo_mosi_struct{
+    uint8_t mosi_LED_command;      
+}pdo_mosi_struct;
 
-//Next EasyCAT essential Buffer
-typedef union _BUFFI{
-    _PDO_In_Struct _PDO_In;
+//Next essential Buffer
+typedef union _bufferMiso{
+    pdo_miso_struct Struct;
     unsigned long Long[8];
-    char Byte[64];
-}BUFFIN;
+    char Byte[32];
+}bufferMiso;
 
-typedef union _BUFFO
+typedef union _bufferMosi
 {
-    _PDO_Out_Struct _PDO_Out;
+    pdo_mosi_struct Struct;
     unsigned long Long[8];
-    char Byte[64];
-}BUFFOUT;
+    char Byte[32];
+}bufferMosi;      
 
-//External Definations for Main
-
-BUFFOUT Out;
-BUFFIN In;
 
 //Final Definations for Using PDO objects
-#define miso_LED_ack In._PDO_In.miso_LED_ack
-#define mosi_LED_command Out._PDO_Out.mosi_LED_command
+
+#define miso_LED_ack        Ethercat::pdoTx.Struct.miso_LED_ack
+
+#define mosi_LED_command    Ethercat::pdoRx.Struct.mosi_LED_command
+
+#endif //OBJECTLIST_
