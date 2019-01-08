@@ -68,7 +68,7 @@ void main_loop(){
   }
 
   // Set testdata to be sent back to the master
-  miso_LED_ack = TESTDATA_MISO;
+  miso_LED_ack = miso_LED_ack + 1;
 
   finish_loop();
 }
