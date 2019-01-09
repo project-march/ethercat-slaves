@@ -15,7 +15,7 @@
     </Groups>
     <Devices>
       <Device Physics="YY">
-        <Name LcId="1033"><![CDATA[ecat_blink_led_v1]]></Name><GroupType>SSC_Device</GroupType>
+        <Name LcId="1033"><![CDATA[ECAT-blink-led]]></Name><GroupType>SSC_Device</GroupType>
         <Fmmu>Outputs</Fmmu>
         <Fmmu>Inputs</Fmmu>
        
@@ -35,9 +35,9 @@
    		<Index>#x1a00</Index><Name>Inputs</Name><Entry><Index>#x5</Index><SubIndex>0</SubIndex><BitLen>8</BitLen><Name>miso_LED_ack</Name><DataType>USINT</DataType><AdsInfo><AmsAddress><AmsPort>11</AmsPort></AmsAddress><IndexGroup>50593808</IndexGroup><IndexOffset>-2147483618</IndexOffset><Length>1</Length></AdsInfo></Entry></TxPdo>
           
         <Eeprom>
-          <ByteSize>2048</ByteSize><ConfigData>80030000000000000000</ConfigData>
+          <ByteSize>2048</ByteSize><ConfigData>8002000000000000</ConfigData>
         </Eeprom>
-      <Type ProductCode="#x00DEFEDE" RevisionNo="#xf02421b6">ecat_blink_led_v1</Type></Device>
+      <Type ProductCode="#x00DEFEDE" RevisionNo="#xf8b42d71">ECAT-blink-led</Type></Device>
     </Devices>
   </Descriptions>
 </EtherCATInfo>
