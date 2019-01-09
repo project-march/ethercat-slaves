@@ -3,10 +3,6 @@
 #include "objectlist.h"
 #include "Ethercat.h"
 
-#define TESTDATA_MISO (2)
-
-void main_init();
-void main_loop();
 void finish_loop();
 
 // int set_bit(int reg, int bitNumber, bool value);
@@ -17,8 +13,9 @@ void finish_loop();
 DigitalOut statusLed(DBS_LED);
 // Serial communication with the pc for debugging
 Serial pc(DBS_UART_USB_TX, DBS_UART_USB_RX, 128000);
+
 // Ethercat communication with master
-Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS);
+Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS, &pc, 1);
 
 //Timers for debugging
 Timer cycleTimer;
@@ -28,49 +25,38 @@ Timer totalTimer;
 // Ticker ledToggleShort;
 
 // EtherCAT frequency
-const int ethercatFrequency = 1000;
+const int ethercatFrequency = 1;
 // const float statusPeriod = 10;
 // int statusNumber;
 
 int main() {
-  wait(5);
-  pc.printf("\f\r\nTime compiled = %s.\r\nDate = %s.\r\nBlink LED GES.", __TIME__, __DATE__);
-  statusLed = 1;
-  wait(5);
-  main_init();
-  statusLed = 0;
-  while(1) {
-    main_loop();
-  }
-}
-
-void main_init(){
-  //Starts both timers at 0.
+  // wait(5);
+  // pc.printf("\f\r\nTime compiled = %s.\r\nDate = %s.\r\nBlink LED GES.", __TIME__, __DATE__);
+  // statusLed = 1;
+  // wait(5);
   totalTimer.reset();
   totalTimer.start();
   cycleTimer.reset();
   cycleTimer.start();
   miso_LED_ack = 0;
-  // ledToggleLong.attach(&operate_status_led, statusPeriod/2);
-  return;
-}
+  statusLed = 0;
+  while(1) {
+    // Update the EtherCAT buffer
+    ecat.update(&pc, 2);
 
-void main_loop(){
-  // Update the EtherCAT buffer
-  ecat.update();
+    // Set led if ordered to from EtherCAT master
+    if(mosi_LED_command == 1){
+      statusLed = 1;
+    }
+    else{
+      statusLed = 0;
+    }
 
-  // Set led if ordered to from EtherCAT master
-  if(mosi_LED_command == 1){
-    statusLed = 1;
+    // Set testdata to be sent back to the master
+    miso_LED_ack = miso_LED_ack + 1;
+
+    // finish_loop();
   }
-  else{
-    statusLed = 0;
-  }
-
-  // Set testdata to be sent back to the master
-  miso_LED_ack = miso_LED_ack + 1;
-
-  finish_loop();
 }
 
 void finish_loop(){
