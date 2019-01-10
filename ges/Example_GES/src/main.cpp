@@ -8,7 +8,7 @@ DigitalOut statusLed(DBS_LED);
 // Serial communication with the pc for debugging
 Serial pc(DBS_UART_USB_TX, DBS_UART_USB_RX, 128000);
 // Ethercat communication with master
-Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS, &pc, 1);
+Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS);
 
 int main() {
   wait(5);
@@ -20,7 +20,7 @@ int main() {
   miso_LED_ack = 0;
   while(1) {
     // Update the EtherCAT buffer
-    ecat.update(&pc, 2);
+    ecat.update();
 
     // Set led if ordered to from EtherCAT master
     if(mosi_LED_command == 1){
