@@ -3,6 +3,9 @@
 #include "objectlist.h"
 #include "Ethercat.h"
 
+#define WAIT_TIME (2) // seconds
+#define APP_TITLE "Example GES"
+
 // LED on DieBieSlave, for testing communication
 DigitalOut statusLed(DBS_LED);
 // Serial communication with the pc for debugging
@@ -11,10 +14,11 @@ Serial pc(DBS_UART_USB_TX, DBS_UART_USB_RX, 128000);
 Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS);
 
 int main() {
-  wait(5);
-  pc.printf("\f\r\nTime compiled = %s.\r\nDate = %s.\r\nBlink LED GES.", __TIME__, __DATE__);
+  wait(WAIT_TIME);
+  // Print application title and compile information
+  pc.printf("\f\r\n%s\r\n------------------\r\nTime compiled = %s.\r\nDate = %s.", APP_TITLE, __TIME__, __DATE__);
   statusLed = 1;
-  wait(5);
+  wait(WAIT_TIME);
   statusLed = 0;
 
   miso_LED_ack = 0;
@@ -30,8 +34,8 @@ int main() {
       statusLed = 0;
     }
 
-    // Set testdata to be sent back to the master
-    miso_LED_ack = miso_LED_ack + 1;
+    // Set acknowledge to be sent back to the master
+    miso_LED_ack = mosi_LED_command;
 
   }
 }

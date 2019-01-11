@@ -18,23 +18,21 @@
         <Name LcId="1033"><![CDATA[ecat_blink_led_v1]]></Name><GroupType>SSC_Device</GroupType>
         <Fmmu>Outputs</Fmmu>
         <Fmmu>Inputs</Fmmu>
-       
-				<!-- indirizzo fisico di base per gli output -->       
+          
         <Sm ControlByte="#x64" Enable="1" StartAddress="#x1000">Outputs</Sm>
- 				<!-- indirizzo fisico di base per gli input -->              
         <Sm ControlByte="#x20" Enable="1" StartAddress="#x1200">Inputs</Sm>
         
-<!-- ***************** PDO di output ********************************************************** --> 
- 
         <RxPdo Fixed="0" Mandatory="1" Sm="0">
         <Index>#x1600</Index><Name>Outputs</Name><Entry><Index>#x5</Index><SubIndex>0</SubIndex><BitLen>8</BitLen><Name>mosi_LED_command</Name><DataType>USINT</DataType><AdsInfo><AmsAddress><AmsPort>11</AmsPort></AmsAddress><IndexGroup>50593808</IndexGroup><IndexOffset>-2130706406</IndexOffset><Length>1</Length></AdsInfo></Entry></RxPdo>
-   
-<!-- ***************** PDO di input *********************************************************** -->
    
         <TxPdo Fixed="0" Mandatory="1" Sm="1"> 
    		<Index>#x1a00</Index><Name>Inputs</Name><Entry><Index>#x5</Index><SubIndex>0</SubIndex><BitLen>8</BitLen><Name>miso_LED_ack</Name><DataType>USINT</DataType><AdsInfo><AmsAddress><AmsPort>11</AmsPort></AmsAddress><IndexGroup>50593808</IndexGroup><IndexOffset>-2147483618</IndexOffset><Length>1</Length></AdsInfo></Entry></TxPdo>
           
         <Eeprom>
+<!-- EEPROM Configdata                                                                                                                                     -->
+<!-- Byte 1          PDI control          80              SPI as PDI                                                                                       -->
+<!-- Byte 2          ESC configuration    03              Bit 0: Device Emulation enabled (AL Status Register set to value written to AL Control Register) -->
+<!--                                                      Bit 1: Enhanced Link Detection enabled                                                           -->          
           <ByteSize>2048</ByteSize><ConfigData>80030000000000000000</ConfigData>
         </Eeprom>
       <Type ProductCode="#x00DEFEDE" RevisionNo="#xf02421b6">ecat_blink_led_v1</Type></Device>
