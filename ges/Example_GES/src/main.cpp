@@ -1,11 +1,16 @@
 #include <mbed.h>
 #include "DBS_pindefs.h"
-#include "objectlist.h"
+// include utypes.h before Ethercat.h
+#include "utypes.h"
 #include "Ethercat.h"
 
 #define WAIT_TIME (2) // seconds
 #define APP_TITLE "Example GES"
+
 #define PC_BAUDRATE (128000)
+
+#define miso_LED_ack Ethercat::pdoTx.Struct.miso_LED_ack
+#define mosi_LED_command Ethercat::pdoRx.Struct.mosi_LED_command
 
 // LED on DieBieSlave, for testing communication
 DigitalOut statusLed(DBS_LED);
