@@ -3,8 +3,8 @@
 #include "utypes.h" // include utypes.h before Ethercat.h
 #include "Ethercat.h"
 
-#define WAIT_TIME (2) // seconds
-#define APP_TITLE "Example GES"
+#define WAIT_TIME (2) // in seconds
+#define APP_NAME "Example GES" // name of the application
 
 #define PC_BAUDRATE (128000) // baudrate of serial pc communication for debugging
 
@@ -21,8 +21,8 @@ Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS);
 
 int main() {
   wait(WAIT_TIME);
-  // Print application title and compile information
-  pc.printf("\f\r\n%s\r\n------------------\r\nTime compiled = %s.\r\nDate = %s.", APP_TITLE, __TIME__, __DATE__);
+  // Print application name and compile information
+  pc.printf("\f\r\n%s\r\n------------------\r\nTime compiled = %s.\r\nDate = %s.", APP_NAME, __TIME__, __DATE__);
   statusLed = 1;
   wait(WAIT_TIME);
   statusLed = 0;
