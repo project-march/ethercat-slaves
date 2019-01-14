@@ -1,16 +1,16 @@
 #include <mbed.h>
 #include "DBS_pindefs.h"
-// include utypes.h before Ethercat.h
-#include "utypes.h"
+#include "utypes.h" // include utypes.h before Ethercat.h
 #include "Ethercat.h"
 
 #define WAIT_TIME (2) // seconds
 #define APP_TITLE "Example GES"
 
-#define PC_BAUDRATE (128000)
+#define PC_BAUDRATE (128000) // baudrate of serial pc communication for debugging
 
-#define miso_LED_ack Ethercat::pdoTx.Struct.miso_LED_ack
-#define mosi_LED_command Ethercat::pdoRx.Struct.mosi_LED_command
+// Define EtherCAT inputs/outputs here for easy access
+#define miso_LED_ack              Ethercat::pdoTx.Struct.miso_LED_ack
+#define mosi_LED_command          Ethercat::pdoRx.Struct.mosi_LED_command
 
 // LED on DieBieSlave, for testing communication
 DigitalOut statusLed(DBS_LED);
@@ -32,7 +32,7 @@ int main() {
     // Update the EtherCAT buffer
     ecat.update();
 
-    // Set led if ordered to from EtherCAT master
+    // Set LED if ordered to from EtherCAT master
     statusLed = (mosi_LED_command == 1);
 
     // Set acknowledge to be sent back to the master
