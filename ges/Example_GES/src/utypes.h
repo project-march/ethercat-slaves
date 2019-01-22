@@ -7,7 +7,12 @@
 CC_PACKED_BEGIN
 typedef struct
 {
-   uint8_t mosi_LED_command;
+   CC_PACKED_BEGIN   
+   struct
+   {
+      uint8_t LED_command;
+   } CC_PACKED mosi;
+   CC_PACKED_END
 } CC_PACKED _Rbuffer;
 CC_PACKED_END
 
@@ -15,7 +20,12 @@ CC_PACKED_END
 CC_PACKED_BEGIN
 typedef struct
 {
-   uint8_t miso_LED_ack;
+   CC_PACKED_BEGIN
+   struct
+   {
+      uint8_t LED_ack;
+   } CC_PACKED miso;
+   CC_PACKED_END
 } CC_PACKED _Wbuffer;
 CC_PACKED_END
 
