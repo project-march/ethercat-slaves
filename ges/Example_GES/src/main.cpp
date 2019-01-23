@@ -1,16 +1,23 @@
 #include <mbed.h>
 #include "DBS_pindefs.h"
-#include "objectlist.h"
+// Include slave-specific utypes.h before Ethercat.h
+#include "utypes.h"
 #include "Ethercat.h"
 
 #define WAIT_TIME (2) // seconds
-#define APP_TITLE "Example GES"
-#define PC_BAUDRATE (128000)
+#define APP_TITLE "Example GES" // Application name to be printed to terminal
+#define PC_BAUDRATE (128000) // per second
+
+// Easy access to PDOs. Needs to be changed if different PDOs are used
+#define miso            Ethercat::pdoTx.Struct.miso
+#define mosi            Ethercat::pdoRx.Struct.mosi
 
 // LED on DieBieSlave, for testing communication
 DigitalOut statusLed(DBS_LED);
+
 // Serial communication with the pc for debugging
 Serial pc(DBS_UART_USB_TX, DBS_UART_USB_RX, PC_BAUDRATE);
+
 // Ethercat communication with master
 Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS);
 
@@ -21,17 +28,17 @@ int main() {
   statusLed = 1;
   wait(WAIT_TIME);
   statusLed = 0;
+  miso.LED_ack = 0;
 
-  miso_LED_ack = 0;
   while(1) {
     // Update the EtherCAT buffer
     ecat.update();
 
     // Set led if ordered to from EtherCAT master
-    statusLed = (mosi_LED_command == 1);
+    statusLed = (mosi.LED_command == 1);
 
     // Set acknowledge to be sent back to the master
-    miso_LED_ack = mosi_LED_command;
+    miso.LED_ack = mosi.LED_command;
 
   }
 }
