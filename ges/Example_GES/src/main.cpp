@@ -1,5 +1,6 @@
 #include <mbed.h>
 #include "DBS_pindefs.h"
+// Include slave-specific utypes.h before Ethercat.h
 #include "utypes.h"
 #include "Ethercat.h"
 
