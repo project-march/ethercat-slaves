@@ -11,10 +11,10 @@
   </Group>
   <Fmmu>Outputs</Fmmu>
   <Fmmu>Inputs</Fmmu>
-  <Sm ControlByte="0x26" DefaultSize="128" Enable="false" StartAddress="0x1080">MBoxOut</Sm>
-  <Sm ControlByte="0x22" DefaultSize="128" Enable="false" StartAddress="0x1100">MBoxIn</Sm>
-  <Sm ControlByte="0x24" DefaultSize="0" StartAddress="0x1000">Outputs</Sm>
-  <Sm ControlByte="0x20" DefaultSize="0" StartAddress="0x1200">Inputs</Sm>
+  <Sm ControlByte="0x26" DefaultSize="128" Enable="false" StartAddress="0x1000">MBoxOut</Sm>
+  <Sm ControlByte="0x22" DefaultSize="128" Enable="false" StartAddress="0x1080">MBoxIn</Sm>
+  <Sm ControlByte="0x24" DefaultSize="0" StartAddress="0x1100">Outputs</Sm>
+  <Sm ControlByte="0x20" DefaultSize="0" StartAddress="0x1180">Inputs</Sm>
   <Mailbox CoE="true">
     <Bootstrap Length="128" Start="0x1000"/>
     <Standard Length="128" Start="0x1000"/>

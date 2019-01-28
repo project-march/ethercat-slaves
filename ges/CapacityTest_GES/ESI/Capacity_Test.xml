@@ -13,8 +13,8 @@
     </Groups>
     <Devices>
       <Device Physics="YY">
-        <Type ProductCode="0" RevisionNo="0">Template</Type>
-        <Name LcId="1033">Template Slave</Name>
+        <Type ProductCode="0" RevisionNo="0">Capacity_Test</Type>
+        <Name LcId="1033">Capacity_Test_Slave</Name>
         <GroupType>DieBie Slaves</GroupType>
         <Profile>
           <ProfileNo>5001</ProfileNo>
@@ -77,7 +77,7 @@
               </DataType>
               <DataType>
                 <Name>DT1600</Name>
-                <BitSize>24</BitSize>
+                <BitSize>336</BitSize>
                 <SubItem>
                   <SubIdx>0</SubIdx>
                   <Name>Max SubIndex</Name>
@@ -90,10 +90,100 @@
                 </SubItem>
                 <SubItem>
                   <SubIdx>1</SubIdx>
-                  <Name>LED_command</Name>
-                  <Type>USINT</Type>
-                  <BitSize>8</BitSize>
+                  <Name>A</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
                   <BitOffs>16</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>2</SubIdx>
+                  <Name>B</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>48</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>3</SubIdx>
+                  <Name>C</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>80</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>4</SubIdx>
+                  <Name>D</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>112</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>5</SubIdx>
+                  <Name>E</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>144</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>6</SubIdx>
+                  <Name>F</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>176</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>7</SubIdx>
+                  <Name>G</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>208</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>8</SubIdx>
+                  <Name>H</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>240</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>9</SubIdx>
+                  <Name>I</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>272</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>10</SubIdx>
+                  <Name>J</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>304</BitOffs>
                   <Flags>
                     <Access>ro</Access>
                   </Flags>
@@ -101,7 +191,7 @@
               </DataType>
               <DataType>
                 <Name>DT1A00</Name>
-                <BitSize>48</BitSize>
+                <BitSize>336</BitSize>
                 <SubItem>
                   <SubIdx>0</SubIdx>
                   <Name>Max SubIndex</Name>
@@ -114,10 +204,100 @@
                 </SubItem>
                 <SubItem>
                   <SubIdx>1</SubIdx>
-                  <Name>LED_command</Name>
+                  <Name>A</Name>
                   <Type>UDINT</Type>
                   <BitSize>32</BitSize>
                   <BitOffs>16</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>2</SubIdx>
+                  <Name>B</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>48</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>3</SubIdx>
+                  <Name>C</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>80</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>4</SubIdx>
+                  <Name>D</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>112</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>5</SubIdx>
+                  <Name>E</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>144</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>6</SubIdx>
+                  <Name>F</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>176</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>7</SubIdx>
+                  <Name>G</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>208</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>8</SubIdx>
+                  <Name>H</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>240</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>9</SubIdx>
+                  <Name>I</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>272</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>10</SubIdx>
+                  <Name>J</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>304</BitOffs>
                   <Flags>
                     <Access>ro</Access>
                   </Flags>
@@ -220,8 +400,8 @@
                 </SubItem>
               </DataType>
               <DataType>
-                <Name>STRING(8)</Name>
-                <BitSize>64</BitSize>
+                <Name>STRING(13)</Name>
+                <BitSize>104</BitSize>
               </DataType>
               <DataType>
                 <Name>STRING(3)</Name>
@@ -257,10 +437,10 @@
               <Object>
                 <Index>#x1008</Index>
                 <Name>Device Name</Name>
-                <Type>STRING(8)</Type>
-                <BitSize>64</BitSize>
+                <Type>STRING(13)</Type>
+                <BitSize>104</BitSize>
                 <Info>
-                  <DefaultString>Template</DefaultString>
+                  <DefaultString>Capacity_Test</DefaultString>
                 </Info>
                 <Flags>
                   <Access>ro</Access>
@@ -336,16 +516,70 @@
                 <Index>#x1600</Index>
                 <Name>mosi</Name>
                 <Type>DT1600</Type>
-                <BitSize>24</BitSize>
+                <BitSize>336</BitSize>
                 <Info>
                   <SubItem>
                     <Name>Max SubIndex</Name>
                     <Info>
-                      <DefaultValue>1</DefaultValue>
+                      <DefaultValue>10</DefaultValue>
                     </Info>
                   </SubItem>
                   <SubItem>
-                    <Name>LED_command</Name>
+                    <Name>A</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>B</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>C</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>D</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>E</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>F</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>G</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>H</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>I</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>J</Name>
                     <Info>
                       <DefaultValue>0</DefaultValue>
                     </Info>
@@ -359,18 +593,72 @@
                 <Index>#x1A00</Index>
                 <Name>mosi</Name>
                 <Type>DT1A00</Type>
-                <BitSize>48</BitSize>
+                <BitSize>336</BitSize>
                 <Info>
                   <SubItem>
                     <Name>Max SubIndex</Name>
                     <Info>
-                      <DefaultValue>1</DefaultValue>
+                      <DefaultValue>10</DefaultValue>
                     </Info>
                   </SubItem>
                   <SubItem>
-                    <Name>LED_command</Name>
+                    <Name>A</Name>
                     <Info>
-                      <DefaultValue>#x16000108</DefaultValue>
+                      <DefaultValue>#x16000120</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>B</Name>
+                    <Info>
+                      <DefaultValue>#x16000220</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>C</Name>
+                    <Info>
+                      <DefaultValue>#x16000320</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>D</Name>
+                    <Info>
+                      <DefaultValue>#x16000420</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>E</Name>
+                    <Info>
+                      <DefaultValue>#x16000520</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>F</Name>
+                    <Info>
+                      <DefaultValue>#x16000620</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>G</Name>
+                    <Info>
+                      <DefaultValue>#x16000720</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>H</Name>
+                    <Info>
+                      <DefaultValue>#x16000820</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>I</Name>
+                    <Info>
+                      <DefaultValue>#x16000920</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>J</Name>
+                    <Info>
+                      <DefaultValue>#x16000A20</DefaultValue>
                     </Info>
                   </SubItem>
                 </Info>
@@ -480,14 +768,72 @@
           <Entry>
             <Index>#x1A00</Index>
             <SubIndex>1</SubIndex>
-            <BitLen>1</BitLen>
-            <Name>LED_ack</Name>
-            <DataType>BOOL</DataType>
+            <BitLen>32</BitLen>
+            <Name>a</Name>
+            <DataType>UDINT</DataType>
           </Entry>
           <Entry>
-            <Index>0</Index>
-            <SubIndex>0</SubIndex>
-            <BitLen>7</BitLen>
+            <Index>#x1A00</Index>
+            <SubIndex>2</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>b</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>3</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>c</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>4</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>d</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>5</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>e</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>6</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>f</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>7</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>g</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>8</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>h</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>9</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>i</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>10</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>j</Name>
+            <DataType>UDINT</DataType>
           </Entry>
         </RxPdo>
         <TxPdo Fixed="true" Mandatory="true" Sm="3">
@@ -496,9 +842,72 @@
           <Entry>
             <Index>#x1600</Index>
             <SubIndex>1</SubIndex>
-            <BitLen>8</BitLen>
-            <Name>LED_command</Name>
-            <DataType>USINT</DataType>
+            <BitLen>32</BitLen>
+            <Name>A</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>2</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>B</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>3</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>C</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>4</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>D</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>5</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>E</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>6</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>F</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>7</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>G</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>8</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>H</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>9</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>I</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>10</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>J</Name>
+            <DataType>UDINT</DataType>
           </Entry>
         </TxPdo>
         <Mailbox DataLinkLayer="true">
