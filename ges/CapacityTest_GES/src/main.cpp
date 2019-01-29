@@ -18,8 +18,8 @@
 #define mosi            Ethercat::pdoRx.Struct.mosi
 
 // Set PDO sizes
-const int PDORX_size = 40;
-const int PDOTX_size = 40;
+const int PDORX_size = 40;    // Because of 32bit mosi array with 10 elements = 40 bytes
+const int PDOTX_size = 40;    // Because of 32bit miso array with 10 elements = 40 bytes
 
 // LED on DieBieSlave, for testing communication
 DigitalOut statusLed(DBS_LED);
@@ -37,7 +37,7 @@ int main() {
   statusLed = 1;
   wait(WAIT_TIME);
   statusLed = 0;
-  
+
   // Set all initial misos
   for(int i = 0; i < (sizeof(miso)/sizeof(*miso)); i++)
   {
