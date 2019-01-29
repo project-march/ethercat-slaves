@@ -87,8 +87,111 @@
     <Item Managed="true">
       <Name>mosi</Name>
       <Index>0x1600</Index>
-      <DataType>RECORD</DataType>
+      <DataType>ARRAY</DataType>
       <Variable>mosi</Variable>
+      <VariableType>Output</VariableType>
+      <SubItem>
+        <Name>Max SubIndex</Name>
+        <Index>0x00</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>10</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>mosi0</Name>
+        <Index>0x01</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>mosi0</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>mosi1</Name>
+        <Index>0x02</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>mosi1</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>mosi2</Name>
+        <Index>0x03</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>mosi2</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>mosi3</Name>
+        <Index>0x04</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>mosi3</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>mosi4</Name>
+        <Index>0x05</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>mosi4</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>mosi5</Name>
+        <Index>0x06</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>mosi5</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>mosi6</Name>
+        <Index>0x07</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>mosi6</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>mosi7</Name>
+        <Index>0x08</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>mosi7</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>mosi8</Name>
+        <Index>0x09</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>mosi8</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>mosi9</Name>
+        <Index>0x0A</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>mosi9</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+    </Item>
+    <Item Managed="true">
+      <Name>miso</Name>
+      <Index>0x1A00</Index>
+      <DataType>ARRAY</DataType>
+      <Variable>miso</Variable>
       <VariableType>Input</VariableType>
       <SubItem>
         <Name>Max SubIndex</Name>
@@ -97,165 +200,94 @@
         <DefaultValue>10</DefaultValue>
       </SubItem>
       <SubItem>
-        <Name>A</Name>
+        <Name>miso0</Name>
         <Index>0x01</Index>
         <DataType>UNSIGNED32</DataType>
         <DefaultValue>0</DefaultValue>
         <Access>RO</Access>
-        <Variable>A</Variable>
+        <Variable>miso0</Variable>
         <VariableType>Input</VariableType>
       </SubItem>
       <SubItem>
-        <Name>B</Name>
+        <Name>miso1</Name>
         <Index>0x02</Index>
         <DataType>UNSIGNED32</DataType>
         <DefaultValue>0</DefaultValue>
         <Access>RO</Access>
-        <Variable>B</Variable>
+        <Variable>miso1</Variable>
         <VariableType>Input</VariableType>
       </SubItem>
       <SubItem>
-        <Name>C</Name>
+        <Name>miso2</Name>
         <Index>0x03</Index>
         <DataType>UNSIGNED32</DataType>
         <DefaultValue>0</DefaultValue>
         <Access>RO</Access>
-        <Variable>C</Variable>
+        <Variable>miso2</Variable>
         <VariableType>Input</VariableType>
       </SubItem>
       <SubItem>
-        <Name>D</Name>
+        <Name>miso3</Name>
         <Index>0x04</Index>
         <DataType>UNSIGNED32</DataType>
         <DefaultValue>0</DefaultValue>
         <Access>RO</Access>
-        <Variable>D</Variable>
+        <Variable>miso3</Variable>
         <VariableType>Input</VariableType>
       </SubItem>
       <SubItem>
-        <Name>E</Name>
+        <Name>miso4</Name>
         <Index>0x05</Index>
         <DataType>UNSIGNED32</DataType>
         <DefaultValue>0</DefaultValue>
         <Access>RO</Access>
-        <Variable>E</Variable>
+        <Variable>miso4</Variable>
         <VariableType>Input</VariableType>
       </SubItem>
       <SubItem>
-        <Name>F</Name>
+        <Name>miso5</Name>
         <Index>0x06</Index>
         <DataType>UNSIGNED32</DataType>
         <DefaultValue>0</DefaultValue>
         <Access>RO</Access>
-        <Variable>F</Variable>
+        <Variable>miso5</Variable>
         <VariableType>Input</VariableType>
       </SubItem>
       <SubItem>
-        <Name>G</Name>
+        <Name>miso6</Name>
         <Index>0x07</Index>
         <DataType>UNSIGNED32</DataType>
         <DefaultValue>0</DefaultValue>
         <Access>RO</Access>
-        <Variable>G</Variable>
+        <Variable>miso6</Variable>
         <VariableType>Input</VariableType>
       </SubItem>
       <SubItem>
-        <Name>H</Name>
+        <Name>miso7</Name>
         <Index>0x08</Index>
         <DataType>UNSIGNED32</DataType>
         <DefaultValue>0</DefaultValue>
         <Access>RO</Access>
-        <Variable>H</Variable>
+        <Variable>miso7</Variable>
         <VariableType>Input</VariableType>
       </SubItem>
       <SubItem>
-        <Name>I</Name>
+        <Name>miso8</Name>
         <Index>0x09</Index>
         <DataType>UNSIGNED32</DataType>
         <DefaultValue>0</DefaultValue>
         <Access>RO</Access>
-        <Variable>I</Variable>
+        <Variable>miso8</Variable>
         <VariableType>Input</VariableType>
       </SubItem>
       <SubItem>
-        <Name>J</Name>
+        <Name>miso9</Name>
         <Index>0x0A</Index>
         <DataType>UNSIGNED32</DataType>
         <DefaultValue>0</DefaultValue>
         <Access>RO</Access>
-        <Variable>J</Variable>
+        <Variable>miso9</Variable>
         <VariableType>Input</VariableType>
-      </SubItem>
-    </Item>
-    <Item Managed="true">
-      <Name>mosi</Name>
-      <Index>0x1A00</Index>
-      <DataType>RECORD</DataType>
-      <SubItem>
-        <Name>Max SubIndex</Name>
-        <Index>0x00</Index>
-        <DataType>UNSIGNED8</DataType>
-        <DefaultValue>10</DefaultValue>
-      </SubItem>
-      <SubItem>
-        <Name>A</Name>
-        <Index>0x01</Index>
-        <DataType>UNSIGNED32</DataType>
-        <DefaultValue>0x16000120</DefaultValue>
-      </SubItem>
-      <SubItem>
-        <Name>B</Name>
-        <Index>0x02</Index>
-        <DataType>UNSIGNED32</DataType>
-        <DefaultValue>0x16000220</DefaultValue>
-      </SubItem>
-      <SubItem>
-        <Name>C</Name>
-        <Index>0x03</Index>
-        <DataType>UNSIGNED32</DataType>
-        <DefaultValue>0x16000320</DefaultValue>
-      </SubItem>
-      <SubItem>
-        <Name>D</Name>
-        <Index>0x04</Index>
-        <DataType>UNSIGNED32</DataType>
-        <DefaultValue>0x16000420</DefaultValue>
-      </SubItem>
-      <SubItem>
-        <Name>E</Name>
-        <Index>0x05</Index>
-        <DataType>UNSIGNED32</DataType>
-        <DefaultValue>0x16000520</DefaultValue>
-      </SubItem>
-      <SubItem>
-        <Name>F</Name>
-        <Index>0x06</Index>
-        <DataType>UNSIGNED32</DataType>
-        <DefaultValue>0x16000620</DefaultValue>
-      </SubItem>
-      <SubItem>
-        <Name>G</Name>
-        <Index>0x07</Index>
-        <DataType>UNSIGNED32</DataType>
-        <DefaultValue>0x16000720</DefaultValue>
-      </SubItem>
-      <SubItem>
-        <Name>H</Name>
-        <Index>0x08</Index>
-        <DataType>UNSIGNED32</DataType>
-        <DefaultValue>0x16000820</DefaultValue>
-      </SubItem>
-      <SubItem>
-        <Name>I</Name>
-        <Index>0x09</Index>
-        <DataType>UNSIGNED32</DataType>
-        <DefaultValue>0x16000920</DefaultValue>
-      </SubItem>
-      <SubItem>
-        <Name>J</Name>
-        <Index>0x0A</Index>
-        <DataType>UNSIGNED32</DataType>
-        <DefaultValue>0x16000A20</DefaultValue>
       </SubItem>
     </Item>
     <Item Managed="true">
@@ -330,222 +362,246 @@
   </Dictionary>
   <RxPdo>
     <Index>0x1600</Index>
-    <Container>miso</Container>
-    <Name>miso</Name>
-    <Entry>
-      <Index>0x1A00</Index>
-      <SubIndex>1</SubIndex>
-      <Variable>a</Variable>
-    </Entry>
-    <Entry>
-      <Index>0x1A00</Index>
-      <SubIndex>2</SubIndex>
-      <Variable>b</Variable>
-    </Entry>
-    <Entry>
-      <Index>0x1A00</Index>
-      <SubIndex>3</SubIndex>
-      <Variable>c</Variable>
-    </Entry>
-    <Entry>
-      <Index>0x1A00</Index>
-      <SubIndex>4</SubIndex>
-      <Variable>d</Variable>
-    </Entry>
-    <Entry>
-      <Index>0x1A00</Index>
-      <SubIndex>5</SubIndex>
-      <Variable>e</Variable>
-    </Entry>
-    <Entry>
-      <Index>0x1A00</Index>
-      <SubIndex>6</SubIndex>
-      <Variable>f</Variable>
-    </Entry>
-    <Entry>
-      <Index>0x1A00</Index>
-      <SubIndex>7</SubIndex>
-      <Variable>g</Variable>
-    </Entry>
-    <Entry>
-      <Index>0x1A00</Index>
-      <SubIndex>8</SubIndex>
-      <Variable>h</Variable>
-    </Entry>
-    <Entry>
-      <Index>0x1A00</Index>
-      <SubIndex>9</SubIndex>
-      <Variable>i</Variable>
-    </Entry>
-    <Entry>
-      <Index>0x1A00</Index>
-      <SubIndex>10</SubIndex>
-      <Variable>j</Variable>
-    </Entry>
-  </RxPdo>
-  <TxPdo>
-    <Index>0x1A00</Index>
     <Container>mosi</Container>
     <Name>mosi</Name>
     <Entry>
       <Index>0x1600</Index>
       <SubIndex>1</SubIndex>
-      <Variable>A</Variable>
+      <Variable>mosi0</Variable>
     </Entry>
     <Entry>
       <Index>0x1600</Index>
       <SubIndex>2</SubIndex>
-      <Variable>B</Variable>
+      <Variable>mosi1</Variable>
     </Entry>
     <Entry>
       <Index>0x1600</Index>
       <SubIndex>3</SubIndex>
-      <Variable>C</Variable>
+      <Variable>mosi2</Variable>
     </Entry>
     <Entry>
       <Index>0x1600</Index>
       <SubIndex>4</SubIndex>
-      <Variable>D</Variable>
+      <Variable>mosi3</Variable>
     </Entry>
     <Entry>
       <Index>0x1600</Index>
       <SubIndex>5</SubIndex>
-      <Variable>E</Variable>
+      <Variable>mosi4</Variable>
     </Entry>
     <Entry>
       <Index>0x1600</Index>
       <SubIndex>6</SubIndex>
-      <Variable>F</Variable>
+      <Variable>mosi5</Variable>
     </Entry>
     <Entry>
       <Index>0x1600</Index>
       <SubIndex>7</SubIndex>
-      <Variable>G</Variable>
+      <Variable>mosi6</Variable>
     </Entry>
     <Entry>
       <Index>0x1600</Index>
       <SubIndex>8</SubIndex>
-      <Variable>H</Variable>
+      <Variable>mosi7</Variable>
     </Entry>
     <Entry>
       <Index>0x1600</Index>
       <SubIndex>9</SubIndex>
-      <Variable>I</Variable>
+      <Variable>mosi8</Variable>
     </Entry>
     <Entry>
       <Index>0x1600</Index>
       <SubIndex>10</SubIndex>
-      <Variable>J</Variable>
+      <Variable>mosi9</Variable>
+    </Entry>
+  </RxPdo>
+  <TxPdo>
+    <Index>0x1A00</Index>
+    <Container>miso</Container>
+    <Name>miso</Name>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>1</SubIndex>
+      <Variable>miso0</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>2</SubIndex>
+      <Variable>miso1</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>3</SubIndex>
+      <Variable>miso2</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>4</SubIndex>
+      <Variable>miso3</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>5</SubIndex>
+      <Variable>miso4</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>6</SubIndex>
+      <Variable>miso5</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>7</SubIndex>
+      <Variable>miso6</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>8</SubIndex>
+      <Variable>miso7</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>9</SubIndex>
+      <Variable>miso8</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>10</SubIndex>
+      <Variable>miso9</Variable>
     </Entry>
   </TxPdo>
   <Input>
-    <Index>0x1600</Index>
-    <Name>mosi</Name>
-    <ObjectType>RECORD</ObjectType>
+    <Index>0x1A00</Index>
+    <Name>miso</Name>
+    <Type>UNSIGNED32</Type>
+    <Length>10</Length>
+    <ObjectType>ARRAY</ObjectType>
     <Member>
       <Index>0x01</Index>
-      <Name>A</Name>
+      <Name>miso0</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x02</Index>
-      <Name>B</Name>
+      <Name>miso1</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x03</Index>
-      <Name>C</Name>
+      <Name>miso2</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x04</Index>
-      <Name>D</Name>
+      <Name>miso3</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x05</Index>
-      <Name>E</Name>
+      <Name>miso4</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x06</Index>
-      <Name>F</Name>
+      <Name>miso5</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x07</Index>
-      <Name>G</Name>
+      <Name>miso6</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x08</Index>
-      <Name>H</Name>
+      <Name>miso7</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x09</Index>
-      <Name>I</Name>
+      <Name>miso8</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x0A</Index>
-      <Name>J</Name>
+      <Name>miso9</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
   </Input>
   <Output>
-    <Index>0x1A00</Index>
-    <Name>miso</Name>
-    <ObjectType>RECORD</ObjectType>
+    <Index>0x1600</Index>
+    <Name>mosi</Name>
+    <Type>UNSIGNED32</Type>
+    <Length>10</Length>
+    <ObjectType>ARRAY</ObjectType>
     <Member>
       <Index>0x01</Index>
-      <Name>a</Name>
+      <Name>mosi0</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x02</Index>
-      <Name>b</Name>
+      <Name>mosi1</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x03</Index>
-      <Name>c</Name>
+      <Name>mosi2</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x04</Index>
-      <Name>d</Name>
+      <Name>mosi3</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x05</Index>
-      <Name>e</Name>
+      <Name>mosi4</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x06</Index>
-      <Name>f</Name>
+      <Name>mosi5</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x07</Index>
-      <Name>g</Name>
+      <Name>mosi6</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x08</Index>
-      <Name>h</Name>
+      <Name>mosi7</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x09</Index>
-      <Name>i</Name>
+      <Name>mosi8</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
     <Member>
       <Index>0x0A</Index>
-      <Name>j</Name>
+      <Name>mosi9</Name>
       <Type>UNSIGNED32</Type>
+      <Access>RO</Access>
     </Member>
   </Output>
 </Slave>

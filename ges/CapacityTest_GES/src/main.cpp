@@ -37,35 +37,25 @@ int main() {
   statusLed = 1;
   wait(WAIT_TIME);
   statusLed = 0;
+  
   // Set all initial misos
-  miso.a = 1;
-  miso.b = 2;
-  miso.c = 3;
-  miso.d = 4;
-  miso.e = 5;
-  miso.f = 6;
-  miso.g = 7;
-  miso.h = 8;
-  miso.i = 9;
-  miso.j = 10;
+  for(int i = 0; i < (sizeof(miso)/sizeof(*miso)); i++)
+  {
+    miso[i] = i;
+  }
+
 
   while(1) {
     // Update the EtherCAT buffer
     ecat.update();
 
     // Set led if all mosi messages are not zero
-    statusLed = (mosi.A && mosi.B && mosi.C);
+    statusLed = (mosi[0] && mosi[1] && mosi[2]);
 
     // Set all misos to be sent back to the master
-    miso.a = mosi.A;
-    miso.b = mosi.B;
-    miso.c = mosi.C;
-    miso.d = mosi.D;
-    miso.e = mosi.E;
-    miso.f = mosi.F;
-    miso.g = mosi.G;
-    miso.h = mosi.H;
-    miso.i = mosi.I;
-    miso.j = mosi.J;
+    for(int i = 0; i < (sizeof(miso)/sizeof(*miso)); i++)
+    {
+      miso[i] = mosi[i];
+    }
   }
 }
