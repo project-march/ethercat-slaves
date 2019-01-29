@@ -11,10 +11,10 @@
   </Group>
   <Fmmu>Outputs</Fmmu>
   <Fmmu>Inputs</Fmmu>
-  <Sm ControlByte="0x26" DefaultSize="128" Enable="false" StartAddress="0x1080">MBoxOut</Sm>
-  <Sm ControlByte="0x22" DefaultSize="128" Enable="false" StartAddress="0x1100">MBoxIn</Sm>
-  <Sm ControlByte="0x24" DefaultSize="0" StartAddress="0x1000">Outputs</Sm>
-  <Sm ControlByte="0x20" DefaultSize="0" StartAddress="0x1200">Inputs</Sm>
+  <Sm ControlByte="0x26" DefaultSize="128" Enable="false" StartAddress="0x1000">MBoxOut</Sm>
+  <Sm ControlByte="0x22" DefaultSize="128" Enable="false" StartAddress="0x1080">MBoxIn</Sm>
+  <Sm ControlByte="0x24" DefaultSize="0" StartAddress="0x1100">Outputs</Sm>
+  <Sm ControlByte="0x20" DefaultSize="0" StartAddress="0x1180">Inputs</Sm>
   <Mailbox CoE="true">
     <Bootstrap Length="128" Start="0x1000"/>
     <Standard Length="128" Start="0x1000"/>
@@ -88,28 +88,6 @@
       <Name>mosi</Name>
       <Index>0x1600</Index>
       <DataType>RECORD</DataType>
-      <Variable>mosi</Variable>
-      <VariableType>Input</VariableType>
-      <SubItem>
-        <Name>Max SubIndex</Name>
-        <Index>0x00</Index>
-        <DataType>UNSIGNED8</DataType>
-        <DefaultValue>1</DefaultValue>
-      </SubItem>
-      <SubItem>
-        <Name>LED_command</Name>
-        <Index>0x01</Index>
-        <DataType>UNSIGNED8</DataType>
-        <DefaultValue>0</DefaultValue>
-        <Access>RO</Access>
-        <Variable>LED_command</Variable>
-        <VariableType>Input</VariableType>
-      </SubItem>
-    </Item>
-    <Item Managed="true">
-      <Name>mosi</Name>
-      <Index>0x1A00</Index>
-      <DataType>RECORD</DataType>
       <SubItem>
         <Name>Max SubIndex</Name>
         <Index>0x00</Index>
@@ -120,7 +98,24 @@
         <Name>LED_command</Name>
         <Index>0x01</Index>
         <DataType>UNSIGNED32</DataType>
-        <DefaultValue>0x16000108</DefaultValue>
+        <DefaultValue>0x70000108</DefaultValue>
+      </SubItem>
+    </Item>
+    <Item Managed="true">
+      <Name>miso</Name>
+      <Index>0x1A00</Index>
+      <DataType>RECORD</DataType>
+      <SubItem>
+        <Name>Max SubIndex</Name>
+        <Index>0x00</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>1</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>LED_ack</Name>
+        <Index>0x01</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0x60000108</DefaultValue>
       </SubItem>
     </Item>
     <Item Managed="true">
@@ -192,29 +187,82 @@
         <DefaultValue>0x1A00</DefaultValue>
       </SubItem>
     </Item>
+    <Item Managed="true">
+      <Name>miso</Name>
+      <Index>0x6000</Index>
+      <DataType>RECORD</DataType>
+      <Variable>miso</Variable>
+      <VariableType>Input</VariableType>
+      <SubItem>
+        <Name>Max SubIndex</Name>
+        <Index>0x00</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>1</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>LED_ack</Name>
+        <Index>0x01</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>LED_ack</Variable>
+        <VariableType>Input</VariableType>
+      </SubItem>
+    </Item>
+    <Item Managed="true">
+      <Name>mosi</Name>
+      <Index>0x7000</Index>
+      <DataType>RECORD</DataType>
+      <Variable>mosi</Variable>
+      <VariableType>Output</VariableType>
+      <SubItem>
+        <Name>Max SubIndex</Name>
+        <Index>0x00</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>1</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>LED_command</Name>
+        <Index>0x01</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>LED_command</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+    </Item>
   </Dictionary>
   <RxPdo>
     <Index>0x1600</Index>
-    <Container>miso</Container>
-    <Name>miso</Name>
-    <Entry>
-      <Index>0x1A00</Index>
-      <SubIndex>1</SubIndex>
-      <Variable>LED_ack</Variable>
-    </Entry>
-    <Entry padBits="7"/>
-  </RxPdo>
-  <TxPdo>
-    <Index>0x1A00</Index>
     <Container>mosi</Container>
     <Name>mosi</Name>
     <Entry>
-      <Index>0x1600</Index>
+      <Index>0x7000</Index>
       <SubIndex>1</SubIndex>
       <Variable>LED_command</Variable>
     </Entry>
+  </RxPdo>
+  <TxPdo>
+    <Index>0x1A00</Index>
+    <Container>miso</Container>
+    <Name>miso</Name>
+    <Entry>
+      <Index>0x6000</Index>
+      <SubIndex>1</SubIndex>
+      <Variable>LED_ack</Variable>
+    </Entry>
   </TxPdo>
   <Input>
+    <Index>0x1A00</Index>
+    <Name>miso</Name>
+    <ObjectType>RECORD</ObjectType>
+    <Member>
+      <Index>0x01</Index>
+      <Name>LED_ack</Name>
+      <Type>UNSIGNED8</Type>
+    </Member>
+  </Input>
+  <Output>
     <Index>0x1600</Index>
     <Name>mosi</Name>
     <ObjectType>RECORD</ObjectType>
@@ -222,16 +270,6 @@
       <Index>0x01</Index>
       <Name>LED_command</Name>
       <Type>UNSIGNED8</Type>
-    </Member>
-  </Input>
-  <Output>
-    <Index>0x1A00</Index>
-    <Name>miso</Name>
-    <ObjectType>RECORD</ObjectType>
-    <Member>
-      <Index>0x01</Index>
-      <Name>LED_ack</Name>
-      <Type>BOOLEAN</Type>
     </Member>
   </Output>
 </Slave>

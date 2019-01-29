@@ -13,8 +13,8 @@
     </Groups>
     <Devices>
       <Device Physics="YY">
-        <Type ProductCode="0" RevisionNo="0">Template</Type>
-        <Name LcId="1033">Template Slave</Name>
+        <Type ProductCode="0" RevisionNo="0">Capacity_Test</Type>
+        <Name LcId="1033">Capacity_Test_Slave</Name>
         <GroupType>DieBie Slaves</GroupType>
         <Profile>
           <ProfileNo>5001</ProfileNo>
@@ -76,8 +76,17 @@
                 </SubItem>
               </DataType>
               <DataType>
+                <Name>DT1600ARR</Name>
+                <BaseType>UDINT</BaseType>
+                <BitSize>320</BitSize>
+                <ArrayInfo>
+                  <LBound>1</LBound>
+                  <Elements>10</Elements>
+                </ArrayInfo>
+              </DataType>
+              <DataType>
                 <Name>DT1600</Name>
-                <BitSize>24</BitSize>
+                <BitSize>336</BitSize>
                 <SubItem>
                   <SubIdx>0</SubIdx>
                   <Name>Max SubIndex</Name>
@@ -89,10 +98,9 @@
                   </Flags>
                 </SubItem>
                 <SubItem>
-                  <SubIdx>1</SubIdx>
-                  <Name>LED_command</Name>
-                  <Type>USINT</Type>
-                  <BitSize>8</BitSize>
+                  <Name>Elements</Name>
+                  <Type>DT1600ARR</Type>
+                  <BitSize>320</BitSize>
                   <BitOffs>16</BitOffs>
                   <Flags>
                     <Access>ro</Access>
@@ -100,8 +108,17 @@
                 </SubItem>
               </DataType>
               <DataType>
+                <Name>DT1A00ARR</Name>
+                <BaseType>UDINT</BaseType>
+                <BitSize>320</BitSize>
+                <ArrayInfo>
+                  <LBound>1</LBound>
+                  <Elements>10</Elements>
+                </ArrayInfo>
+              </DataType>
+              <DataType>
                 <Name>DT1A00</Name>
-                <BitSize>24</BitSize>
+                <BitSize>336</BitSize>
                 <SubItem>
                   <SubIdx>0</SubIdx>
                   <Name>Max SubIndex</Name>
@@ -113,10 +130,9 @@
                   </Flags>
                 </SubItem>
                 <SubItem>
-                  <SubIdx>1</SubIdx>
-                  <Name>LED_ack</Name>
-                  <Type>USINT</Type>
-                  <BitSize>8</BitSize>
+                  <Name>Elements</Name>
+                  <Type>DT1A00ARR</Type>
+                  <BitSize>320</BitSize>
                   <BitOffs>16</BitOffs>
                   <Flags>
                     <Access>ro</Access>
@@ -220,8 +236,8 @@
                 </SubItem>
               </DataType>
               <DataType>
-                <Name>STRING(8)</Name>
-                <BitSize>64</BitSize>
+                <Name>STRING(13)</Name>
+                <BitSize>104</BitSize>
               </DataType>
               <DataType>
                 <Name>STRING(3)</Name>
@@ -257,10 +273,10 @@
               <Object>
                 <Index>#x1008</Index>
                 <Name>Device Name</Name>
-                <Type>STRING(8)</Type>
-                <BitSize>64</BitSize>
+                <Type>STRING(13)</Type>
+                <BitSize>104</BitSize>
                 <Info>
-                  <DefaultString>Template</DefaultString>
+                  <DefaultString>Capacity_Test</DefaultString>
                 </Info>
                 <Flags>
                   <Access>ro</Access>
@@ -336,16 +352,70 @@
                 <Index>#x1600</Index>
                 <Name>mosi</Name>
                 <Type>DT1600</Type>
-                <BitSize>24</BitSize>
+                <BitSize>336</BitSize>
                 <Info>
                   <SubItem>
                     <Name>Max SubIndex</Name>
                     <Info>
-                      <DefaultValue>1</DefaultValue>
+                      <DefaultValue>10</DefaultValue>
                     </Info>
                   </SubItem>
                   <SubItem>
-                    <Name>LED_command</Name>
+                    <Name>mosi0</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>mosi1</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>mosi2</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>mosi3</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>mosi4</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>mosi5</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>mosi6</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>mosi7</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>mosi8</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>mosi9</Name>
                     <Info>
                       <DefaultValue>0</DefaultValue>
                     </Info>
@@ -359,16 +429,70 @@
                 <Index>#x1A00</Index>
                 <Name>miso</Name>
                 <Type>DT1A00</Type>
-                <BitSize>24</BitSize>
+                <BitSize>336</BitSize>
                 <Info>
                   <SubItem>
                     <Name>Max SubIndex</Name>
                     <Info>
-                      <DefaultValue>1</DefaultValue>
+                      <DefaultValue>10</DefaultValue>
                     </Info>
                   </SubItem>
                   <SubItem>
-                    <Name>LED_ack</Name>
+                    <Name>miso0</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>miso1</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>miso2</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>miso3</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>miso4</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>miso5</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>miso6</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>miso7</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>miso8</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>miso9</Name>
                     <Info>
                       <DefaultValue>0</DefaultValue>
                     </Info>
@@ -480,9 +604,72 @@
           <Entry>
             <Index>#x1600</Index>
             <SubIndex>1</SubIndex>
-            <BitLen>8</BitLen>
-            <Name>LED_command</Name>
-            <DataType>USINT</DataType>
+            <BitLen>32</BitLen>
+            <Name>mosi0</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>2</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>mosi1</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>3</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>mosi2</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>4</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>mosi3</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>5</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>mosi4</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>6</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>mosi5</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>7</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>mosi6</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>8</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>mosi7</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>9</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>mosi8</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1600</Index>
+            <SubIndex>10</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>mosi9</Name>
+            <DataType>UDINT</DataType>
           </Entry>
         </RxPdo>
         <TxPdo Fixed="true" Mandatory="true" Sm="3">
@@ -491,9 +678,72 @@
           <Entry>
             <Index>#x1A00</Index>
             <SubIndex>1</SubIndex>
-            <BitLen>8</BitLen>
-            <Name>LED_ack</Name>
-            <DataType>USINT</DataType>
+            <BitLen>32</BitLen>
+            <Name>miso0</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>2</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>miso1</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>3</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>miso2</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>4</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>miso3</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>5</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>miso4</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>6</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>miso5</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>7</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>miso6</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>8</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>miso7</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>9</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>miso8</Name>
+            <DataType>UDINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>10</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>miso9</Name>
+            <DataType>UDINT</DataType>
           </Entry>
         </TxPdo>
         <Mailbox DataLinkLayer="true">

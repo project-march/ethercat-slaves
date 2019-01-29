@@ -1,3 +1,6 @@
 [submodule "ges/Example_GES/lib/slave-peripherals"]
 	path = ges/Example_GES/lib/slave-peripherals
 	url = https://github.com/project-march/slave-peripherals.git
+[submodule "ges/CapacityTest_GES/lib/slave-peripherals"]
+	path = ges/CapacityTest_GES/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals

@@ -10,7 +10,7 @@
 #include "Ethercat.h"
 
 #define WAIT_TIME (2) // seconds
-#define APP_TITLE "Example GES" // Application name to be printed to terminal
+#define APP_TITLE "Capacity Test GES" // Application name to be printed to terminal
 #define PC_BAUDRATE (128000) // per second
 
 // Easy access to PDOs. Needs to be changed if different PDOs are used
@@ -18,8 +18,8 @@
 #define mosi            Ethercat::pdoRx.Struct.mosi
 
 // Set PDO sizes
-const int PDORX_size = 40;
-const int PDOTX_size = 40;
+const int PDORX_size = 40;    // Because of 32bit mosi array with 10 elements = 40 bytes
+const int PDOTX_size = 40;    // Because of 32bit miso array with 10 elements = 40 bytes
 
 // LED on DieBieSlave, for testing communication
 DigitalOut statusLed(DBS_LED);
@@ -37,17 +37,25 @@ int main() {
   statusLed = 1;
   wait(WAIT_TIME);
   statusLed = 0;
-  miso.LED_ack = 0;
+
+  // Set all initial misos
+  for(int i = 0; i < (sizeof(miso)/sizeof(*miso)); i++)
+  {
+    miso[i] = i;
+  }
+
 
   while(1) {
     // Update the EtherCAT buffer
     ecat.update();
 
-    // Set led if ordered to from EtherCAT master
-    statusLed = (mosi.LED_command == 1);
+    // Set led if all mosi messages are not zero
+    statusLed = (mosi[0] && mosi[1] && mosi[2]);
 
-    // Set acknowledge to be sent back to the master
-    miso.LED_ack = mosi.LED_command;
-
+    // Set all misos to be sent back to the master
+    for(int i = 0; i < (sizeof(miso)/sizeof(*miso)); i++)
+    {
+      miso[i] = mosi[i];
+    }
   }
 }
