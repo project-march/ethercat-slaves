@@ -101,7 +101,7 @@
               </DataType>
               <DataType>
                 <Name>DT1A00</Name>
-                <BitSize>48</BitSize>
+                <BitSize>24</BitSize>
                 <SubItem>
                   <SubIdx>0</SubIdx>
                   <Name>Max SubIndex</Name>
@@ -114,9 +114,9 @@
                 </SubItem>
                 <SubItem>
                   <SubIdx>1</SubIdx>
-                  <Name>LED_command</Name>
-                  <Type>UDINT</Type>
-                  <BitSize>32</BitSize>
+                  <Name>LED_ack</Name>
+                  <Type>USINT</Type>
+                  <BitSize>8</BitSize>
                   <BitOffs>16</BitOffs>
                   <Flags>
                     <Access>ro</Access>
@@ -357,9 +357,9 @@
               </Object>
               <Object>
                 <Index>#x1A00</Index>
-                <Name>mosi</Name>
+                <Name>miso</Name>
                 <Type>DT1A00</Type>
-                <BitSize>48</BitSize>
+                <BitSize>24</BitSize>
                 <Info>
                   <SubItem>
                     <Name>Max SubIndex</Name>
@@ -368,9 +368,9 @@
                     </Info>
                   </SubItem>
                   <SubItem>
-                    <Name>LED_command</Name>
+                    <Name>LED_ack</Name>
                     <Info>
-                      <DefaultValue>#x16000108</DefaultValue>
+                      <DefaultValue>0</DefaultValue>
                     </Info>
                   </SubItem>
                 </Info>
@@ -476,28 +476,23 @@
         <Sm ControlByte="#x20" Enable="1" StartAddress="#x1180">Inputs</Sm>
         <RxPdo Fixed="true" Mandatory="true" Sm="2">
           <Index>#x1600</Index>
-          <Name>miso</Name>
-          <Entry>
-            <Index>#x1A00</Index>
-            <SubIndex>1</SubIndex>
-            <BitLen>1</BitLen>
-            <Name>LED_ack</Name>
-            <DataType>BOOL</DataType>
-          </Entry>
-          <Entry>
-            <Index>0</Index>
-            <SubIndex>0</SubIndex>
-            <BitLen>7</BitLen>
-          </Entry>
-        </RxPdo>
-        <TxPdo Fixed="true" Mandatory="true" Sm="3">
-          <Index>#x1A00</Index>
           <Name>mosi</Name>
           <Entry>
             <Index>#x1600</Index>
             <SubIndex>1</SubIndex>
             <BitLen>8</BitLen>
             <Name>LED_command</Name>
+            <DataType>USINT</DataType>
+          </Entry>
+        </RxPdo>
+        <TxPdo Fixed="true" Mandatory="true" Sm="3">
+          <Index>#x1A00</Index>
+          <Name>miso</Name>
+          <Entry>
+            <Index>#x1A00</Index>
+            <SubIndex>1</SubIndex>
+            <BitLen>8</BitLen>
+            <Name>LED_ack</Name>
             <DataType>USINT</DataType>
           </Entry>
         </TxPdo>
