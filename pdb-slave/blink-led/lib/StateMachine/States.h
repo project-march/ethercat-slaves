@@ -1,8 +1,11 @@
 #ifndef STATES_H
 #define STATES_H
 
-enum systemState {  init,
-                    OnOffReleased_short,
-                    OnOffReleased_long};
+enum State {    Init,
+                TurnOnReleasedTooShort,
+                LVOn,
+                MasterOn,
+                TurnOff,
+                TurnOffReleasedTooShort};
 
 #endif // STATES_H

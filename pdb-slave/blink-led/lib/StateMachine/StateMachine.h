@@ -8,10 +8,13 @@
 class StateMachine
 {
 private:
-    systemState currentState;
+    State currentState;
     Timer startUpTimer;
     bool onOffButtonLedState;
     bool keepPDBOn;
+    bool LVon1;
+    bool LVon2;
+    bool HVon[8]; // {8,7,6,5,1,2,3,4}
     const int onOffButtonTime = 3000;
     
 public:
@@ -20,6 +23,8 @@ public:
     std::string getState();
     bool getOnOffButtonLedState();
     bool getKeepPDBOn();
+    bool getLVOn1();
+    bool getLVOn2();
 };
 
 #endif // STATEMACHINE_H
