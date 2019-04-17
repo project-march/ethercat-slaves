@@ -52,7 +52,6 @@ int main() {
   // Set all initial misos
   miso.temperature = 0;
 
-  int i = 0;
   while(1) {
     // Update the EtherCAT buffer
     ecat.update();
@@ -65,8 +64,8 @@ int main() {
     statusLed = (temperature.i < -998);
 
     // Set all misos to be sent back to the master
-    miso.temperature = (int32_t) temperature.f; // if no conversion on the master side takes place
-    // miso.temperature = temperature.i; // if conversion on the master size takes place
+    // miso.temperature = (int32_t) temperature.f; // if no conversion on the master side takes place
+    miso.temperature = temperature.i; // if conversion on the master size takes place
 
     wait_ms(500); // Optional
   }
