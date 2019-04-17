@@ -1,22 +1,43 @@
 #include <mbed.h>
+#include <LPC1768_pindefs.h>
+#include "StateMachine.h"
 
-// Serial pc(Tx, Rx, 128000);
-DigitalOut led1(LED1);
-DigitalOut led2(LED2);
-DigitalOut led3(LED3);
-DigitalOut led4(LED4);
+Serial pc(USBTX, USBRX, 9600);
+
+DigitalOut buttonLed(LPC_BUTTON_LED);
+DigitalOut mbedLed1(LPC_LED1);
+DigitalIn pin(p6, PullDown);
+DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, PullDown);
+
+StateMachine stateMachine;
+Timer printTimer;
 
 int main(){
-    led1 = true;
-    led2 = true;
-    led3 = true;
-    led4 = true;
+    pc.printf("MBED gets power now!\r\n");
+
+    buttonLed = false;
+    mbedLed1 = false;
+    keepPDBOn = false;
+    printTimer.start();
+
     while(1){
-        wait(1);
-        led1 = !led1;
-        led2 = !led2;
-        led3 = !led3;
-        led4 = !led4;
+        // Get state of 'button'
+        bool buttonstate = pin.read();
+
+        // Update system state
+        stateMachine.updateState(buttonstate);
+
+        // Debug prints
+        if(printTimer.read_ms() > 1000){
+            pc.printf("State: %s\t\tKeepPDBOn: %d\r\n", stateMachine.getState().c_str(), stateMachine.getKeepPDBOn());
+            printTimer.reset();
+        }
+
+        // Take action: set LED, set KeepPDBOn, etc.
+        buttonLed = stateMachine.getOnOffButtonLedState();
+        mbedLed1 = stateMachine.getOnOffButtonLedState();
+        keepPDBOn = stateMachine.getKeepPDBOn();
+
     }
     
 }
