@@ -9,22 +9,26 @@ class StateMachine
 {
 private:
     State currentState;
-    Timer startUpTimer;
+    Timer onOffButtonTimer;
+    Timer ledTimer;
     bool onOffButtonLedState;
     bool keepPDBOn;
-    bool LVon1;
-    bool LVon2;
+    bool LVon[2];
     bool HVon[8]; // {8,7,6,5,1,2,3,4}
-    const int onOffButtonTime = 3000;
+    bool masterShutdown;
+    const int onOffButtonTimeShort = 3000; // time on/off button needs to be pressed to turn on or off in milliseconds
+    const int onOffButtonTimeLong = 10000; // time on/off button needs to be pressed to force shutdown in milliseconds
+    const int blinkTime = 250; // time that led is on/off when blinking
     
 public:
     StateMachine();
-    void updateState(bool buttonState);
+    void updateState(bool buttonState, bool masterOkState, bool shutdownAllowedState);
     std::string getState();
     bool getOnOffButtonLedState();
     bool getKeepPDBOn();
     bool getLVOn1();
     bool getLVOn2();
+    bool getMasterShutdown();
 };
 
 #endif // STATEMACHINE_H
