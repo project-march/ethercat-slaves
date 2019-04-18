@@ -97,7 +97,8 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                     this->onOffButtonTimer.reset();
                 }
             }
-            // Let button led blink by toggling every *blinkTime* ms
+            // Let button led blink by toggling every *blinkTime* ms 
+            //Todo: fix this!!!
             if(((ledTimeMs % this->blinkTime) == 0) && ledTimeMs > 0){
                 this->onOffButtonLedState = !this->onOffButtonLedState;
             }
@@ -123,6 +124,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 this->currentState = TurnOff_s;
             }
             // Let button led blink by toggling every *blinkTime* ms
+            //Todo: fix this!!!
             if(((ledTimeMs % this->blinkTime) == 0) && ledTimeMs > 0){
                 this->onOffButtonLedState = !this->onOffButtonLedState;
             }
