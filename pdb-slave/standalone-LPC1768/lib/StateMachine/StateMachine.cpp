@@ -37,8 +37,13 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             break;
         case LVOn_s:
             this->onOffButtonLedState = true;
+            // Turn on LV nets
             this->LVon[0] = true;
             this->LVon[1] = true;
+            // Turn off HV to motors
+            for(int i = 0; i < 8; i++){
+                this->HVon[i] = false;
+            }
             // Handling the on/off button
             if(buttonState){
                 // Start shutdown timer when the button is pressed
@@ -109,7 +114,10 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             }
             break;
         case Shutdown_s:
-            // Todo: turn off HV
+            // Turn off HV to motors
+            for(int i = 0; i < 8; i++){
+                this->HVon[i] = false;
+            }
             // Handling the on/off button
             if(buttonState){
                 // Start shutdown timer when the button is pressed
@@ -138,9 +146,14 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             }
             break;
         case TurnOff_s:
-            // Todo: turn off HV
+            // Turn off HV to motors
+            for(int i = 0; i < 8; i++){
+                this->HVon[i] = false;
+            }
+            // Turn off LV
             this->LVon[0] = false;
             this->LVon[1] = false;
+            // Make the mbed stop keeping PDB on
             this->keepPDBOn = false;
             this->onOffButtonLedState = false;
 
@@ -182,6 +195,16 @@ bool StateMachine::getLVOn1(){
 
 bool StateMachine::getLVOn2(){
     return this->LVon[1];
+}
+
+unsigned char StateMachine::getHVOn(){
+    unsigned char c = 0;
+    for (int i=0; i < 8; ++i){
+        if (this->HVon[i]){
+            c |= (1 << i);
+        }
+    }
+    return c;
 }
 
 bool StateMachine::getMasterShutdown(){

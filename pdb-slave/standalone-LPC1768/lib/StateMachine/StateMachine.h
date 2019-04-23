@@ -18,7 +18,7 @@ private:
     bool masterShutdown;
     const int onOffButtonTimeShort = 3000; // time on/off button needs to be pressed to turn on or off in milliseconds
     const int onOffButtonTimeLong = 10000; // time on/off button needs to be pressed to force shutdown in milliseconds
-    const int blinkTime = 250; // time that led is on/off when blinking
+    const int blinkTime = 250; // time that led is on/off when blinking in milliseconds
     
 public:
     StateMachine();
@@ -28,6 +28,7 @@ public:
     bool getKeepPDBOn();
     bool getLVOn1();
     bool getLVOn2();
+    unsigned char getHVOn();
     bool getMasterShutdown();
 };
 
