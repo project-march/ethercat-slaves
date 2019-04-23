@@ -8,3 +8,6 @@
 [submodule "pdb-slave/blink-led/lib/slave-peripherals"]
 	path = pdb-slave/blink-led/lib/slave-peripherals
 	url = https://github.com/project-march/slave-peripherals
+[submodule "pdb-slave/standalone-LPC1768/lib/slave-peripherals"]
+	path = pdb-slave/standalone-LPC1768/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals
