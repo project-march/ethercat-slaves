@@ -36,6 +36,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             }
             break;
         case LVOn_s:
+            this->onOffButtonLedState = true;
             this->LVon[0] = true;
             this->LVon[1] = true;
             // Handling the on/off button
@@ -60,6 +61,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             }
             break;
         case MasterOk_s:
+            this->onOffButtonLedState = true;
             // Handling the on/off button
             if(buttonState){
                 // Start shutdown timer when the button is pressed
@@ -98,9 +100,12 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 }
             }
             // Let button led blink by toggling every *blinkTime* ms 
-            //Todo: fix this!!!
-            if(((ledTimeMs % this->blinkTime) == 0) && ledTimeMs > 0){
-                this->onOffButtonLedState = !this->onOffButtonLedState;
+            if(((ledTimeMs % (2*this->blinkTime)) <= this->blinkTime) && ledTimeMs > 0){
+                this->onOffButtonLedState = true;
+            }
+            else
+            {
+                this->onOffButtonLedState = false;
             }
             break;
         case Shutdown_s:
@@ -124,9 +129,12 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 this->currentState = TurnOff_s;
             }
             // Let button led blink by toggling every *blinkTime* ms
-            //Todo: fix this!!!
-            if(((ledTimeMs % this->blinkTime) == 0) && ledTimeMs > 0){
-                this->onOffButtonLedState = !this->onOffButtonLedState;
+            if(((ledTimeMs % (2*this->blinkTime)) <= this->blinkTime) && ledTimeMs > 0){
+                this->onOffButtonLedState = true;
+            }
+            else
+            {
+                this->onOffButtonLedState = false;
             }
             break;
         case TurnOff_s:
