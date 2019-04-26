@@ -4,4 +4,7 @@
 	url = https://github.com/project-march/slave-peripherals
 [submodule "ges/CapacityTest_GES/lib/slave-peripherals"]
 	path = ges/CapacityTest_GES/lib/slave-peripherals
-	url = https://github.com/project-march/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals.git
+[submodule "ges/Temperature_Template_GES/lib/slave-peripherals"]
+	path = ges/Temperature_Template_GES/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals.git
