@@ -16,7 +16,6 @@
 
     #define LPC_TX (p9)
     #define LPC_RX (p10)
-   
 
     #define LPC_BUTTON_PRESSED (p13)
     #define LPC_BUTTON_LED (p25)
