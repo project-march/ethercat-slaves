@@ -11,6 +11,7 @@ StateMachine::StateMachine()
    this->keepPDBOn = false;
    this->LVon = false;
    this->masterShutdown = false;
+   this->nrOfMotors = sizeof(HVon)/sizeof(HVon[0]);
 }
 
 // Updates the current state based on the button inputs
@@ -81,6 +82,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 this->onOffButtonLedState = false;
                 this->ledTimer.start();
             }
+            // Todo: if master indicates it is not ok, go back to LVon
             break;
         case ShutdownInit_s:
             this->masterShutdown = true;

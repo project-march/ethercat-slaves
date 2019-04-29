@@ -11,7 +11,8 @@ StateMachine::StateMachine()
    this->keepPDBOn = false;
    this->LVon[0] = false;
    this->LVon[1] = false;
-   this->masterShutdown = false;
+   this->masterShutdown = false;   
+   this->nrOfMotors = sizeof(HVon)/sizeof(HVon[0]);
 }
 
 // Updates the current state based on the button inputs
@@ -41,7 +42,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             this->LVon[0] = true;
             this->LVon[1] = true;
             // Turn off HV to motors
-            for(int i = 0; i < 8; i++){
+            for(int i = 0; i < this->nrOfMotors; i++){
                 this->HVon[i] = false;
             }
             // Handling the on/off button
@@ -83,6 +84,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 this->onOffButtonLedState = false;
                 this->ledTimer.start();
             }
+            // Todo: if master indicates it is not ok, go back to LVon
             break;
         case ShutdownInit_s:
             this->masterShutdown = true;
@@ -115,7 +117,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             break;
         case Shutdown_s:
             // Turn off HV to motors
-            for(int i = 0; i < 8; i++){
+            for(int i = 0; i < this->nrOfMotors; i++){
                 this->HVon[i] = false;
             }
             // Handling the on/off button
@@ -147,7 +149,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             break;
         case TurnOff_s:
             // Turn off HV to motors
-            for(int i = 0; i < 8; i++){
+            for(int i = 0; i < this->nrOfMotors; i++){
                 this->HVon[i] = false;
             }
             // Turn off LV
@@ -196,8 +198,9 @@ bool StateMachine::getLVOn2(){
 }
 
 unsigned char StateMachine::getHVOn(){
+    // Max nrOfMotors: 8. If more, refactor this
     unsigned char c = 0;
-    for (int i=0; i < 8; ++i){
+    for (int i=0; i < this->nrOfMotors; ++i){
         if (this->HVon[i]){
             c |= (1 << i);
         }
