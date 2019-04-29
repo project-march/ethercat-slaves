@@ -1,5 +1,6 @@
 #ifndef LPC_PINDEFS_
 #define LPC_PINDEFS_
+// Pindefs for MARCH 4 PDB
 
     #define LPC_ECAT_MOSI (p5) 
     #define LPC_ECAT_MISO (p6)

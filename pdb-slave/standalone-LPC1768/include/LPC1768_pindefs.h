@@ -1,5 +1,6 @@
 #ifndef LPC_PINDEFS_
 #define LPC_PINDEFS_
+// Pindefs for MARCH 4 PDB
 
     #define LPC_ECAT_MOSI (p5) 
     #define LPC_ECAT_MISO (p6)
@@ -15,7 +16,6 @@
 
     #define LPC_TX (p9)
     #define LPC_RX (p10)
-   
 
     #define LPC_BUTTON_PRESSED (p13)
     #define LPC_BUTTON_LED (p25)
