@@ -1,5 +1,5 @@
 #include <mbed.h>
-#include <LPC1768_pindefs.h>
+#include <LPC1768_pindefs_M3.h>
 #include "StateMachine.h"
 
 Serial pc(USBTX, USBRX, 9600); // Serial communication for debugging
@@ -12,10 +12,8 @@ DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, PullDown);
 DigitalOut mbedLed4(LPC_LED4); // Shows if in Shutdown state
 
 // Low voltage related inputs/outputs
-DigitalOut LVOn1(LPC_LVON1, PullDown);
-DigitalOut LVOn2(LPC_LVON2, PullDown);
-DigitalIn LVOkay1(LPC_LVOKAY1, PullDown);
-DigitalIn LVOkay2(LPC_LVOKAY2, PullDown);
+DigitalOut LVOn(LPC_LVON, PullDown);
+DigitalIn LVOkay(LPC_LVOKAY, PullDown);
 
 // Master communication related inputs/outputs
 DigitalOut mbedLed2(LPC_LED2); // Shows if in MasterOk state
@@ -40,8 +38,7 @@ int main(){
     mbedLed3 = false;
     mbedLed4 = false;
     keepPDBOn = false;
-    LVOn1 = false;
-    LVOn2 = false;
+    LVOn = false;
     masterShutdown = false;
 
     printTimer.start();
@@ -52,8 +49,7 @@ int main(){
 
         // Get inputs
         bool buttonstate = button.read();
-        bool LVOkay1State = LVOkay1.read();
-        bool LVOkay2State = LVOkay2.read();
+        bool LVOkayState = LVOkay.read();
         bool masterOkState = masterOk.read();
         bool masterShutdownAllowedState = masterShutdownAllowed.read();
 
@@ -64,8 +60,8 @@ int main(){
         if(printTimer.read_ms() > 1000){
             pc.printf("\r\nState: %s", stateMachine.getState().c_str());
             // pc.printf("\tKeepPDBOn: %d", stateMachine.getKeepPDBOn());
-            // if((!LVOkay1State) && (stateMachine.getState() == "LVOn_s")){
-            //     pc.printf("LV1 not okay");
+            // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
+            //     pc.printf("LV not okay");
             // }
             // pc.printf("\tPin 16: %d", masterShutdownAllowedState);
             printTimer.reset();
@@ -79,8 +75,7 @@ int main(){
         mbedLed3 = (stateMachine.getHVOn() != 0); // LED on if any HV is on
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
-        LVOn1 = stateMachine.getLVOn1();
-        LVOn2 = stateMachine.getLVOn2();
+        LVOn = stateMachine.getLVOn();
         masterShutdown = stateMachine.getMasterShutdown();
         // Control HV
         // Todo: Do I2C communication to turn HV on/off based on getHVon() result;

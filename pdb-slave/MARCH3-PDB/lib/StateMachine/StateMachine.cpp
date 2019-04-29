@@ -9,8 +9,7 @@ StateMachine::StateMachine()
    this->ledTimer.reset();
    this->onOffButtonLedState = false;
    this->keepPDBOn = false;
-   this->LVon[0] = false;
-   this->LVon[1] = false;
+   this->LVon = false;
    this->masterShutdown = false;
 }
 
@@ -26,7 +25,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             }
             if(!buttonState){
                 if(buttonTimeMs <= this->onOffButtonTimeShort){
-                    this->currentState = TurnOnReleasedTooShort_s;
+                    this->currentState = TurnOff_s;
                 }
                 else{
                     this->currentState = LVOn_s;
@@ -38,10 +37,9 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
         case LVOn_s:
             this->onOffButtonLedState = true;
             // Turn on LV nets
-            this->LVon[0] = true;
-            this->LVon[1] = true;
+            this->LVon = true;
             // Turn off HV to motors
-            for(int i = 0; i < 8; i++){
+            for(int i = 0; i < this->nrOfMotors; i++){
                 this->HVon[i] = false;
             }
             // Handling the on/off button
@@ -115,7 +113,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             break;
         case Shutdown_s:
             // Turn off HV to motors
-            for(int i = 0; i < 8; i++){
+            for(int i = 0; i < this->nrOfMotors; i++){
                 this->HVon[i] = false;
             }
             // Handling the on/off button
@@ -147,12 +145,11 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             break;
         case TurnOff_s:
             // Turn off HV to motors
-            for(int i = 0; i < 8; i++){
+            for(int i = 0; i < this->nrOfMotors; i++){
                 this->HVon[i] = false;
             }
             // Turn off LV
-            this->LVon[0] = false;
-            this->LVon[1] = false;
+            this->LVon = false;
             // Make the mbed stop keeping PDB on
             this->keepPDBOn = false;
             this->onOffButtonLedState = false;
@@ -164,8 +161,6 @@ std::string StateMachine::getState(){
     switch(this->currentState){
         case Init_s:
             return "Init_s";
-        case TurnOnReleasedTooShort_s:
-            return "TurnOnReleasedTooShort_s";
         case LVOn_s:
             return "LVOn_s";
         case MasterOk_s:
@@ -189,17 +184,14 @@ bool StateMachine::getKeepPDBOn(){
     return this->keepPDBOn;
 }
 
-bool StateMachine::getLVOn1(){
-    return this->LVon[0];
-}
-
-bool StateMachine::getLVOn2(){
-    return this->LVon[1];
+bool StateMachine::getLVOn(){
+    return this->LVon;
 }
 
 unsigned char StateMachine::getHVOn(){
+    // Max nrOfMotors: 8. If more, refactor this
     unsigned char c = 0;
-    for (int i=0; i < 8; ++i){
+    for (int i=0; i < this->nrOfMotors; ++i){
         if (this->HVon[i]){
             c |= (1 << i);
         }
