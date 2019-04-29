@@ -14,3 +14,6 @@
 [submodule "pdb-slave/MARCH4-PDB/lib/slave-peripherals"]
 	path = pdb-slave/MARCH4-PDB/lib/slave-peripherals
 	url = https://github.com/project-march/slave-peripherals
+[submodule "pdb-slave/MARCH3-PDB/lib/slave-peripherals"]
+	path = pdb-slave/MARCH3-PDB/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals.git
