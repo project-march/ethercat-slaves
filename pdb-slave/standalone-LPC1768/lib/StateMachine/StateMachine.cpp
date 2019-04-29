@@ -26,7 +26,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             }
             if(!buttonState){
                 if(buttonTimeMs <= this->onOffButtonTimeShort){
-                    this->currentState = TurnOnReleasedTooShort_s;
+                    this->currentState = TurnOff_s;
                 }
                 else{
                     this->currentState = LVOn_s;
@@ -164,8 +164,6 @@ std::string StateMachine::getState(){
     switch(this->currentState){
         case Init_s:
             return "Init_s";
-        case TurnOnReleasedTooShort_s:
-            return "TurnOnReleasedTooShort_s";
         case LVOn_s:
             return "LVOn_s";
         case MasterOk_s:
