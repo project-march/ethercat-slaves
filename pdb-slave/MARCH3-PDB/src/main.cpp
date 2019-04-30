@@ -5,24 +5,24 @@
 Serial pc(USBTX, USBRX, 9600); // Serial communication for debugging
 
 // On/off-related inputs/outputs
-DigitalOut buttonLed(LPC_BUTTON_LED);
-DigitalOut mbedLed1(LPC_LED1); // Shows same as button led
+DigitalOut buttonLed(LPC_BUTTON_LED, true); // Behaviour is logically inverted
+DigitalOut mbedLed1(LPC_LED1, false); // Shows same as button led
 DigitalIn button(LPC_BUTTON_PRESSED, PullDown);
 DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, PullDown);
-DigitalOut mbedLed4(LPC_LED4); // Shows if in Shutdown state
+DigitalOut mbedLed4(LPC_LED4, false); // Shows if in Shutdown state
 
 // Low voltage related inputs/outputs
 DigitalOut LVOn(LPC_LVON, PullDown);
 DigitalIn LVOkay(LPC_LVOKAY, PullDown);
 
 // Master communication related inputs/outputs
-DigitalOut mbedLed2(LPC_LED2); // Shows if in MasterOk state
+DigitalOut mbedLed2(LPC_LED2, false); // Shows if in MasterOk state
 DigitalIn masterOk(p14, PullDown); // !!! Temporary to replace EtherCAT
 DigitalOut masterShutdown(p15, PullDown); // !!! Temporary to replace EtherCAT
 DigitalIn masterShutdownAllowed(p16, PullDown); // !!! Temporary to replace EtherCAT
 
 // High voltage related inputs/outputs
-DigitalOut mbedLed3(LPC_LED3); // Shows if any HV is on
+DigitalOut mbedLed3(LPC_LED3, false); // Shows if any HV is on
 // Todo: I2C bus to HV
 
 StateMachine stateMachine; // State machine instance
@@ -32,7 +32,7 @@ int main(){
     pc.printf("MBED gets power now!\r\n");
 
     // Set initial outputs
-    buttonLed = false;
+    buttonLed = true; // Behaviour is logically inverted
     mbedLed1 = false;
     mbedLed2 = false;
     mbedLed3 = false;
@@ -69,7 +69,7 @@ int main(){
 
         // Control outputs
         // Set LEDs and digitalOuts
-        buttonLed = stateMachine.getOnOffButtonLedState();
+        buttonLed = !stateMachine.getOnOffButtonLedState(); // Behaviour is logically inverted
         mbedLed1 = stateMachine.getOnOffButtonLedState(); // Later change to getKeepPDBOn()?
         mbedLed2 = (stateMachine.getState() == "MasterOk_s"); // LED on if in MasterOk state
         mbedLed3 = (stateMachine.getHVOn() != 0); // LED on if any HV is on
