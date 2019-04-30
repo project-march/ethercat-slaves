@@ -20,6 +20,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
     int ledTimeMs = this->ledTimer.read_ms();
     switch(this->currentState){
         case Init_s:
+            this->masterShutdown = false;
             if(buttonTimeMs > this->onOffButtonTimeShort){
                 this->onOffButtonLedState = true;
                 this->keepPDBOn = true;
@@ -36,6 +37,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             }
             break;
         case LVOn_s:
+            this->masterShutdown = false;
             this->onOffButtonLedState = true;
             // Turn on LV nets
             this->LVon = true;
@@ -66,6 +68,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             break;
         case MasterOk_s:
             this->onOffButtonLedState = true;
+            this->masterShutdown = false;
             // Handling the on/off button
             if(buttonState){
                 // Start shutdown timer when the button is pressed

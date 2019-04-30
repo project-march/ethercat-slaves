@@ -1,5 +1,7 @@
 #include <mbed.h>
 #include <LPC1768_pindefs_M3.h>
+#include "utypes.h"
+#include "Ethercat.h"
 #include "StateMachine.h"
 
 Serial pc(USBTX, USBRX, 9600); // Serial communication for debugging
@@ -17,13 +19,23 @@ DigitalIn LVOkay(LPC_LVOKAY, PullDown);
 
 // Master communication related inputs/outputs
 DigitalOut mbedLed2(LPC_LED2, false); // Shows if in MasterOk state
-DigitalIn masterOk(p14, PullDown); // !!! Temporary to replace EtherCAT
-DigitalOut masterShutdown(p15, PullDown); // !!! Temporary to replace EtherCAT
-DigitalIn masterShutdownAllowed(p16, PullDown); // !!! Temporary to replace EtherCAT
+// DigitalIn masterOk(p14, PullDown); // !!! Temporary to replace EtherCAT
+// DigitalOut masterShutdown(p15, PullDown); // !!! Temporary to replace EtherCAT
+// DigitalIn masterShutdownAllowed(p16, PullDown); // !!! Temporary to replace EtherCAT
 
 // High voltage related inputs/outputs
 DigitalOut mbedLed3(LPC_LED3, false); // Shows if any HV is on
 // Todo: I2C bus to HV
+
+// EtherCAT
+// Set PDO sizes
+const int PDORX_size = 32;
+const int PDOTX_size = 32;
+// EtherCAT object
+Ethercat ecat(LPC_ECAT_MOSI, LPC_ECAT_MISO, LPC_ECAT_SCK, LPC_ECAT_SCS, PDORX_size, PDOTX_size);
+// Easy access to PDOs
+#define miso            Ethercat::pdoTx.Struct.miso
+#define mosi            Ethercat::pdoRx.Struct.mosi
 
 StateMachine stateMachine; // State machine instance
 Timer printTimer; // Timer to print debug statements only once per second
@@ -39,19 +51,20 @@ int main(){
     mbedLed4 = false;
     keepPDBOn = false;
     LVOn = false;
-    masterShutdown = false;
+    // masterShutdown = false;
+    miso.masterShutdown = 0;
 
     printTimer.start();
 
     while(1){
         // Update EtherCAT variables
-        // Todo: Implement EtherCAT
-
+        ecat.update();
+        
         // Get inputs
         bool buttonstate = button.read();
         bool LVOkayState = LVOkay.read();
-        bool masterOkState = masterOk.read();
-        bool masterShutdownAllowedState = masterShutdownAllowed.read();
+        bool masterOkState = mosi.masterOk;
+        bool masterShutdownAllowedState = mosi.masterShutdownAllowed;
 
         // Update system state
         stateMachine.updateState(buttonstate, masterOkState, masterShutdownAllowedState); // Todo: add HVon inputs
@@ -76,7 +89,15 @@ int main(){
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
         LVOn = stateMachine.getLVOn();
-        masterShutdown = stateMachine.getMasterShutdown();
+        if(stateMachine.getMasterShutdown()){
+            miso.masterShutdown = 1;
+        }
+        else
+        {
+            miso.masterShutdown = 0;
+        }
+        
+        // miso.masterShutdown = 1;
         // Control HV
         // Todo: Do I2C communication to turn HV on/off based on getHVon() result;
         
