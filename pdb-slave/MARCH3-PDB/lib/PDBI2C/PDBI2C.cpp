@@ -4,9 +4,11 @@ PDBI2C::PDBI2C(PinName SDA_PIN, PinName SCL_PIN, Serial * pc) : bus(SDA_PIN, SCL
     this->PCA8575D_read = (PCA8575D_address << 1) | 0x01; // Shift left and set LSB to one
     this->PCA8575D_write = (PCA8575D_address << 1) & 0xFE; // Shift left and set LSB to zero
     this->HVControlPins = 0xFF;
-    // uint16_t read_data = 0;
-    // uint8_t ack = bus.read(this->PCA8575D_read, (char*) &read_data, 2);
-    // pc->printf("\r\nData read = %d, address = %d, ack = %d", read_data, this->PCA8575D_read, ack);
+    
+    // Initial write
+    uint16_t write_data = this->HVControlPins;
+    uint8_t ack = bus.write(this->PCA8575D_write, (char*) &write_data, 2);
+    pc->printf("\r\nData read = %d, address = %d, ack = %d", read_data, this->PCA8575D_read, ack);
 
 }
 
