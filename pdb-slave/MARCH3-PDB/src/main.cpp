@@ -19,9 +19,6 @@ DigitalIn LVOkay(LPC_LVOKAY, PullDown);
 
 // Master communication related inputs/outputs
 DigitalOut mbedLed2(LPC_LED2, false); // Shows if in MasterOk state
-// DigitalIn masterOk(p14, PullDown); // !!! Temporary to replace EtherCAT
-// DigitalOut masterShutdown(p15, PullDown); // !!! Temporary to replace EtherCAT
-// DigitalIn masterShutdownAllowed(p16, PullDown); // !!! Temporary to replace EtherCAT
 
 // High voltage related inputs/outputs
 DigitalOut mbedLed3(LPC_LED3, false); // Shows if any HV is on
