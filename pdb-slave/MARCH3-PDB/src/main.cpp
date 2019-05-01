@@ -51,7 +51,6 @@ int main(){
     mbedLed4 = false;
     keepPDBOn = false;
     LVOn = false;
-    // masterShutdown = false;
     miso.masterShutdown = 0;
 
     printTimer.start();
@@ -76,7 +75,6 @@ int main(){
             // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
             //     pc.printf("LV not okay");
             // }
-            // pc.printf("\tPin 16: %d", masterShutdownAllowedState);
             printTimer.reset();
         }
 
@@ -89,15 +87,8 @@ int main(){
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
         LVOn = stateMachine.getLVOn();
-        if(stateMachine.getMasterShutdown()){
-            miso.masterShutdown = 1;
-        }
-        else
-        {
-            miso.masterShutdown = 0;
-        }
-        
-        // miso.masterShutdown = 1;
+        miso.masterShutdown = stateMachine.getMasterShutdown();
+
         // Control HV
         // Todo: Do I2C communication to turn HV on/off based on getHVon() result;
         
