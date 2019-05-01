@@ -1,5 +1,6 @@
 #include <mbed.h>
-#include <LPC1768_pindefs_M3.h>
+#include "LPC1768_pindefs_M3.h"
+#include "PDBI2C.h"
 #include "utypes.h"
 #include "Ethercat.h"
 #include "StateMachine.h"
@@ -23,6 +24,7 @@ DigitalOut mbedLed2(LPC_LED2, false); // Shows if in MasterOk state
 // High voltage related inputs/outputs
 DigitalOut mbedLed3(LPC_LED3, false); // Shows if any HV is on
 // Todo: I2C bus to HV
+PDBI2C pdbI2C(LPC_I2C_SDA, LPC_I2C_SCL, &pc);
 
 // EtherCAT
 // Set PDO sizes
@@ -38,7 +40,7 @@ StateMachine stateMachine; // State machine instance
 Timer printTimer; // Timer to print debug statements only once per second
 
 int main(){
-    pc.printf("MBED gets power now!\r\n");
+    pc.printf("\r\nMBED gets power now!");
 
     // Set initial outputs
     buttonLed = true; // Behaviour is logically inverted
@@ -49,6 +51,10 @@ int main(){
     keepPDBOn = false;
     LVOn = false;
     miso.masterShutdown = 0;
+
+
+    // pdbI2C.setHVControlPin(2, 0, &pc); // Clear third bit
+    bool firstbit = true;
 
     printTimer.start();
 
@@ -72,6 +78,7 @@ int main(){
             // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
             //     pc.printf("LV not okay");
             // }
+            firstbit = !firstbit;
             printTimer.reset();
         }
 
@@ -88,6 +95,8 @@ int main(){
 
         // Control HV
         // Todo: Do I2C communication to turn HV on/off based on getHVon() result;
+        pdbI2C.setHVControlPin(0, firstbit, &pc); // Clear first bit
+        pdbI2C.getHVControlPin(0, &pc);
         
         // Set logging stuff in EtherCAT buffers
         // Todo: Set EtherCAT miso's based on LV signals
