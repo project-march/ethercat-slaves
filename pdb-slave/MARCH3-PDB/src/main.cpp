@@ -93,8 +93,7 @@ int main(){
         // Todo: Do I2C communication to turn HV on/off based on getHVon() result;
         
         // Set logging stuff in EtherCAT buffers
-        // Todo: Implement EtherCAT
-        // Todo: Set error code based on xxOkay signals
+        // Todo: Set EtherCAT miso's based on LV signals
 
     }
     
