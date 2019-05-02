@@ -93,7 +93,7 @@ int main(){
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
             // In an allowed state to control HV
-            hvControl.turnOnHV(HVOn_1);
+            hvControl.setAllHV(0b10011001); // Todo: make this an EtherCAT variable
         }
         else{
             // Not in an allowed state to control HV
