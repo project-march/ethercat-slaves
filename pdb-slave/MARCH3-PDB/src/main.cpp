@@ -2,6 +2,7 @@
 #include "LPC1768_pindefs_M3.h"
 #include "HVControl.h"
 #include "HVOCTriggers.h"
+#include "CurrentSensors.h"
 #include "utypes.h"
 #include "Ethercat.h"
 #include "StateMachine.h"
@@ -27,6 +28,9 @@ DigitalOut mbedLed3(LPC_LED3, false); // Shows if any HV is on
 HVControl hvControl(LPC_I2C_SDA, LPC_I2C_SCL);
 HVOCTriggers hvOCTriggers(LPC_I2C_SDA, LPC_I2C_SCL);
 
+// Current sensing related inputs/outputs
+CurrentSensors currentSensors(LPC_I2C_SDA, LPC_I2C_SCL);
+
 // EtherCAT
 // Set PDO sizes
 const int PDORX_size = 32;
@@ -43,7 +47,7 @@ Timer printTimer; // Timer to print debug statements only once per second
 int main(){
     pc.printf("\r\nMBED gets power now!");
 
-    // Set initial outputs
+    // Set initial DigitalOut outputs
     buttonLed = true; // Behaviour is logically inverted
     mbedLed1 = false;
     mbedLed2 = false;
@@ -52,23 +56,23 @@ int main(){
     keepPDBOn = false;
     LVOn = false;
 
+    // Set initial EtherCAT outputs
     miso.masterShutdown = 0;
-    //miso.errorcode = 0;
 
-    printTimer.start();
+    printTimer.start(); // Start print timer right before entering infinite loop
 
     while(1){
         // Update EtherCAT variables
         ecat.update();
         
-        // Get inputs
+        // Get inputs from digitalIns and EtherCAT
         bool buttonstate = button.read();
         bool LVOkayState = LVOkay.read();
         bool masterOkState = mosi.masterOk;
         bool masterShutdownAllowedState = mosi.masterShutdownAllowed;
 
         // Update system state
-        stateMachine.updateState(buttonstate, masterOkState, masterShutdownAllowedState); // Todo: add HVon inputs
+        stateMachine.updateState(buttonstate, masterOkState, masterShutdownAllowedState);
 
         // Debug prints
         if(printTimer.read_ms() > 1000){
@@ -82,7 +86,6 @@ int main(){
             printTimer.reset();
         }
 
-        // Control outputs
         // Set LEDs and digitalOuts
         buttonLed = !stateMachine.getOnOffButtonLedState(); // Behaviour is logically inverted
         mbedLed1 = stateMachine.getOnOffButtonLedState(); // Later change to getKeepPDBOn()?
@@ -95,12 +98,12 @@ int main(){
 
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
-            // In an allowed state to control HV
-            hvControl.setAllHV(0b11001); // Todo: make this an EtherCAT variable
+            // In an allowed state to have HV on
+            hvControl.setAllHV(0xFF); // Todo: make this an EtherCAT variable
             // hvControl.turnOnAllHV();
         }
         else{
-            // Not in an allowed state to control HV
+            // Not in an allowed state to have any HV on
             hvControl.turnOffAllHV();
         }
         
