@@ -4,7 +4,15 @@ CurrentSensors::CurrentSensors(PinName SDA_PIN, PinName SCL_PIN) : bus(SDA_PIN, 
 
 }
 
-float CurrentSensors::readLVCurrent(){
+float CurrentSensors::readPDBCurrent(){
+    return 0;
+}
+
+float CurrentSensors::readLV1Current(){
+    return 0;
+}
+
+float CurrentSensors::readLV2Current(){
     return 0;
 }
 
@@ -12,6 +20,3 @@ float CurrentSensors::readHVCurrent(){
     return 0;
 }
 
-float CurrentSensors::readPDBCurrent(){
-    return 0;
-}
