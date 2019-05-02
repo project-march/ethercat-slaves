@@ -11,7 +11,6 @@ StateMachine::StateMachine()
    this->keepPDBOn = false;
    this->LVon = false;
    this->masterShutdown = false;
-   this->nrOfMotors = sizeof(HVon)/sizeof(HVon[0]);
 }
 
 // Updates the current state based on the button inputs
@@ -41,10 +40,6 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             this->onOffButtonLedState = true;
             // Turn on LV nets
             this->LVon = true;
-            // Turn off HV to motors
-            for(int i = 0; i < this->nrOfMotors; i++){
-                this->HVon[i] = false;
-            }
             // Handling the on/off button
             if(buttonState){
                 // Start shutdown timer when the button is pressed
@@ -85,7 +80,9 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 this->onOffButtonLedState = false;
                 this->ledTimer.start();
             }
-            // Todo: if master indicates it is not ok, go back to LVon
+            if(!masterOkState){
+                this->currentState = LVOn_s;
+            }
             break;
         case ShutdownInit_s:
             this->masterShutdown = true;
@@ -117,10 +114,6 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             }
             break;
         case Shutdown_s:
-            // Turn off HV to motors
-            for(int i = 0; i < this->nrOfMotors; i++){
-                this->HVon[i] = false;
-            }
             // Handling the on/off button
             if(buttonState){
                 // Start shutdown timer when the button is pressed
@@ -149,10 +142,6 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
             }
             break;
         case TurnOff_s:
-            // Turn off HV to motors
-            for(int i = 0; i < this->nrOfMotors; i++){
-                this->HVon[i] = false;
-            }
             // Turn off LV
             this->LVon = false;
             // Make the mbed stop keeping PDB on
@@ -191,17 +180,6 @@ bool StateMachine::getKeepPDBOn(){
 
 bool StateMachine::getLVOn(){
     return this->LVon;
-}
-
-unsigned char StateMachine::getHVOn(){
-    // Max nrOfMotors: 8. If more, refactor this
-    unsigned char c = 0;
-    for (int i=0; i < this->nrOfMotors; ++i){
-        if (this->HVon[i]){
-            c |= (1 << i);
-        }
-    }
-    return c;
 }
 
 bool StateMachine::getMasterShutdown(){
