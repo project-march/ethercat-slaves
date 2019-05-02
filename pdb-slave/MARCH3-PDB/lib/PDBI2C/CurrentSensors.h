@@ -11,8 +11,7 @@ private:
 public:
     CurrentSensors(PinName SDA_PIN, PinName SCL_PIN);
 
-    float readLV1Current();
-    float readLV2Current();
+    float readLVCurrent();
     float readHVCurrent();
     float readPDBCurrent();
 };
