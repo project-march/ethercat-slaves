@@ -1,6 +1,6 @@
 #include <mbed.h>
 #include "LPC1768_pindefs_M3.h"
-#include "PDBI2C.h"
+#include "HVControl.h"
 #include "utypes.h"
 #include "Ethercat.h"
 #include "StateMachine.h"
@@ -24,7 +24,7 @@ DigitalOut mbedLed2(LPC_LED2, false); // Shows if in MasterOk state
 // High voltage related inputs/outputs
 DigitalOut mbedLed3(LPC_LED3, false); // Shows if any HV is on
 // Todo: I2C bus to HV
-PDBI2C pdbI2C(LPC_I2C_SDA, LPC_I2C_SCL, &pc);
+HVControl hvControl(LPC_I2C_SDA, LPC_I2C_SCL);
 
 // EtherCAT
 // Set PDO sizes
@@ -50,11 +50,9 @@ int main(){
     mbedLed4 = false;
     keepPDBOn = false;
     LVOn = false;
+
     miso.masterShutdown = 0;
-
-
-    // pdbI2C.setHVControlPin(2, 0, &pc); // Clear third bit
-    bool firstbit = true;
+    //miso.errorcode = 0;
 
     printTimer.start();
 
@@ -78,7 +76,6 @@ int main(){
             // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
             //     pc.printf("LV not okay");
             // }
-            firstbit = !firstbit;
             printTimer.reset();
         }
 
@@ -87,19 +84,26 @@ int main(){
         buttonLed = !stateMachine.getOnOffButtonLedState(); // Behaviour is logically inverted
         mbedLed1 = stateMachine.getOnOffButtonLedState(); // Later change to getKeepPDBOn()?
         mbedLed2 = (stateMachine.getState() == "MasterOk_s"); // LED on if in MasterOk state
-        mbedLed3 = (stateMachine.getHVOn() != 0); // LED on if any HV is on
+        mbedLed3 = (hvControl.readAllHV() != 0xFF); // LED on if any HV is on
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
         LVOn = stateMachine.getLVOn();
         miso.masterShutdown = stateMachine.getMasterShutdown();
 
         // Control HV
-        // Todo: Do I2C communication to turn HV on/off based on getHVon() result;
-        pdbI2C.setHVControlPin(0, firstbit, &pc); // Clear first bit
-        pdbI2C.getHVControlPin(0, &pc);
+        if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
+            // In an allowed state to control HV
+            hvControl.turnOnHV(HVOn_1);
+        }
+        else{
+            // Not in an allowed state to control HV
+            hvControl.turnOffAllHV();
+        }
         
         // Set logging stuff in EtherCAT buffers
-        // Todo: Set EtherCAT miso's based on LV signals
+        // miso.LVState = 0;
+        // miso.LVState |= stateMachine.getLVOn();
+        // miso.LVState |= (LVOkayState << 1);
 
     }
     
