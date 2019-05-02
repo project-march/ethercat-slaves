@@ -32,6 +32,10 @@ private:
     void write();
     uint16_t read();
 
+    void setBit(uint8_t index);
+    void clearBit(uint8_t index);
+    bool getBit(uint16_t word, uint8_t index);
+
 public:
     HVControl(PinName SDA_PIN, PinName SCL_PIN);
 
