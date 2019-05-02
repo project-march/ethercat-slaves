@@ -1,6 +1,7 @@
 #include <mbed.h>
 #include "LPC1768_pindefs_M3.h"
 #include "HVControl.h"
+#include "HVOCTriggers.h"
 #include "utypes.h"
 #include "Ethercat.h"
 #include "StateMachine.h"
@@ -24,6 +25,7 @@ DigitalOut mbedLed2(LPC_LED2, false); // Shows if in MasterOk state
 // High voltage related inputs/outputs
 DigitalOut mbedLed3(LPC_LED3, false); // Shows if any HV is on
 HVControl hvControl(LPC_I2C_SDA, LPC_I2C_SCL);
+HVOCTriggers hvOCTriggers(LPC_I2C_SDA, LPC_I2C_SCL);
 
 // EtherCAT
 // Set PDO sizes
@@ -76,6 +78,7 @@ int main(){
             //     pc.printf("LV not okay");
             // }
             pc.printf("\r\n HV reset: %x, HV on: %x", hvControl.readAllReset(), hvControl.readAllOn());
+            pc.printf("\r\n HV OC trigger: %x", hvOCTriggers.readOCTriggers());
             printTimer.reset();
         }
 
@@ -93,7 +96,7 @@ int main(){
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
             // In an allowed state to control HV
-            hvControl.setAllHV(0); // Todo: make this an EtherCAT variable
+            hvControl.setAllHV(0b11001); // Todo: make this an EtherCAT variable
             // hvControl.turnOnAllHV();
         }
         else{
