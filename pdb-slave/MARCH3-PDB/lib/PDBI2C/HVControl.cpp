@@ -3,7 +3,10 @@
 HVControl::HVControl(PinName SDA_PIN, PinName SCL_PIN) : bus(SDA_PIN, SCL_PIN){
     this->PCA8575D_read = (PCA8575D_address << 1) | 0x01; // Shift left and set LSB to one
     this->PCA8575D_write = (PCA8575D_address << 1) & 0xFE; // Shift left and set LSB to zero
-    this->HVControlPins = 0xFF;
+    
+    // Write initial values
+    this->HVControlPins = 0xFF; // HV off and not resetting
+    this->write();
     
     // Initial reset
     this->resetAllHV();
