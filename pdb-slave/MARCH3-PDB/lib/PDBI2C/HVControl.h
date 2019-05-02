@@ -4,18 +4,18 @@
 #include <mbed.h>
 
 enum HVControlPinNames{
-    HVOn_1          = 0,        // P00
-    HVReset_1       = 1,        // P01
-    HVOn_2          = 2,        // P02
-    HVReset_2       = 3,        // P03
-    HVOn_3          = 4,        // P04
-    HVReset_3       = 5,        // P05
-    HVOn_4          = 13,       // P15
-    HVReset_4       = 12,       // P14
-    HVOn_5          = 11,       // P13
-    HVReset_5       = 10,       // P12
-    HVOn_6          = 9,        // P11
-    HVReset_6       = 8,        // P10
+    HVOn_1          = 0,        // P00 IT1
+    HVReset_1       = 1,        // P01 IT2
+    HVOn_2          = 2,        // P02 IT3
+    HVReset_2       = 3,        // P03 IT4
+    HVOn_3          = 4,        // P04 IT5
+    HVReset_3       = 5,        // P05 IT6
+    HVOn_4          = 13,       // P15 IT7
+    HVReset_4       = 12,       // P14 IT8
+    HVOn_5          = 11,       // P13 IT9
+    HVReset_5       = 10,       // P12 IT10
+    HVOn_6          = 9,        // P11 IT11
+    HVReset_6       = 8,        // P10 IT12
 };
 
 class HVControl 

@@ -104,7 +104,7 @@ uint8_t HVControl::readAllReset(){
 }
 
 uint8_t HVControl::readAllOn(){
-        uint16_t read_data = this->read();
+    uint16_t read_data = this->read();
     uint8_t onStates = 0;
     // Loop through all HVOn pins
     for(int i = 0; i < sizeof(this->onPins)/sizeof(this->onPins[0]); i++){
@@ -127,4 +127,5 @@ void HVControl::setAllHV(uint8_t code){
             this->setBit(this->onPins[i]);
         }
     }
+    this->write();
 }

@@ -23,7 +23,6 @@ DigitalOut mbedLed2(LPC_LED2, false); // Shows if in MasterOk state
 
 // High voltage related inputs/outputs
 DigitalOut mbedLed3(LPC_LED3, false); // Shows if any HV is on
-// Todo: I2C bus to HV
 HVControl hvControl(LPC_I2C_SDA, LPC_I2C_SCL);
 
 // EtherCAT
@@ -76,6 +75,7 @@ int main(){
             // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
             //     pc.printf("LV not okay");
             // }
+            pc.printf("\r\n HV reset: %x, HV on: %x", hvControl.readAllReset(), hvControl.readAllOn());
             printTimer.reset();
         }
 
@@ -93,7 +93,8 @@ int main(){
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
             // In an allowed state to control HV
-            hvControl.setAllHV(0b10011001); // Todo: make this an EtherCAT variable
+            hvControl.setAllHV(0); // Todo: make this an EtherCAT variable
+            // hvControl.turnOnAllHV();
         }
         else{
             // Not in an allowed state to control HV
