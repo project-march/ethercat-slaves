@@ -3,7 +3,7 @@
 
 #include <mbed.h>
 
-enum HVControlPinNames{
+enum HVControlPinNames{ // Todo: Change based on M4 PDB! Give names like LKFE_HVon
     HVOn_1          = 0,        // P00 IT1
     HVReset_1       = 1,        // P01 IT2
     HVOn_2          = 2,        // P02 IT3
@@ -27,8 +27,8 @@ private:
     uint8_t PCA8575D_write;
     uint16_t HVControlPins;
     // Decide order based on arbitrarily decided joint order
-    HVControlPinNames resetPins[6] = {HVReset_1, HVReset_2, HVReset_3, HVReset_4, HVReset_5, HVReset_5};
-    HVControlPinNames onPins[6] = {HVOn_1, HVOn_2, HVOn_3, HVOn_4, HVOn_5, HVOn_6};
+    HVControlPinNames resetPins[6] = {HVReset_1, HVReset_2, HVReset_3, HVReset_4, HVReset_5, HVReset_6}; // Todo: Change based on joint order
+    HVControlPinNames onPins[6] = {HVOn_1, HVOn_2, HVOn_3, HVOn_4, HVOn_5, HVOn_6}; // Todo: Change based on joint order
 
     void write();
     uint16_t read();
