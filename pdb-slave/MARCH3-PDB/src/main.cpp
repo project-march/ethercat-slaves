@@ -84,7 +84,7 @@ int main(){
         buttonLed = !stateMachine.getOnOffButtonLedState(); // Behaviour is logically inverted
         mbedLed1 = stateMachine.getOnOffButtonLedState(); // Later change to getKeepPDBOn()?
         mbedLed2 = (stateMachine.getState() == "MasterOk_s"); // LED on if in MasterOk state
-        mbedLed3 = (hvControl.readAllHV() != 0xFF); // LED on if any HV is on
+        mbedLed3 = (hvControl.readAllOn() != 0); // LED on if any HV is on
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
         LVOn = stateMachine.getLVOn();

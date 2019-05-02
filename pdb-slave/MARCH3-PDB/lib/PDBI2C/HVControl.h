@@ -49,6 +49,8 @@ public:
     void turnOnAllHV();
     void resetAllHV();
 
+    uint8_t readAllReset();
+    uint8_t readAllOn();
     void setAllHV(uint8_t code);
 };
 

@@ -91,6 +91,30 @@ void HVControl::resetAllHV(){
     this->write();
 }
 
+uint8_t HVControl::readAllReset(){
+    uint16_t read_data = this->read();
+    uint8_t resetStates = 0;
+    // Loop through all reset pins
+    for(int i = 0; i < sizeof(this->resetPins)/sizeof(this->resetPins[0]); i++){
+        if(!this->getBit(read_data, this->resetPins[i])){ // Check if bit is zero (= reset)
+            resetStates |= (1 << i); // Set bit in resetStates
+        }
+    }
+    return resetStates;
+}
+
+uint8_t HVControl::readAllOn(){
+        uint16_t read_data = this->read();
+    uint8_t onStates = 0;
+    // Loop through all HVOn pins
+    for(int i = 0; i < sizeof(this->onPins)/sizeof(this->onPins[0]); i++){
+        if(!this->getBit(read_data, this->onPins[i])){ // Check if bit is zero (= HV on)
+            onStates |= (1 << i); // Set bit in onStates
+        }
+    }
+    return onStates;
+}
+
 void HVControl::setAllHV(uint8_t code){
     // Loop through all HVOn pins and turn on HV depending on code
     for(int i = 0; i < sizeof(this->onPins)/sizeof(this->onPins[0]); i++){
