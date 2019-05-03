@@ -65,9 +65,11 @@ int main(){
         // Update EtherCAT variables
         ecat.update();
         
-        // Get inputs from digitalIns and EtherCAT
+        // Get inputs from digitalIns, I2C bus and EtherCAT
         bool buttonstate = button.read();
         bool LVOkayState = LVOkay.read();
+        uint8_t hvOCTriggerStates = hvOCTriggers.readOCTriggers();
+        float PDBCurrent = currentSensors.readPDBCurrent();
         bool masterOkState = mosi.masterOk;
         bool masterShutdownAllowedState = mosi.masterShutdownAllowed;
 
@@ -82,7 +84,8 @@ int main(){
             //     pc.printf("LV not okay");
             // }
             pc.printf("\r\n HV reset: %x, HV on: %x", hvControl.readAllReset(), hvControl.readAllOn());
-            pc.printf("\r\n HV OC trigger: %x", hvOCTriggers.readOCTriggers());
+            pc.printf("\r\n HV OC trigger: %x", hvOCTriggerStates);
+            pc.printf("\r\n PDB current: %f", PDBCurrent);
             printTimer.reset();
         }
 
