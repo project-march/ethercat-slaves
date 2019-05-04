@@ -48,11 +48,11 @@ private:
     ADS1015DataRateConfigs dataRate;
     
 
-    const float ACS723sensorSensitivity = 400; // mV per Ampere
-    const float ACS723sensorOffset = 500; // mV
+    const float ACS723SensorSensitivity = 400; // mV per Ampere
+    const float ACS723SensorOffset = 500; // mV
 
-    const float ACS780sensorSensitivity = 20; // mV per Ampere
-    const float ACS780sensorOffset = 0; // mV
+    const float ACS780SensorSensitivity = 20; // mV per Ampere
+    const float ACS780SensorOffset = 0; // mV
 
     float getLSBSize();
     uint16_t swapBytes(uint16_t data);

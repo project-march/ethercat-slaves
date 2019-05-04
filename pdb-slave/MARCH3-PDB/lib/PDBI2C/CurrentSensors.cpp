@@ -89,7 +89,7 @@ float CurrentSensors::readPDBCurrent(){
     // Convert to a (float) voltage using the FSR
     float convertedVoltage = read_data * this->getLSBSize() / 1000; // In Volt
     // Convert from measured voltage to the actual current through the current sensor sensitivity and offset
-    float convertedCurrent = (convertedVoltage * 1000 - this->ACS723sensorOffset) / this->ACS723sensorSensitivity; // In Ampere
+    float convertedCurrent = (convertedVoltage * 1000 - this->ACS723SensorOffset) / this->ACS723SensorSensitivity; // In Ampere
     return convertedCurrent;
 }
 
@@ -110,7 +110,7 @@ float CurrentSensors::readLV1Current(){
     // Convert to a (float) voltage using the FSR
     float convertedVoltage = read_data * this->getLSBSize() / 1000; // In Volt
     // Convert from measured voltage to the actual current through the current sensor sensitivity and offset
-    float convertedCurrent = (convertedVoltage * 1000 - this->ACS723sensorOffset) / this->ACS723sensorSensitivity; // In Ampere
+    float convertedCurrent = (convertedVoltage * 1000 - this->ACS723SensorOffset) / this->ACS723SensorSensitivity; // In Ampere
     return convertedCurrent;
 }
 
