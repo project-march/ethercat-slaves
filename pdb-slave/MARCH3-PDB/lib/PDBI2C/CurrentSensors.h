@@ -12,30 +12,54 @@ private:
     uint8_t ADS1015_read;
     uint8_t ADS1015_write;
 
-    enum AD1015RegAddressPtr {
+    enum ADS1015RegAddressPtr {
         convReg = 0b00,
         confReg = 0b01,
         loThReg = 0b10,
         hiThReg = 0b11,
     };
 
-    enum AD1015MuxConfigs {
+    enum ADS1015MuxConfigs {
         PDBCS   = 0b100,
         LVCS1   = 0b101,
         LVCS2   = 0b110,
         HVCS    = 0b111,
     };
 
-    uint8_t FSR;
-    uint8_t dataRate;
-    const float sensorSensitivity = 400; // mV per Ampere
-    const float sensorOffset = 500; // mV
+    enum ADS1015FSRConfigs {
+        fsr6144 = 0b000,
+        fsr4096 = 0b001,
+        fsr2048 = 0b010,
+        fsr1024 = 0b011,
+        fsr0512 = 0b100,
+        fsr0256 = 0b101,
+    };
+    ADS1015FSRConfigs FSR;
+
+    enum ADS1015DataRateConfigs {
+        dr128sps = 0b000,
+        dr250sps = 0b001,
+        dr490sps = 0b010,
+        dr920sps = 0b011,
+        dr1600sps = 0b100,
+        dr2400sps = 0b101,
+        dr3300sps = 0b110,
+    };
+    ADS1015DataRateConfigs dataRate;
+    
+
+    const float ACS723sensorSensitivity = 400; // mV per Ampere
+    const float ACS723sensorOffset = 500; // mV
+
+    const float ACS780sensorSensitivity = 20; // mV per Ampere
+    const float ACS780sensorOffset = 0; // mV
 
     float getLSBSize();
+    uint16_t swapBytes(uint16_t data);
 
     uint16_t readReg();
-    bool writeAddrReg(AD1015RegAddressPtr reg);
-    bool writeConfReg(AD1015MuxConfigs muxConf);
+    bool writeAddrReg(ADS1015RegAddressPtr reg);
+    bool writeConfReg(ADS1015MuxConfigs muxConf);
 
 public:
     CurrentSensors(PinName SDA_PIN, PinName SCL_PIN);
