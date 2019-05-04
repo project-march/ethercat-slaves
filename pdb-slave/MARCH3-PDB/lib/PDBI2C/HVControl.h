@@ -30,12 +30,12 @@ private:
     HVControlPinNames resetPins[6] = {HVReset_1, HVReset_2, HVReset_3, HVReset_4, HVReset_5, HVReset_6}; // Todo: Change based on joint order
     HVControlPinNames onPins[6] = {HVOn_1, HVOn_2, HVOn_3, HVOn_4, HVOn_5, HVOn_6}; // Todo: Change based on joint order
 
-    void write();
-    uint16_t read();
-
     void setBit(uint8_t index);
     void clearBit(uint8_t index);
     bool getBit(uint16_t word, uint8_t index);
+
+    void write();
+    uint16_t read();
 
 public:
     HVControl(PinName SDA_PIN, PinName SCL_PIN);
@@ -45,9 +45,8 @@ public:
     void turnOffHV(HVControlPinNames pin);
     void resetHV(HVControlPinNames pin);
 
-    uint16_t readAllHV();
-    void turnOffAllHV();
     void turnOnAllHV();
+    void turnOffAllHV();
     void resetAllHV();
 
     uint8_t readAllReset();

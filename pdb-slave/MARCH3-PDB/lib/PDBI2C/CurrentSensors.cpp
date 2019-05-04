@@ -1,5 +1,6 @@
 #include "CurrentSensors.h"
 
+// Constructor
 CurrentSensors::CurrentSensors(PinName SDA_PIN, PinName SCL_PIN) : bus(SDA_PIN, SCL_PIN){
     this->ADS1015_read = (ADS1015_address << 1) | 0x01; // Shift left and set LSB to one
     this->ADS1015_write = (ADS1015_address << 1) & 0xFE; // Shift left and set LSB to zero
@@ -7,6 +8,7 @@ CurrentSensors::CurrentSensors(PinName SDA_PIN, PinName SCL_PIN) : bus(SDA_PIN, 
     this->dataRate = dr1600sps; // Set default data rate
 }
 
+// This helper function returns the size (in Volt) of the least significant bit of the read data based on the set Full Scale Range
 float CurrentSensors::getLSBSize(){
     switch(this->FSR){
         case fsr6144:
@@ -26,6 +28,7 @@ float CurrentSensors::getLSBSize(){
     }
 }
 
+// This helper function swaps the two bytes of the input argument
 uint16_t CurrentSensors::swapBytes(uint16_t data){
     uint8_t MSB, LSB;
     LSB = ((data >> 8) & 0xFF); // The MSB of the data should be the LSB...
@@ -34,16 +37,20 @@ uint16_t CurrentSensors::swapBytes(uint16_t data){
     return swapped;
 }
 
+// This function reads two bytes from the ADS1015
 uint16_t CurrentSensors::readReg(){
     uint16_t read_data = 0;
     this->bus.read(this->ADS1015_read, (char*) &read_data, 2);
     return read_data;
 }
 
+// This function writes a byte to the ADS1015 which sets which register to read/write from/to
 bool CurrentSensors::writeAddrReg(ADS1015RegAddressPtr reg){
     uint8_t addressPtrReg = reg;
     return this->bus.write(this->ADS1015_write, (char*) &addressPtrReg, 1);
 }
+
+// This function writes the Configuration register of the ADS1015
 bool CurrentSensors::writeConfReg(ADS1015MuxConfigs muxConf){
     uint8_t write_data[3] = {0, 0, 0};
     
@@ -63,6 +70,9 @@ bool CurrentSensors::writeConfReg(ADS1015MuxConfigs muxConf){
     return this->bus.write(this->ADS1015_write, (char*) &write_data, 3);
 }
 
+// ---------------- Public functions ----------------
+
+// This function reads the PDB current and returns the current as a float
 float CurrentSensors::readPDBCurrent(){
     // Set Full Scale Range to correct value for the PDB current sensor
     this->FSR = fsr2048;
@@ -83,6 +93,7 @@ float CurrentSensors::readPDBCurrent(){
     return convertedCurrent;
 }
 
+// This function reads the LV current of net 1 and returns the current as a float
 float CurrentSensors::readLV1Current(){
     // Set Full Scale Range to correct value for the PDB current sensor
     this->FSR = fsr2048;
@@ -103,10 +114,12 @@ float CurrentSensors::readLV1Current(){
     return convertedCurrent;
 }
 
+// This function reads the LV current of net 2 and returns the current as a float
 float CurrentSensors::readLV2Current(){
     return 0;
 }
 
+// This function reads the total HV current and returns the current as a float
 float CurrentSensors::readHVCurrent(){
     return 0;
 }

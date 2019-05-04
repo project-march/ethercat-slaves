@@ -1,5 +1,6 @@
 #include "HVControl.h"
 
+// Constructor
 HVControl::HVControl(PinName SDA_PIN, PinName SCL_PIN) : bus(SDA_PIN, SCL_PIN){
     this->PCA8575D_read = (PCA8575D_address << 1) | 0x01; // Shift left and set LSB to one
     this->PCA8575D_write = (PCA8575D_address << 1) & 0xFE; // Shift left and set LSB to zero
@@ -12,45 +13,56 @@ HVControl::HVControl(PinName SDA_PIN, PinName SCL_PIN) : bus(SDA_PIN, SCL_PIN){
     this->resetAllHV();
 }
 
+// This helper function sets a bit with given index in the HVControlPins
+void HVControl::setBit(uint8_t index){
+    this->HVControlPins |= (1 << index);
+}
+
+// This helper function clears a bit with given index in the HVControlPins
+void HVControl::clearBit(uint8_t index){
+    this->HVControlPins &= (~(1 << index));
+}
+
+// This helper function gets and returns a bit with given index from a given word
+bool HVControl::getBit(uint16_t word, uint8_t index){
+    return ((word >> index) & 0x01);
+}
+
+// This function writes the two bytes in HVControlPins to the PCA8575
 void HVControl::write(){
     uint16_t write_data = this->HVControlPins;
     bus.write(this->PCA8575D_write, (char*) &write_data, 2);
 }
 
+// This function reads and returns two bytes from the PCA8575
 uint16_t HVControl::read(){
     uint16_t read_data = 0;
     bus.read(this->PCA8575D_read, (char*) &read_data, 2);
     return read_data;
 }
 
-void HVControl::setBit(uint8_t index){
-    this->HVControlPins |= (1 << index);
-}
+// ---------------- Public functions ----------------
 
-void HVControl::clearBit(uint8_t index){
-    this->HVControlPins &= (~(1 << index));
-}
-
-bool HVControl::getBit(uint16_t word, uint8_t index){
-    return ((word >> index) & 0x01);
-}
-
-bool HVControl::readHV(HVControlPinNames pin){
+// This functions reads and returns one specific HV status from the PCA8575
+bool HVControl::readHV(HVControlPinNames pin){ // Todo: make sure only HVon can be read
     uint16_t read_data = this->read();
-    return this->getBit(read_data, pin); // Return the bit specified by the pin argument
+    return !this->getBit(read_data, pin);
 }
 
-void HVControl::turnOnHV(HVControlPinNames pin){
+// This function turns on one specific HV via the PCA8575
+void HVControl::turnOnHV(HVControlPinNames pin){ // Todo: make sure only HVon can be set
     this->clearBit(pin); // Logical 0 means HV on
     this->write();
 }
 
-void HVControl::turnOffHV(HVControlPinNames pin){
+// This function turns off one specific HV via the PCA8575
+void HVControl::turnOffHV(HVControlPinNames pin){ // Todo: make sure only HVon can be set
     this->setBit(pin); // Logical 1 means HV off
     this->write();
 }
 
-void HVControl::resetHV(HVControlPinNames pin){
+// This function resets one specific HV via the PCA8575
+void HVControl::resetHV(HVControlPinNames pin){ // Todo: make sure only HVreset can be set
     this->clearBit(pin);
     this->write();
     wait_ms(20);
@@ -58,20 +70,7 @@ void HVControl::resetHV(HVControlPinNames pin){
     this->write();
 }
 
-uint16_t HVControl::readAllHV(){
-    uint16_t read_data = this->read();
-    // Todo: update HVControlPins based on result?
-    return read_data;
-}
-
-void HVControl::turnOffAllHV(){
-    // Set all on bits (logical 1 means HV off)
-    for(int i = 0; i < sizeof(this->onPins)/sizeof(this->onPins[0]); i++){
-        this->setBit(this->onPins[i]);
-    }
-    this->write();
-}
-
+// This function turns on all HVs via the PCA8575
 void HVControl::turnOnAllHV(){
     // Clear all on bits (logical 0 means HV on)
     for(int i = 0; i < sizeof(this->onPins)/sizeof(this->onPins[0]); i++){
@@ -80,6 +79,16 @@ void HVControl::turnOnAllHV(){
     this->write();
 }
 
+// This function turns off all HVs via the PCA8575
+void HVControl::turnOffAllHV(){
+    // Set all on bits (logical 1 means HV off)
+    for(int i = 0; i < sizeof(this->onPins)/sizeof(this->onPins[0]); i++){
+        this->setBit(this->onPins[i]);
+    }
+    this->write();
+}
+
+// This function resets all HVs via the PCA8575
 void HVControl::resetAllHV(){
     // Clear all reset bits
     for(int i = 0; i < sizeof(this->resetPins)/sizeof(this->resetPins[0]); i++){
@@ -94,6 +103,7 @@ void HVControl::resetAllHV(){
     this->write();
 }
 
+// This function reads and returns all HVreset states from the PCA8575
 uint8_t HVControl::readAllReset(){
     uint16_t read_data = this->read();
     uint8_t resetStates = 0;
@@ -106,6 +116,7 @@ uint8_t HVControl::readAllReset(){
     return resetStates;
 }
 
+// This function reads and returns all HVon states from the PCA8575
 uint8_t HVControl::readAllOn(){
     uint16_t read_data = this->read();
     uint8_t onStates = 0;
@@ -118,6 +129,7 @@ uint8_t HVControl::readAllOn(){
     return onStates;
 }
 
+// This function sets all HVs based on the code given via the PCA8575
 void HVControl::setAllHV(uint8_t code){
     // Loop through all HVOn pins and turn on HV depending on code
     for(int i = 0; i < sizeof(this->onPins)/sizeof(this->onPins[0]); i++){
