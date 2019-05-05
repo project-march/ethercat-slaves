@@ -44,25 +44,25 @@ uint16_t HVControl::read(){
 // ---------------- Public functions ----------------
 
 // This functions reads and returns one specific HV status from the PCA8575
-bool HVControl::readHV(HVControlPinNames pin){ // Todo: make sure only HVon can be read
+bool HVControl::readHV(HVOnPinNames pin){
     uint16_t read_data = this->read();
     return !this->getBit(read_data, pin);
 }
 
 // This function turns on one specific HV via the PCA8575
-void HVControl::turnOnHV(HVControlPinNames pin){ // Todo: make sure only HVon can be set
+void HVControl::turnOnHV(HVOnPinNames pin){
     this->clearBit(pin); // Logical 0 means HV on
     this->write();
 }
 
 // This function turns off one specific HV via the PCA8575
-void HVControl::turnOffHV(HVControlPinNames pin){ // Todo: make sure only HVon can be set
+void HVControl::turnOffHV(HVOnPinNames pin){
     this->setBit(pin); // Logical 1 means HV off
     this->write();
 }
 
 // This function resets one specific HV via the PCA8575
-void HVControl::resetHV(HVControlPinNames pin){ // Todo: make sure only HVreset can be set
+void HVControl::resetHV(HVResetPinNames pin){
     this->clearBit(pin);
     this->write();
     wait_ms(20);
