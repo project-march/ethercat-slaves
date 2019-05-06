@@ -114,7 +114,7 @@ float CurrentSensors::readLV1Current(){
     float convertedVoltage = read_data * this->getLSBSize() / 1000; // In Volt
     // Convert from measured voltage to the actual current through the current sensor sensitivity and offset
     // Todo: fix this additional offset (now based on empirical test data from different loads on LV connector)
-    float convertedCurrent = (convertedVoltage * 1000 - this->ACS723SensorOffset - 180) / this->ACS723SensorSensitivity; // In Ampere
+    float convertedCurrent = (convertedVoltage * 1000 - this->ACS723SensorOffset - 177) / this->ACS723SensorSensitivity; // In Ampere
     return convertedCurrent;
 }
 
