@@ -70,6 +70,7 @@ int main(){
         bool LVOkayState = LVOkay.read();
         uint8_t hvOCTriggerStates = hvOCTriggers.readOCTriggers();
         float PDBCurrent = currentSensors.readPDBCurrent();
+        float LV1Current = currentSensors.readLV1Current();
         bool masterOkState = mosi.masterOk;
         bool masterShutdownAllowedState = mosi.masterShutdownAllowed;
 
@@ -86,6 +87,7 @@ int main(){
             pc.printf("\r\n HV reset: %x, HV on: %x", hvControl.readAllReset(), hvControl.readAllOn());
             pc.printf("\r\n HV OC trigger: %x", hvOCTriggerStates);
             pc.printf("\r\n PDB current: %f", PDBCurrent);
+            pc.printf("\r\n LV current: %f", LV1Current);
             printTimer.reset();
         }
 

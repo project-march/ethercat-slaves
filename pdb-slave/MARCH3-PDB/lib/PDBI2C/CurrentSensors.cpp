@@ -67,7 +67,9 @@ bool CurrentSensors::writeConfReg(ADS1015MuxConfigs muxConf){
     write_data[2] |= 0b11; // Disable comparator
 
     // Write all three bytes to the ADS1015
-    return this->bus.write(this->ADS1015_write, (char*) &write_data, 3);
+    bool ack = this->bus.write(this->ADS1015_write, (char*) &write_data, 3);
+    wait_ms(1); // Give the ADS some time to adjust settings
+    return ack;
 }
 
 // ---------------- Public functions ----------------
@@ -110,7 +112,8 @@ float CurrentSensors::readLV1Current(){
     // Convert to a (float) voltage using the FSR
     float convertedVoltage = read_data * this->getLSBSize() / 1000; // In Volt
     // Convert from measured voltage to the actual current through the current sensor sensitivity and offset
-    float convertedCurrent = (convertedVoltage * 1000 - this->ACS723SensorOffset) / this->ACS723SensorSensitivity; // In Ampere
+    // Todo: fix this additional offset (now based on empirical test data)
+    float convertedCurrent = (convertedVoltage * 1000 - this->ACS723SensorOffset - 180) / this->ACS723SensorSensitivity; // In Ampere
     return convertedCurrent;
 }
 
