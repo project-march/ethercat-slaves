@@ -30,6 +30,10 @@ HVOCTriggers hvOCTriggers(LPC_I2C_SDA, LPC_I2C_SCL);
 
 // Current sensing related inputs/outputs
 CurrentSensors currentSensors(LPC_I2C_SDA, LPC_I2C_SCL);
+union bit32 {
+    float    f;
+    uint32_t ui;
+};
 
 // EtherCAT
 // Set PDO sizes
@@ -58,6 +62,16 @@ int main(){
 
     // Set initial EtherCAT outputs
     miso.masterShutdown = 0;
+    miso.emergencyButtonState = 0; // Not supported on M3 PDB
+    miso.HVOCTriggers = hvOCTriggers.readOCTriggers();
+    miso.LVStates = LVOkay.read();
+    miso.HVStates = hvControl.readAllOn();
+    miso.PDBCurrent = currentSensors.readPDBCurrent();
+    miso.LV1Current = currentSensors.readLV1Current();
+    miso.LV2Current = currentSensors.readLV2Current();
+    miso.HVCurrent = currentSensors.readHVCurrent();
+
+    bit32 PDBCurrent, LV1Current, LV2Current, HVCurrent;
 
     printTimer.start(); // Start print timer right before entering infinite loop
 
@@ -65,17 +79,19 @@ int main(){
         // Update EtherCAT variables
         ecat.update();
         
-        // Get inputs from digitalIns, I2C bus and EtherCAT
+        // Get inputs from digitalIns and I2C bus
         bool buttonstate = button.read();
         bool LVOkayState = LVOkay.read();
         uint8_t hvOCTriggerStates = hvOCTriggers.readOCTriggers();
-        float PDBCurrent = currentSensors.readPDBCurrent();
-        float LV1Current = currentSensors.readLV1Current();
-        bool masterOkState = mosi.masterOk;
-        bool masterShutdownAllowedState = mosi.masterShutdownAllowed;
+        PDBCurrent.f = currentSensors.readPDBCurrent();
+        LV1Current.f = currentSensors.readLV1Current();
+        LV2Current.f = currentSensors.readLV2Current();
+        HVCurrent.f = currentSensors.readHVCurrent();
+        uint8_t hvOnStates = hvControl.readAllOn();
+        uint8_t hvResetStates = hvControl.readAllReset();
 
         // Update system state
-        stateMachine.updateState(buttonstate, masterOkState, masterShutdownAllowedState);
+        stateMachine.updateState(buttonstate, (bool) mosi.masterOk, (bool) mosi.masterShutdownAllowed);
 
         // Debug prints
         if(printTimer.read_ms() > 1000){
@@ -84,38 +100,45 @@ int main(){
             // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
             //     pc.printf("LV not okay");
             // }
-            pc.printf("\r\n HV reset: %x, HV on: %x", hvControl.readAllReset(), hvControl.readAllOn());
+            pc.printf("\r\n HV reset: %x, HV on: %x", hvResetStates, hvOnStates);
             pc.printf("\r\n HV OC trigger: %x", hvOCTriggerStates);
-            pc.printf("\r\n PDB current: %f", PDBCurrent);
-            pc.printf("\r\n LV current: %f", LV1Current);
+            pc.printf("\r\n PDB current: %f", PDBCurrent.f);
+            pc.printf("\r\n LV current: %f", LV1Current.f);
             printTimer.reset();
         }
 
         // Set LEDs and digitalOuts
         buttonLed = !stateMachine.getOnOffButtonLedState(); // Behaviour is logically inverted
-        mbedLed1 = stateMachine.getOnOffButtonLedState(); // Later change to getKeepPDBOn()?
+        mbedLed1 = stateMachine.getOnOffButtonLedState(); // LED on if button LED is on
         mbedLed2 = (stateMachine.getState() == "MasterOk_s"); // LED on if in MasterOk state
         mbedLed3 = (hvControl.readAllOn() != 0); // LED on if any HV is on
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
-        LVOn = stateMachine.getLVOn();
-        miso.masterShutdown = stateMachine.getMasterShutdown();
+        LVOn = (stateMachine.getLVOn() && (mosi.LVControl & 1)); // If both the statemachine and master say LV should be on
 
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
             // In an allowed state to have HV on
-            hvControl.setAllHV(0xFF); // Todo: make this an EtherCAT variable
+            hvControl.setAllHV(mosi.HVControl);
             // hvControl.turnOnAllHV();
+            miso.emergencyButtonState = mosi.emergencyButtonControl; // Not supported on M3 PDB
         }
         else{
             // Not in an allowed state to have any HV on
             hvControl.turnOffAllHV();
+            // Turn on emergency button control
+            miso.emergencyButtonState = 1; // Not supported on M3 PDB
         }
         
-        // Set logging stuff in EtherCAT buffers
-        // miso.LVState = 0;
-        // miso.LVState |= stateMachine.getLVOn();
-        // miso.LVState |= (LVOkayState << 1);
+        // Set miso's in EtherCAT buffers
+        miso.masterShutdown = stateMachine.getMasterShutdown();
+        miso.HVOCTriggers = hvOCTriggerStates;
+        miso.LVStates = LVOkayState;
+        miso.HVStates = hvOnStates;
+        miso.PDBCurrent = PDBCurrent.ui;
+        miso.LV1Current = LV1Current.ui;
+        miso.LV2Current = LV2Current.ui;
+        miso.HVCurrent = HVCurrent.ui;
 
     }
     

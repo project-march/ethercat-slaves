@@ -11,6 +11,14 @@ typedef struct
    struct
    {
       uint8_t masterShutdown;
+      uint8_t emergencyButtonState;
+      uint8_t HVOCTriggers;
+      uint8_t LVStates;
+      uint8_t HVStates;
+      uint32_t PDBCurrent;
+      uint32_t LV1Current;
+      uint32_t LV2Current;
+      uint32_t HVCurrent;
    } CC_PACKED miso;
    CC_PACKED_END
 } CC_PACKED _Rbuffer;
@@ -25,6 +33,9 @@ typedef struct
    {
       uint8_t masterOk;
       uint8_t masterShutdownAllowed;
+      uint8_t emergencyButtonControl;
+      uint8_t HVControl;
+      uint8_t LVControl;
    } CC_PACKED mosi;
    CC_PACKED_END
 } CC_PACKED _Wbuffer;

@@ -30,6 +30,12 @@
       <DataType>UNSIGNED32</DataType>
       <DefaultValue>0x00001389</DefaultValue>
     </Item>
+    <Item Managed="true">
+      <Name>Device Name</Name>
+      <Index>0x1008</Index>
+      <DataType>VISIBLE_STRING</DataType>
+      <DefaultValue>PDB-M3</DefaultValue>
+    </Item>
     <Item>
       <Name>Hardware Version</Name>
       <Index>0x1009</Index>
@@ -42,7 +48,343 @@
       <DataType>VISIBLE_STRING</DataType>
       <DefaultValue>1.0</DefaultValue>
     </Item>
+    <Item Managed="true">
+      <Name>Identity Object</Name>
+      <Index>0x1018</Index>
+      <DataType>RECORD</DataType>
+      <SubItem>
+        <Name>Max SubIndex</Name>
+        <Index>0x00</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>4</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>Vendor ID</Name>
+        <Index>0x01</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0x444</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>Product Code</Name>
+        <Index>0x02</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0x1</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>Revision Number</Name>
+        <Index>0x03</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>Serial Number</Name>
+        <Index>0x04</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0x00000000</DefaultValue>
+      </SubItem>
+    </Item>
+    <Item Managed="true">
+      <Name>mosi</Name>
+      <Index>0x1600</Index>
+      <DataType>RECORD</DataType>
+      <Variable>mosi</Variable>
+      <VariableType>Output</VariableType>
+      <SubItem>
+        <Name>Max SubIndex</Name>
+        <Index>0x00</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>5</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>masterOk</Name>
+        <Index>0x01</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>masterOk</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>masterShutdownAllowed</Name>
+        <Index>0x02</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>masterShutdownAllowed</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>emergencyButtonControl</Name>
+        <Index>0x03</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>emergencyButtonControl</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>HVControl</Name>
+        <Index>0x04</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>HVControl</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>LVControl</Name>
+        <Index>0x05</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>LVControl</Variable>
+        <VariableType>Output</VariableType>
+      </SubItem>
+    </Item>
+    <Item Managed="true">
+      <Name>miso</Name>
+      <Index>0x1A00</Index>
+      <DataType>RECORD</DataType>
+      <Variable>miso</Variable>
+      <VariableType>Input</VariableType>
+      <SubItem>
+        <Name>Max SubIndex</Name>
+        <Index>0x00</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>9</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>masterShutdown</Name>
+        <Index>0x01</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>masterShutdown</Variable>
+        <VariableType>Input</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>emergencyButtonState</Name>
+        <Index>0x02</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>emergencyButtonState</Variable>
+        <VariableType>Input</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>HVOCTriggers</Name>
+        <Index>0x03</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>HVOCTriggers</Variable>
+        <VariableType>Input</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>LVStates</Name>
+        <Index>0x04</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>LVStates</Variable>
+        <VariableType>Input</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>HVStates</Name>
+        <Index>0x05</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>HVStates</Variable>
+        <VariableType>Input</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>PDBCurrent</Name>
+        <Index>0x06</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>PDBCurrent</Variable>
+        <VariableType>Input</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>LV1Current</Name>
+        <Index>0x07</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>LV1Current</Variable>
+        <VariableType>Input</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>LV2Current</Name>
+        <Index>0x08</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>LV2Current</Variable>
+        <VariableType>Input</VariableType>
+      </SubItem>
+      <SubItem>
+        <Name>HVCurrent</Name>
+        <Index>0x09</Index>
+        <DataType>UNSIGNED32</DataType>
+        <DefaultValue>0</DefaultValue>
+        <Access>RO</Access>
+        <Variable>HVCurrent</Variable>
+        <VariableType>Input</VariableType>
+      </SubItem>
+    </Item>
+    <Item Managed="true">
+      <Name>Sync Manager Communication Type</Name>
+      <Index>0x1C00</Index>
+      <DataType>ARRAY</DataType>
+      <SubItem>
+        <Name>Max SubIndex</Name>
+        <Index>0x00</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>4</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>Communications Type SM0</Name>
+        <Index>0x01</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>1</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>Communications Type SM1</Name>
+        <Index>0x02</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>2</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>Communications Type SM2</Name>
+        <Index>0x03</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>3</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>Communications Type SM3</Name>
+        <Index>0x04</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>4</DefaultValue>
+      </SubItem>
+    </Item>
+    <Item Managed="true">
+      <Name>Sync Manager 2 PDO Assignment</Name>
+      <Index>0x1C12</Index>
+      <DataType>ARRAY</DataType>
+      <SubItem>
+        <Name>Max SubIndex</Name>
+        <Index>0x00</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>1</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>PDO Mapping</Name>
+        <Index>0x01</Index>
+        <DataType>UNSIGNED16</DataType>
+        <DefaultValue>0x1600</DefaultValue>
+      </SubItem>
+    </Item>
+    <Item Managed="true">
+      <Name>Sync Manager 3 PDO Assignment</Name>
+      <Index>0x1C13</Index>
+      <DataType>ARRAY</DataType>
+      <SubItem>
+        <Name>Max SubIndex</Name>
+        <Index>0x00</Index>
+        <DataType>UNSIGNED8</DataType>
+        <DefaultValue>1</DefaultValue>
+      </SubItem>
+      <SubItem>
+        <Name>PDO Mapping</Name>
+        <Index>0x01</Index>
+        <DataType>UNSIGNED16</DataType>
+        <DefaultValue>0x1A00</DefaultValue>
+      </SubItem>
+    </Item>
   </Dictionary>
+  <RxPdo>
+    <Index>0x1600</Index>
+    <Container>mosi</Container>
+    <Name>mosi</Name>
+    <Entry>
+      <Index>0x1600</Index>
+      <SubIndex>1</SubIndex>
+      <Variable>masterOk</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1600</Index>
+      <SubIndex>2</SubIndex>
+      <Variable>masterShutdownAllowed</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1600</Index>
+      <SubIndex>3</SubIndex>
+      <Variable>emergencyButtonControl</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1600</Index>
+      <SubIndex>4</SubIndex>
+      <Variable>HVControl</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1600</Index>
+      <SubIndex>5</SubIndex>
+      <Variable>LVControl</Variable>
+    </Entry>
+  </RxPdo>
+  <TxPdo>
+    <Index>0x1A00</Index>
+    <Container>miso</Container>
+    <Name>miso</Name>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>1</SubIndex>
+      <Variable>masterShutdown</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>2</SubIndex>
+      <Variable>emergencyButtonState</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>3</SubIndex>
+      <Variable>HVOCTriggers</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>4</SubIndex>
+      <Variable>LVStates</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>5</SubIndex>
+      <Variable>HVStates</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>6</SubIndex>
+      <Variable>PDBCurrent</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>7</SubIndex>
+      <Variable>LV1Current</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>8</SubIndex>
+      <Variable>LV2Current</Variable>
+    </Entry>
+    <Entry>
+      <Index>0x1A00</Index>
+      <SubIndex>9</SubIndex>
+      <Variable>HVCurrent</Variable>
+    </Entry>
+  </TxPdo>
   <Input>
     <Index>0x1A00</Index>
     <Name>miso</Name>
@@ -51,6 +393,46 @@
       <Index>0x01</Index>
       <Name>masterShutdown</Name>
       <Type>UNSIGNED8</Type>
+    </Member>
+    <Member>
+      <Index>0x02</Index>
+      <Name>emergencyButtonState</Name>
+      <Type>UNSIGNED8</Type>
+    </Member>
+    <Member>
+      <Index>0x03</Index>
+      <Name>HVOCTriggers</Name>
+      <Type>UNSIGNED8</Type>
+    </Member>
+    <Member>
+      <Index>0x04</Index>
+      <Name>LVStates</Name>
+      <Type>UNSIGNED8</Type>
+    </Member>
+    <Member>
+      <Index>0x05</Index>
+      <Name>HVStates</Name>
+      <Type>UNSIGNED8</Type>
+    </Member>
+    <Member>
+      <Index>0x06</Index>
+      <Name>PDBCurrent</Name>
+      <Type>UNSIGNED32</Type>
+    </Member>
+    <Member>
+      <Index>0x07</Index>
+      <Name>LV1Current</Name>
+      <Type>UNSIGNED32</Type>
+    </Member>
+    <Member>
+      <Index>0x08</Index>
+      <Name>LV2Current</Name>
+      <Type>UNSIGNED32</Type>
+    </Member>
+    <Member>
+      <Index>0x09</Index>
+      <Name>HVCurrent</Name>
+      <Type>UNSIGNED32</Type>
     </Member>
   </Input>
   <Output>
@@ -65,6 +447,21 @@
     <Member>
       <Index>0x02</Index>
       <Name>masterShutdownAllowed</Name>
+      <Type>UNSIGNED8</Type>
+    </Member>
+    <Member>
+      <Index>0x03</Index>
+      <Name>emergencyButtonControl</Name>
+      <Type>UNSIGNED8</Type>
+    </Member>
+    <Member>
+      <Index>0x04</Index>
+      <Name>HVControl</Name>
+      <Type>UNSIGNED8</Type>
+    </Member>
+    <Member>
+      <Index>0x05</Index>
+      <Name>LVControl</Name>
       <Type>UNSIGNED8</Type>
     </Member>
   </Output>
