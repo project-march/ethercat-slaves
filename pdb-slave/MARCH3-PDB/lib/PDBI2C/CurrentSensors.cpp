@@ -91,7 +91,8 @@ float CurrentSensors::readPDBCurrent(){
     // Convert to a (float) voltage using the FSR
     float convertedVoltage = read_data * this->getLSBSize() / 1000; // In Volt
     // Convert from measured voltage to the actual current through the current sensor sensitivity and offset
-    float convertedCurrent = (convertedVoltage * 1000 - this->ACS723SensorOffset) / this->ACS723SensorSensitivity; // In Ampere
+    // Todo: fix this additional offset (now based on empirical test data from power supply delivered power without peripherals)
+    float convertedCurrent = (convertedVoltage * 1000 - this->ACS723SensorOffset - 40) / this->ACS723SensorSensitivity; // In Ampere
     return convertedCurrent;
 }
 
@@ -112,18 +113,18 @@ float CurrentSensors::readLV1Current(){
     // Convert to a (float) voltage using the FSR
     float convertedVoltage = read_data * this->getLSBSize() / 1000; // In Volt
     // Convert from measured voltage to the actual current through the current sensor sensitivity and offset
-    // Todo: fix this additional offset (now based on empirical test data)
+    // Todo: fix this additional offset (now based on empirical test data from different loads on LV connector)
     float convertedCurrent = (convertedVoltage * 1000 - this->ACS723SensorOffset - 180) / this->ACS723SensorSensitivity; // In Ampere
     return convertedCurrent;
 }
 
 // This function reads the LV current of net 2 and returns the current as a float
 float CurrentSensors::readLV2Current(){
-    return 0;
+    return 0; // Does not exist on M3 PDB
 }
 
 // This function reads the total HV current and returns the current as a float
 float CurrentSensors::readHVCurrent(){
-    return 0;
+    return 0; // Does not exist on M3 PDB
 }
 
