@@ -8,3 +8,6 @@
 [submodule "ges/Temperature_Template_GES/lib/slave-peripherals"]
 	path = ges/Temperature_Template_GES/lib/slave-peripherals
 	url = https://github.com/project-march/slave-peripherals.git
+[submodule "ges/LUL_GES/lib/slave-peripherals"]
+	path = ges/LUL_GES/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals
