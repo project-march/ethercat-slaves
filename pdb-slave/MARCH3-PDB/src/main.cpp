@@ -48,6 +48,9 @@ Ethercat ecat(LPC_ECAT_MOSI, LPC_ECAT_MISO, LPC_ECAT_SCK, LPC_ECAT_SCS, PDORX_si
 StateMachine stateMachine; // State machine instance
 Timer printTimer; // Timer to print debug statements only once per second
 
+Timer masterOkTimer;
+bool masterUpToDate;
+
 int main(){
     pc.printf("\r\nMBED gets power now!");
 
@@ -59,6 +62,8 @@ int main(){
     mbedLed4 = false;
     keepPDBOn = false;
     LVOn = false;
+    masterUpToDate = false;
+    uint8_t lastMasterOk = 0;
 
     // Set initial EtherCAT outputs
     miso.masterShutdown = 0;
@@ -74,6 +79,8 @@ int main(){
     bit32 PDBCurrent, LV1Current, LV2Current, HVCurrent;
 
     printTimer.start(); // Start print timer right before entering infinite loop
+    masterOkTimer.start();
+    int missedMasterCounter = 0;
 
     while(1){
         // Update EtherCAT variables
@@ -90,20 +97,36 @@ int main(){
         uint8_t hvOnStates = hvControl.readAllOn();
         uint8_t hvResetStates = hvControl.readAllReset();
 
-        // Update system state
-        stateMachine.updateState(buttonstate, (bool) mosi.masterOk, (bool) mosi.masterShutdownAllowed);
+        // Keep track of whether an EtherCAT master is present
+        if(mosi.masterOk != lastMasterOk){ // Master sent a masterOk signal
+            masterOkTimer.reset();
+            masterUpToDate = true;
+            missedMasterCounter = 0;
+        }
+        else if(masterOkTimer.read_ms() > 100){ // More than 100 ms since last masterOk signal
+            masterUpToDate = false;
+            missedMasterCounter = true;
+        }
+        lastMasterOk = mosi.masterOk;
+        if(!masterUpToDate){
+            missedMasterCounter++;
+        }
 
-        // Debug prints
-        if(printTimer.read_ms() > 1000){
-            pc.printf("\r\nState: %s", stateMachine.getState().c_str());
+        // Update system state
+        stateMachine.updateState(buttonstate, masterUpToDate, (bool) mosi.masterShutdownAllowed);
+
+        // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
+        if(printTimer.read_ms() > 1000){ // Print once every x ms
+            // pc.printf("\r\nState: %s", stateMachine.getState().c_str());
             // pc.printf("\tKeepPDBOn: %d", stateMachine.getKeepPDBOn());
             // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
             //     pc.printf("LV not okay");
             // }
-            pc.printf("\r\n HV reset: %x, HV on: %x", hvResetStates, hvOnStates);
-            pc.printf("\r\n HV OC trigger: %x", hvOCTriggerStates);
-            pc.printf("\r\n PDB current: %f", PDBCurrent.f);
-            pc.printf("\r\n LV current: %f", LV1Current.f);
+            // pc.printf("\r\n HV reset: %x, HV on: %x", hvResetStates, hvOnStates);
+            // pc.printf("\r\n HV OC trigger: %x", hvOCTriggerStates);
+            // pc.printf("\r\n PDB current: %f", PDBCurrent.f);
+            // pc.printf("\r\n LV current: %f", LV1Current.f);
+            // pc.printf("\r\n counter: %d", missedMasterCounter);
             printTimer.reset();
         }
 
@@ -114,7 +137,7 @@ int main(){
         mbedLed3 = (hvControl.readAllOn() != 0); // LED on if any HV is on
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
-        LVOn = (stateMachine.getLVOn() && (mosi.LVControl & 1)); // If both the statemachine and master say LV should be on
+        LVOn = (stateMachine.getLVOn() && (mosi.LVControl >> 1)); // If both the statemachine and master say LV should be on // Todo: change back for M4 PDB
 
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
@@ -133,7 +156,7 @@ int main(){
         // Set miso's in EtherCAT buffers
         miso.masterShutdown = stateMachine.getMasterShutdown();
         miso.HVOCTriggers = hvOCTriggerStates;
-        miso.LVStates = LVOkayState;
+        miso.LVStates = (LVOkayState << 1); // Todo: change back for M4 PDB
         miso.HVStates = hvOnStates;
         miso.PDBCurrent = PDBCurrent.ui;
         miso.LV1Current = LV1Current.ui;
