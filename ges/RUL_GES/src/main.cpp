@@ -9,7 +9,7 @@
 #include "Temperature.h"
 
 #define WAIT_TIME (2) // seconds
-#define APP_TITLE "MARCH 4 Left Upper Leg GES" // Application name to be printed to terminal
+#define APP_TITLE "MARCH 4 Right Upper Leg GES" // Application name to be printed to terminal
 #define PC_BAUDRATE (9600) // per second
 
 // Easy access to PDOs. Needs to be changed if different PDOs are used
@@ -35,8 +35,8 @@ Serial pc(DBS_UART_USB_TX, DBS_UART_USB_RX, PC_BAUDRATE);
 Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS, PDORX_size, PDOTX_size);
 
 // Temperature sensor
-Temperature temperatureSensorLHFE(DBS_P04);
-Temperature temperatureSensorLKFE(DBS_P23);
+Temperature temperatureSensorRHFE(DBS_P04);
+Temperature temperatureSensorRKFE(DBS_P23);
 
 int main() {
   wait(WAIT_TIME);
@@ -47,23 +47,23 @@ int main() {
   statusLed = false;
 
   // Set all initial misos
-  miso.TemperatureLHFE = 0;
-  miso.TemperatureLKFE = 0;
+  miso.TemperatureRHFE = 0;
+  miso.TemperatureRKFE = 0;
 
   while(1) {
     // Update the EtherCAT buffer
     ecat.update();
 
     // Get temperature data
-    bit32 temperatureLHFE, temperatureLKFE;
-    temperatureLHFE.f = temperatureSensorLHFE.read();
-    temperatureLKFE.f = temperatureSensorLKFE.read();
+    bit32 temperatureRHFE, temperatureRKFE;
+    temperatureRHFE.f = temperatureSensorRHFE.read();
+    temperatureRKFE.f = temperatureSensorRKFE.read();
 
     // Set status LED if any temperature data invalid
-    statusLed = (temperatureLHFE.f < -998) || (temperatureLKFE.f < -998);
+    statusLed = (temperatureRHFE.f < -998) || (temperatureRKFE.f < -998);
 
     // Set all misos to be sent back to the master
-    miso.TemperatureLHFE = temperatureLHFE.i;
-    miso.TemperatureLKFE = temperatureLKFE.i;
+    miso.TemperatureRHFE = temperatureRHFE.i;
+    miso.TemperatureRKFE = temperatureRKFE.i;
   }
 }

@@ -11,3 +11,15 @@
 [submodule "ges/LUL_GES/lib/slave-peripherals"]
 	path = ges/LUL_GES/lib/slave-peripherals
 	url = https://github.com/project-march/slave-peripherals
+[submodule "ges/RUL_GES/lib/slave-peripherals"]
+	path = ges/RUL_GES/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals
+[submodule "ges/LLL_GES/lib/slave-peripherals"]
+	path = ges/LLL_GES/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals
+[submodule "ges/BP_GES/lib/slave-peripherals"]
+	path = ges/BP_GES/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals
+[submodule "ges/RLL_GES/lib/slave-peripherals"]
+	path = ges/RLL_GES/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals
