@@ -34,8 +34,8 @@ private:
     uint8_t PCA8575D_write;
     uint16_t HVControlPins;
 
-    HVResetPinNames resetPins[6] = {HVReset_1, HVReset_2, HVReset_3, HVReset_4, HVReset_5, HVReset_6, HVReset_7, HVReset_8};
-    HVOnPinNames onPins[6] = {HVOn_1, HVOn_2, HVOn_3, HVOn_4, HVOn_5, HVOn_6, HVOn_7, HVOn_8};
+    HVResetPinNames resetPins[8] = {HVReset_1, HVReset_2, HVReset_3, HVReset_4, HVReset_5, HVReset_6, HVReset_7, HVReset_8};
+    HVOnPinNames onPins[8] = {HVOn_1, HVOn_2, HVOn_3, HVOn_4, HVOn_5, HVOn_6, HVOn_7, HVOn_8};
 
     void setBit(uint8_t index);
     void clearBit(uint8_t index);

@@ -7,7 +7,7 @@ HVOCTriggers::HVOCTriggers(PinName SDA_PIN, PinName SCL_PIN) : bus(SDA_PIN, SCL_
 }
 
 // This helper function gets and returns a bit with given index from a given byte
-bool HVControl::getBit(uint8_t byte, uint8_t index){
+bool HVOCTriggers::getBit(uint8_t byte, uint8_t index){
     return ((byte >> index) & 0x01);
 }
 

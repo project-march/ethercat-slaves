@@ -54,9 +54,6 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 // Button held long enough, so forced shutdown
                 this->currentState = TurnOff_s;
             }
-            // Perhaps toggle led after short button time? To be decided
-            // Wait for ethercat message from master saying it is operational to go to MasterOk
-            // Temporary solution: fake with digitalIn signal
             if(masterOkState){
                 this->currentState = MasterOk_s;
             }
