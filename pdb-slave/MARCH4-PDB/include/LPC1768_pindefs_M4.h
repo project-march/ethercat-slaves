@@ -22,7 +22,7 @@
     #define LPC_KEEP_PDB_ON (p20)
 
     #define LPC_EMERGENCY_SWITCH_STATUS (p18)
-    #define LPC_EMERGENCY_SWITCH (p119)
+    #define LPC_EMERGENCY_SWITCH (p19)
      
     #define LPC_LVOKAY1 (p24)
     #define LPC_LVOKAY2 (p23)
@@ -31,6 +31,6 @@
 
     #define LPC_I2C_SDA (p28)
     #define LPC_I2C_SCL (p27)
-    #define LPC_I2C_INTERRUPT(p26)
+    #define LPC_I2C_INTERRUPT (p26)
 
  #endif //LPC_PINDEFS_
