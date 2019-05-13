@@ -6,6 +6,11 @@ HVOCTriggers::HVOCTriggers(PinName SDA_PIN, PinName SCL_PIN) : bus(SDA_PIN, SCL_
     this->PCA9534_write = (PCA9534_address << 1) & 0xFE; // Shift left and set LSB to zero
 }
 
+// This helper function gets and returns a bit with given index from a given byte
+bool HVControl::getBit(uint8_t byte, uint8_t index){
+    return ((byte >> index) & 0x01);
+}
+
 // This function reads the status of the 8 pins of the PCA9534
 uint8_t HVOCTriggers::read(){
     uint8_t command = 0; // Read command
@@ -20,6 +25,10 @@ uint8_t HVOCTriggers::read(){
 // This function reads and returns the status of the 8 OCTriggers
 uint8_t HVOCTriggers::readOCTriggers(){
     uint8_t read_data = this->read();
-    // Todo: Decode based on arbitrarily decided joint order
-    return read_data;
+    // Swap bits around to return a byte with lsb net 1, msb net 8
+    uint8_t ocTriggers = 0;
+    for(int i = 0; i < 8; i++){
+        ocTriggers |= (this->getBit(read_data, ocTriggerPins[i]) << i); // Set i'th bit of ocTriggers
+    }
+    return ocTriggers;
 }

@@ -120,11 +120,45 @@ float CurrentSensors::readLV1Current(){
 
 // This function reads the LV current of net 2 and returns the current as a float
 float CurrentSensors::readLV2Current(){
-    return 0; // Does not exist on M3 PDB
+    // Set Full Scale Range to correct value for the PDB current sensor
+    this->FSR = fsr2048;
+    // Write to config register to get correct settings for reading
+    this->writeConfReg(LVCS2);
+    // First write to Address Pointer Register indicating we want to read the conversion register
+    this->writeAddrReg(convReg);
+    // Read the two bytes that are transmitted by the slave
+    uint16_t read_data = this->readReg();
+    // First swap the two bytes, because the LSB and MSB are received in the wrong order
+    read_data = this->swapBytes(read_data);
+    // Throw away the last four bits because they are always 0
+    read_data = read_data >> 4;
+    // Convert to a (float) voltage using the FSR
+    float convertedVoltage = read_data * this->getLSBSize() / 1000; // In Volt
+    // Convert from measured voltage to the actual current through the current sensor sensitivity and offset
+    // Todo: fix this additional offset (now based on empirical test data from different loads on LV connector)
+    float convertedCurrent = (convertedVoltage * 1000 - this->ACS723SensorOffset - 177) / this->ACS723SensorSensitivity; // In Ampere
+    return convertedCurrent;
 }
 
 // This function reads the total HV current and returns the current as a float
 float CurrentSensors::readHVCurrent(){
-    return 0; // Does not exist on M3 PDB
+    // Set Full Scale Range to correct value for the PDB current sensor
+    this->FSR = fsr2048;
+    // Write to config register to get correct settings for reading
+    this->writeConfReg(HVCS);
+    // First write to Address Pointer Register indicating we want to read the conversion register
+    this->writeAddrReg(convReg);
+    // Read the two bytes that are transmitted by the slave
+    uint16_t read_data = this->readReg();
+    // First swap the two bytes, because the LSB and MSB are received in the wrong order
+    read_data = this->swapBytes(read_data);
+    // Throw away the last four bits because they are always 0
+    read_data = read_data >> 4;
+    // Convert to a (float) voltage using the FSR
+    float convertedVoltage = read_data * this->getLSBSize() / 1000; // In Volt
+    // Convert from measured voltage to the actual current through the current sensor sensitivity and offset
+    // Todo: fix this additional offset (now based on empirical test data from different loads on LV connector)
+    float convertedCurrent = (convertedVoltage * 1000 - this->ACS780SensorOffset) / this->ACS780SensorSensitivity; // In Ampere
+    return convertedCurrent;
 }
 

@@ -11,6 +11,20 @@ private:
     uint8_t PCA9534_read;
     uint8_t PCA9534_write;
 
+    enum HVOCtriggerPins {
+        oct_1 = 0,
+        oct_2 = 1,
+        oct_3 = 2,
+        oct_4 = 3,
+        oct_5 = 7,
+        oct_6 = 6,
+        oct_7 = 5,
+        oct_8 = 4,
+    };
+
+    HVOCtriggerPins ocTriggerPins[8] = {oct_1, oct_2, oct_3, oct_4, oct_5, oct_6, oct_7, oct_8};
+
+    bool getBit(uint8_t byte, uint8_t index);
     uint8_t read();
     
 public:
