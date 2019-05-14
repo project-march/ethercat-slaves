@@ -1,5 +1,5 @@
 #include <mbed.h>
-#include <LPC1768_pindefs.h>
+#include <LPC1768_pindefs_M4.h>
 #include "StateMachine.h"
 
 Serial pc(USBTX, USBRX, 9600); // Serial communication for debugging
