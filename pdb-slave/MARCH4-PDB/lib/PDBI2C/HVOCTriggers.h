@@ -12,14 +12,14 @@ private:
     uint8_t PCA9534_write;
 
     enum HVOCtriggerPins {
-        oct_1 = 0,
-        oct_2 = 1,
-        oct_3 = 2,
-        oct_4 = 3,
-        oct_5 = 7,
-        oct_6 = 6,
-        oct_7 = 5,
-        oct_8 = 4,
+        oct_1 = 0,      // P00 lT17
+        oct_2 = 1,      // P01 lT18
+        oct_3 = 2,      // P02 lT19
+        oct_4 = 3,      // P03 lT20
+        oct_5 = 7,      // P07 lT21
+        oct_6 = 6,      // P06 lT22
+        oct_7 = 5,      // P05 lT23
+        oct_8 = 4,      // P04 lT24
     };
 
     HVOCtriggerPins ocTriggerPins[8] = {oct_1, oct_2, oct_3, oct_4, oct_5, oct_6, oct_7, oct_8};
