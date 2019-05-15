@@ -13,13 +13,13 @@ Serial pc(USBTX, USBRX, 9600); // Serial communication for debugging
 DigitalOut buttonLed(LPC_BUTTON_LED, false); // True means LED on
 DigitalOut mbedLed1(LPC_LED1, false); // Shows same as button led
 DigitalIn button(LPC_BUTTON_PRESSED, PullDown); // True means button pressed
-DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, PullDown); // True means keep PDB on
+DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, false); // True means keep PDB on
 DigitalOut mbedLed4(LPC_LED4, false); // Shows if in Shutdown state
 
 // Low voltage related inputs/outputs
-DigitalOut LVOn1(LPC_LVON1, PullDown); // True means on
+DigitalOut LVOn1(LPC_LVON1, false); // True means on
 DigitalIn LVOkay1(LPC_LVOKAY1, PullDown); // True means okay
-DigitalOut LVOn2(LPC_LVON2, PullDown); // True means on
+DigitalOut LVOn2(LPC_LVON2, false); // True means on
 DigitalIn LVOkay2(LPC_LVOKAY2, PullDown); // True means okay
 
 // Master communication related inputs/outputs
@@ -47,7 +47,9 @@ union bit32 {
 const int PDORX_size = 32;
 const int PDOTX_size = 32;
 // EtherCAT object
+DigitalOut ecatReset(LPC_ECAT_RST, true);
 Ethercat ecat(LPC_ECAT_MOSI, LPC_ECAT_MISO, LPC_ECAT_SCK, LPC_ECAT_SCS, PDORX_size, PDOTX_size);
+
 // Easy access to PDOs
 #define miso            Ethercat::pdoTx.Struct.miso
 #define mosi            Ethercat::pdoRx.Struct.mosi
@@ -55,26 +57,20 @@ Ethercat ecat(LPC_ECAT_MOSI, LPC_ECAT_MISO, LPC_ECAT_SCK, LPC_ECAT_SCS, PDORX_si
 StateMachine stateMachine; // State machine instance
 Timer printTimer; // Timer to print debug statements only once per second
 
-Timer masterOkTimer;
-bool masterUpToDate;
-
 int main(){
     pc.printf("\r\nMBED gets power now!");
 
-    // Set initial DigitalOut outputs
-    buttonLed = false;
-    mbedLed1 = false;
-    mbedLed2 = false;
-    mbedLed3 = false;
-    mbedLed4 = false;
-    keepPDBOn = false;
-    LVOn1 = false;
-    LVOn2 = false;
-    emergencyButtonControl = false;
+    // wait_ms(30);
+    // ecatReset = false;
+    // wait_us(300);
+    // ecatReset = true;
+    // wait_us(5);
+    // ecat.init();
 
-    masterUpToDate = false;
+    bool masterUpToDate = false;
     uint8_t lastMasterOk = 0;
     int missedMasterCounter = 0;
+    Timer masterOkTimer;
 
     // Set initial EtherCAT outputs
     miso.masterShutdown = 0;
@@ -125,11 +121,11 @@ int main(){
         }
 
         // Update system state
-        stateMachine.updateState(buttonstate, masterUpToDate, (bool) mosi.masterShutdownAllowed);
+        stateMachine.updateState(buttonstate, (bool) mosi.masterOk, (bool) mosi.masterShutdownAllowed); // todo: change back
 
         // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
         if(printTimer.read_ms() > 1000){ // Print once every x ms
-            // pc.printf("\r\nState: %s", stateMachine.getState().c_str());
+            pc.printf("\r\nState: %s", stateMachine.getState().c_str());
             // pc.printf("\tKeepPDBOn: %d", stateMachine.getKeepPDBOn());
             // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
             //     pc.printf("LV not okay");
@@ -156,11 +152,12 @@ int main(){
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
             // In an allowed state to have HV on
             emergencyButtonControl = mosi.emergencyButtonControl;
-            hvControl.setAllHV(mosi.HVControl);
+            // hvControl.setAllHV(mosi.HVControl);
+            hvControl.setAllHV(0b01010101);
         }
         else{
             // Not in an allowed state to have any HV on
-            hvControl.turnOffAllHV();
+            hvControl.setAllHV(0b01010101);
             emergencyButtonControl = false; // Disconnect HV
         }
         
