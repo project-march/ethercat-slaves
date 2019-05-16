@@ -8,7 +8,7 @@
 class CurrentSensors {
 private:
     I2C bus;
-    const uint8_t ADS1015_address = 0x4A; // Depending on Address pin // Todo: Change for M4 PDB!
+    const uint8_t ADS1015_address = 0x4A; // Depending on Address pin
     uint8_t ADS1015_read;
     uint8_t ADS1015_write;
 
