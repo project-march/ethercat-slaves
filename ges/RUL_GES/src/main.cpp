@@ -35,8 +35,8 @@ Serial pc(DBS_UART_USB_TX, DBS_UART_USB_RX, PC_BAUDRATE);
 Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS, PDORX_size, PDOTX_size);
 
 // Temperature sensor
-Temperature temperatureSensorRHFE(DBS_P04);
-Temperature temperatureSensorRKFE(DBS_P23);
+Temperature temperatureSensorRHFE(DBS_P23);
+Temperature temperatureSensorRKFE(DBS_P04);
 
 int main() {
   wait(WAIT_TIME);
