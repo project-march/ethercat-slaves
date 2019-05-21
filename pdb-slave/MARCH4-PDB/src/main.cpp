@@ -142,23 +142,28 @@ int main(){
         buttonLed = stateMachine.getOnOffButtonLedState();
         mbedLed1 = stateMachine.getOnOffButtonLedState(); // LED on if button LED is on
         mbedLed2 = (stateMachine.getState() == "MasterOk_s"); // LED on if in MasterOk state
-        mbedLed3 = (hvControl.readAllOn() != 0); // LED on if any HV is on
+        mbedLed3 = (hvControl.readAllOn() != 0) && emergencyButtonState; // LED on if any HV is on and not disabled by SSR
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
         LVOn1 = stateMachine.getLVOn(); // Don't listen to what master says over EtherCAT: LV net 1 not controllable by master
-        LVOn2 = (stateMachine.getLVOn() && (mosi.LVControl >> 1)); // If both the statemachine and master say LV should be on
+        // LVOn2 = (stateMachine.getLVOn() && (mosi.LVControl >> 1)); // If both the statemachine and master say LV should be on
+        LVOn2 = stateMachine.getLVOn(); // Temporary, remove later!
 
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
             // In an allowed state to have HV on
-            emergencyButtonControl = mosi.emergencyButtonControl;
+            // emergencyButtonControl = mosi.emergencyButtonControl;
             // hvControl.setAllHV(mosi.HVControl);
-            hvControl.setAllHV(0b01010101);
+            // hvControl.setAllHV(0b11111111) ;// Temporary, remove later!
+            hvControl.setAllHV(0b11101110); // Temporary, remove later!
+            emergencyButtonControl = true; // Enable HV // Temporary, remove later!
         }
         else{
             // Not in an allowed state to have any HV on
-            hvControl.setAllHV(0b01010101);
-            emergencyButtonControl = false; // Disconnect HV
+            // hvControl.setAllHV(0b11111111); // Temporary, remove later!
+            hvControl.setAllHV(0b11101110); // Temporary, remove later!
+            // emergencyButtonControl = false; // Disconnect HV
+            emergencyButtonControl = true; // Enable HV // Temporary, remove later!
         }
         
         // Set miso's in EtherCAT buffers
