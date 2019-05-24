@@ -48,7 +48,8 @@ const int PDORX_size = 32;
 const int PDOTX_size = 32;
 // EtherCAT object
 DigitalOut ecatReset(LPC_ECAT_RST, true);
-Ethercat ecat(LPC_ECAT_MOSI, LPC_ECAT_MISO, LPC_ECAT_SCK, LPC_ECAT_SCS, PDORX_size, PDOTX_size);
+DigitalOut ecatIRQ(LPC_ECAT_IRQ, false);
+Ethercat ecat(LPC_ECAT_MOSI, LPC_ECAT_MISO, LPC_ECAT_SCK, LPC_ECAT_SCS, PDORX_size, PDOTX_size, &pc, 10);
 
 // Easy access to PDOs
 #define miso            Ethercat::pdoTx.Struct.miso
@@ -121,11 +122,11 @@ int main(){
         }
 
         // Update system state
-        stateMachine.updateState(buttonstate, (bool) mosi.masterOk, (bool) mosi.masterShutdownAllowed); // todo: change back
+        stateMachine.updateState(buttonstate, (bool) mosi.masterOk, (bool) mosi.masterShutdownAllowed); // Temporary: change back!
 
         // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
         if(printTimer.read_ms() > 1000){ // Print once every x ms
-            pc.printf("\r\nState: %s", stateMachine.getState().c_str());
+            // pc.printf("\r\nState: %s", stateMachine.getState().c_str());
             // pc.printf("\tKeepPDBOn: %d", stateMachine.getKeepPDBOn());
             // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
             //     pc.printf("LV not okay");
@@ -145,9 +146,11 @@ int main(){
         mbedLed3 = (hvControl.readAllOn() != 0) && emergencyButtonState; // LED on if any HV is on and not disabled by SSR
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
-        LVOn1 = stateMachine.getLVOn(); // Don't listen to what master says over EtherCAT: LV net 1 not controllable by master
+        // LVOn1 = stateMachine.getLVOn(); // Don't listen to what master says over EtherCAT: LV net 1 not controllable by master
         // LVOn2 = (stateMachine.getLVOn() && (mosi.LVControl >> 1)); // If both the statemachine and master say LV should be on
-        LVOn2 = stateMachine.getLVOn(); // Temporary, remove later!
+        // LVOn2 = stateMachine.getLVOn(); // Temporary, remove later!
+        LVOn1 = true;
+        LVOn2 = true;
 
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
