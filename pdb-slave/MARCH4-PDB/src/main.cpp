@@ -122,7 +122,7 @@ int main(){
         }
 
         // Update system state
-        stateMachine.updateState(buttonstate, (bool) mosi.masterOk, (bool) mosi.masterShutdownAllowed); // Temporary: change back!
+        stateMachine.updateState(buttonstate, true, (bool) mosi.masterShutdownAllowed);
 
         // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
         if(printTimer.read_ms() > 1000){ // Print once every x ms
@@ -146,11 +146,9 @@ int main(){
         mbedLed3 = (hvControl.readAllOn() != 0) && emergencyButtonState; // LED on if any HV is on and not disabled by SSR
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
-        // LVOn1 = stateMachine.getLVOn(); // Don't listen to what master says over EtherCAT: LV net 1 not controllable by master
+        LVOn1 = stateMachine.getLVOn(); // Don't listen to what master says over EtherCAT: LV net 1 not controllable by master
         // LVOn2 = (stateMachine.getLVOn() && (mosi.LVControl >> 1)); // If both the statemachine and master say LV should be on
-        // LVOn2 = stateMachine.getLVOn(); // Temporary, remove later!
-        LVOn1 = true;
-        LVOn2 = true;
+        LVOn2 = stateMachine.getLVOn(); // Temporary, remove later!
 
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
@@ -158,13 +156,13 @@ int main(){
             // emergencyButtonControl = mosi.emergencyButtonControl;
             // hvControl.setAllHV(mosi.HVControl);
             // hvControl.setAllHV(0b11111111) ;// Temporary, remove later!
-            hvControl.setAllHV(0b11101110); // Temporary, remove later!
+            hvControl.setAllHV(0b00000000); // Temporary, remove later!
             emergencyButtonControl = true; // Enable HV // Temporary, remove later!
         }
         else{
             // Not in an allowed state to have any HV on
             // hvControl.setAllHV(0b11111111); // Temporary, remove later!
-            hvControl.setAllHV(0b11101110); // Temporary, remove later!
+            hvControl.setAllHV(0b00000000); // Temporary, remove later!
             // emergencyButtonControl = false; // Disconnect HV
             emergencyButtonControl = true; // Enable HV // Temporary, remove later!
         }
