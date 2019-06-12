@@ -61,13 +61,6 @@ Timer printTimer; // Timer to print debug statements only once per second
 int main(){
     pc.printf("\r\nMBED gets power now!");
 
-    // wait_ms(30);
-    // ecatReset = false;
-    // wait_us(300);
-    // ecatReset = true;
-    // wait_us(5);
-    // ecat.init();
-
     bool masterUpToDate = false;
     uint8_t lastMasterOk = 0;
     int missedMasterCounter = 0;
@@ -114,7 +107,6 @@ int main(){
         }
         else if(masterOkTimer.read_ms() > 100){ // More than 100 ms since last masterOk signal
             masterUpToDate = false;
-            missedMasterCounter = true;
         }
         lastMasterOk = mosi.masterOk;
         if(!masterUpToDate){
@@ -122,7 +114,7 @@ int main(){
         }
 
         // Update system state
-        stateMachine.updateState(buttonstate, true, (bool) mosi.masterShutdownAllowed);
+        stateMachine.updateState(buttonstate, masterUpToDate, (bool) mosi.masterShutdownAllowed);
 
         // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
         if(printTimer.read_ms() > 1000){ // Print once every x ms
@@ -147,24 +139,18 @@ int main(){
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
         LVOn1 = stateMachine.getLVOn(); // Don't listen to what master says over EtherCAT: LV net 1 not controllable by master
-        // LVOn2 = (stateMachine.getLVOn() && (mosi.LVControl >> 1)); // If both the statemachine and master say LV should be on
-        LVOn2 = stateMachine.getLVOn(); // Temporary, remove later!
+        LVOn2 = (stateMachine.getLVOn() && (mosi.LVControl >> 1)); // If both the statemachine and master say LV should be on
 
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
             // In an allowed state to have HV on
-            // emergencyButtonControl = mosi.emergencyButtonControl;
-            // hvControl.setAllHV(mosi.HVControl);
-            // hvControl.setAllHV(0b11111111) ;// Temporary, remove later!
-            hvControl.setAllHV(0b00000000); // Temporary, remove later!
-            emergencyButtonControl = true; // Enable HV // Temporary, remove later!
+            emergencyButtonControl = mosi.emergencyButtonControl;
+            hvControl.setAllHV(mosi.HVControl);
         }
         else{
             // Not in an allowed state to have any HV on
-            // hvControl.setAllHV(0b11111111); // Temporary, remove later!
-            hvControl.setAllHV(0b00000000); // Temporary, remove later!
-            // emergencyButtonControl = false; // Disconnect HV
-            emergencyButtonControl = true; // Enable HV // Temporary, remove later!
+            emergencyButtonControl = false; // Disable HV
+            
         }
         
         // Set miso's in EtherCAT buffers
