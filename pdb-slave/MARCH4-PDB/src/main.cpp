@@ -156,15 +156,15 @@ int main(){
             // emergencyButtonControl = mosi.emergencyButtonControl;
             // hvControl.setAllHV(mosi.HVControl);
             // hvControl.setAllHV(0b11111111) ;// Temporary, remove later!
-            hvControl.setAllHV(0b00000000); // Temporary, remove later!
+            hvControl.setAllHV(0b00000111); // Temporary, remove later!
             emergencyButtonControl = true; // Enable HV // Temporary, remove later!
         }
         else{
             // Not in an allowed state to have any HV on
             // hvControl.setAllHV(0b11111111); // Temporary, remove later!
             hvControl.setAllHV(0b00000000); // Temporary, remove later!
-            // emergencyButtonControl = false; // Disconnect HV
-            emergencyButtonControl = true; // Enable HV // Temporary, remove later!
+            emergencyButtonControl = false; // Disconnect HV
+            // emergencyButtonControl = true; // Enable HV // Temporary, remove later!
         }
         
         // Set miso's in EtherCAT buffers
