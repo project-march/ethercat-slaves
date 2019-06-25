@@ -96,7 +96,7 @@ int main(){
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
             // In an allowed state to have HV on
-            hvControl.setAllHV(0b00000111);
+            hvControl.setAllHV(0b01100110); // 2, 3, 6, 7
             emergencyButtonControl = true; // Enable HV
         }
         else{
