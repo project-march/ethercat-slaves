@@ -59,6 +59,7 @@ public:
     uint8_t readAllReset();
     uint8_t readAllOn();
     void setAllHV(uint8_t code);
+    void setAllHVStagedStartup(uint8_t code);
 };
 
 

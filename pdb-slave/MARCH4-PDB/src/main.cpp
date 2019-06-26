@@ -87,7 +87,7 @@ int main(){
         buttonLed = stateMachine.getOnOffButtonLedState();
         mbedLed1 = stateMachine.getOnOffButtonLedState(); // LED on if button LED is on
         mbedLed2 = (stateMachine.getState() == "MasterOk_s"); // LED on if in MasterOk state
-        mbedLed3 = (hvControl.readAllOn() != 0) && emergencyButtonState; // LED on if any HV is on and not disabled by SSR
+        mbedLed3 = (hvOnStates != 0) && emergencyButtonState; // LED on if any HV is on and not disabled by SSR
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
         LVOn1 = stateMachine.getLVOn(); 
@@ -96,13 +96,21 @@ int main(){
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
             // In an allowed state to have HV on
-            hvControl.setAllHV(0b01100110); // 2, 3, 6, 7
-            emergencyButtonControl = true; // Enable HV
+            emergencyButtonControl = true; // Enable HV, at least from software
+            uint8_t desiredHVStates = 0b01100110; // 2, 3, 6, 7 for HFE and KFE joints
+            if (emergencyButtonState){  // HV enabled
+                if (hvOnStates != desiredHVStates){ // HV states not yet as desired
+                    hvControl.setAllHVStagedStartup(desiredHVStates); // Staged startup to minimize inrush currents
+                }
+            }
+            else{ // HV disabled
+                hvControl.setAllHV(0b00000000); // Reset all HV nets to off, even though already disabled
+            }
         }
         else{
             // Not in an allowed state to have any HV on
-            hvControl.setAllHV(0b00000000);
             emergencyButtonControl = false; // Disable HV
+            hvControl.setAllHV(0b00000000); // Reset all HV nets to off, even though already disabled
         }
     }
     
