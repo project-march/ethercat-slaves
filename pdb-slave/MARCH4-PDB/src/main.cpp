@@ -52,7 +52,7 @@ DigitalOut ecatIRQ(LPC_ECAT_IRQ, false);
 Ethercat ecat(LPC_ECAT_MOSI, LPC_ECAT_MISO, LPC_ECAT_SCK, LPC_ECAT_SCS, PDORX_size, PDOTX_size, &pc, 10);
 
 // Easy access to PDOs
-#define miso            Ethercat::pdoTx.Struct.miso	
+#define miso            Ethercat::pdoTx.Struct.miso
 #define mosi            Ethercat::pdoRx.Struct.mosi
 
 StateMachine stateMachine; // State machine instance
