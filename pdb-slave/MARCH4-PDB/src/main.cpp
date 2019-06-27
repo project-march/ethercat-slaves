@@ -145,7 +145,7 @@ int main(){
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
             // In an allowed state to have HV on
             emergencyButtonControl = mosi.emergencyButtonControl; // Enable HV, at least from software
-            uint8_t desiredHVStates = mosi.HVControl; // 2, 3, 6, 7 for HFE and KFE joints
+            uint8_t desiredHVStates = mosi.HVControl; // Whatever nets the master wants
             if (emergencyButtonState){  // HV enabled
                 if (hvOnStates != desiredHVStates){ // HV states not yet as desired
                     hvControl.setAllHVStagedStartup(desiredHVStates); // Staged startup to minimize inrush currents
