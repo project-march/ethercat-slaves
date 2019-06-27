@@ -4,6 +4,7 @@
 #include "HVOCTriggers.h"
 #include "CurrentSensors.h"
 #include "utypes.h"
+#include "Ethercat.h"
 #include "StateMachine.h"
 
 Serial pc(USBTX, USBRX, 9600); // Serial communication for debugging
@@ -41,6 +42,19 @@ union bit32 {
     uint32_t ui;
 };
 
+// EtherCAT	
+// Set PDO sizes	
+const int PDORX_size = 32;	
+const int PDOTX_size = 32;	
+// EtherCAT object	
+DigitalOut ecatReset(LPC_ECAT_RST, true);	
+DigitalOut ecatIRQ(LPC_ECAT_IRQ, false);	
+Ethercat ecat(LPC_ECAT_MOSI, LPC_ECAT_MISO, LPC_ECAT_SCK, LPC_ECAT_SCS, PDORX_size, PDOTX_size, &pc, 10);	
+
+ // Easy access to PDOs	
+#define miso            Ethercat::pdoTx.Struct.miso	
+#define mosi            Ethercat::pdoRx.Struct.mosi
+
 StateMachine stateMachine; // State machine instance
 Timer printTimer; // Timer to print debug statements only once per second
 
@@ -66,8 +80,12 @@ int main(){
     bit32 PDBCurrent, LV1Current, LV2Current, HVCurrent;
 
     printTimer.start(); // Start print timer right before entering infinite loop
+    masterOkTimer.start();
 
-    while(1){        
+    while(1){
+        // Update EtherCAT variables	
+        ecat.update();
+
         // Get inputs from digitalIns and I2C bus
         bool buttonstate = button.read();
         bool LVOkay1State = LVOkay1.read();
@@ -142,6 +160,17 @@ int main(){
             emergencyButtonControl = false; // Disable HV
             hvControl.setAllHV(0b00000000); // Reset all HV nets to off, even though already disabled
         }
+
+        // Set miso's in EtherCAT buffers	
+        miso.emergencyButtonState = emergencyButtonState;	
+        miso.masterShutdown = stateMachine.getMasterShutdown();	
+        miso.HVOCTriggers = hvOCTriggerStates;	
+        miso.LVStates = (LVOkay2State << 1) | LVOkay1State;	
+        miso.HVStates = hvOnStates;	
+        miso.PDBCurrent = PDBCurrent.ui;	
+        miso.LV1Current = LV1Current.ui;	
+        miso.LV2Current = LV2Current.ui;	
+        miso.HVCurrent = HVCurrent.ui;
     }
     
 }
