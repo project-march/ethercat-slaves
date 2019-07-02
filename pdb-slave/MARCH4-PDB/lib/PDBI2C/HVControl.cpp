@@ -145,12 +145,13 @@ void HVControl::setAllHV(uint8_t code){
     this->write();
 }
 
+// This function does the same as setAllHV, but turns on all HV nets seperately
+// Staged startup is designed with the purpose of minimizing inrush currents
 void HVControl::setAllHVStagedStartup(uint8_t code){
+    // Turn on LED 4 when staged startup is called
+    DigitalOut stagedStartupLED(LED4, false);
+    stagedStartupLED = true;
     // Loop through all HVOn pins and turn on HV depending on code
-    // Staged startup is meant to turn on all HV nets seperately, to minimize inrush currents
-    // Debug: turn on LED 4 if staged startup is called
-    DigitalOut debugLED(LED4, false);
-    debugLED = true;
     for(int i = 0; i < sizeof(this->onPins)/sizeof(this->onPins[0]); i++){
         if(this->getBit(code, i)){
             // Turn on HV
@@ -163,5 +164,6 @@ void HVControl::setAllHVStagedStartup(uint8_t code){
         }
         this->write();
     }
-    debugLED = false;
+    // Turn off LED 4 after staged startup has finished
+    stagedStartupLED = false;
 }
