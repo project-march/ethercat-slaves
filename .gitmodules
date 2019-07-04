@@ -4,6 +4,18 @@
 	url = https://github.com/project-march/slave-peripherals
 [submodule "ges/CapacityTest_GES/lib/slave-peripherals"]
 	path = ges/CapacityTest_GES/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals
+[submodule "pdb-slave/blink-led/lib/slave-peripherals"]
+	path = pdb-slave/blink-led/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals
+[submodule "pdb-slave/standalone-LPC1768/lib/slave-peripherals"]
+	path = pdb-slave/standalone-LPC1768/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals
+[submodule "pdb-slave/MARCH4-PDB/lib/slave-peripherals"]
+	path = pdb-slave/MARCH4-PDB/lib/slave-peripherals
+	url = https://github.com/project-march/slave-peripherals
+[submodule "pdb-slave/MARCH3-PDB/lib/slave-peripherals"]
+	path = pdb-slave/MARCH3-PDB/lib/slave-peripherals
 	url = https://github.com/project-march/slave-peripherals.git
 [submodule "ges/Temperature_Template_GES/lib/slave-peripherals"]
 	path = ges/Temperature_Template_GES/lib/slave-peripherals
