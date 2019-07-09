@@ -85,7 +85,7 @@ int main(){
     while(1){
         // Update EtherCAT variables
         ecat.update();
-        
+
         // Get inputs from digitalIns and I2C bus
         bool buttonstate = button.read();
         bool LVOkay1State = LVOkay1.read();
@@ -135,7 +135,7 @@ int main(){
         buttonLed = stateMachine.getOnOffButtonLedState();
         mbedLed1 = stateMachine.getOnOffButtonLedState(); // LED on if button LED is on
         mbedLed2 = (stateMachine.getState() == "MasterOk_s"); // LED on if in MasterOk state
-        mbedLed3 = (hvControl.readAllOn() != 0) && emergencyButtonState; // LED on if any HV is on and not disabled by SSR
+        mbedLed3 = (hvOnStates != 0) && emergencyButtonState; // LED on if any HV is on and not disabled by SSR
         mbedLed4 = (stateMachine.getState() == "Shutdown_s"); // LED on if in Shutdown state
         keepPDBOn = stateMachine.getKeepPDBOn();
         LVOn1 = stateMachine.getLVOn(); // Don't listen to what master says over EtherCAT: LV net 1 not controllable by master
@@ -144,15 +144,23 @@ int main(){
         // Control HV
         if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s"){
             // In an allowed state to have HV on
-            emergencyButtonControl = mosi.emergencyButtonControl;
-            hvControl.setAllHV(mosi.HVControl);
+            emergencyButtonControl = mosi.emergencyButtonControl; // Enable HV, at least from software
+            uint8_t desiredHVStates = mosi.HVControl; // Whatever nets the master wants
+            if (emergencyButtonState){  // HV enabled
+                if (hvOnStates != desiredHVStates){ // HV states not yet as desired
+                    hvControl.setAllHVStagedStartup(desiredHVStates); // Staged startup to minimize inrush currents
+                }
+            }
+            else{ // HV disabled
+                hvControl.setAllHV(0b00000000); // Reset all HV nets to off, even though already disabled
+            }
         }
         else{
             // Not in an allowed state to have any HV on
             emergencyButtonControl = false; // Disable HV
-            
+            hvControl.setAllHV(0b00000000); // Reset all HV nets to off, even though already disabled
         }
-        
+
         // Set miso's in EtherCAT buffers
         miso.emergencyButtonState = emergencyButtonState;
         miso.masterShutdown = stateMachine.getMasterShutdown();
