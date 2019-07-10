@@ -60,7 +60,7 @@ int main() {
     temperatureLKFE.f = temperatureSensorLKFE.read();
 
     // Set status LED if any temperature data invalid
-    statusLed = (temperatureLHFE.f < -998) || (temperatureLKFE.f < -998);
+    statusLed = (temperatureLHFE.f < 0) || (temperatureLKFE.f < 0);
 
     // Set all misos to be sent back to the master
     miso.TemperatureLHFE = temperatureLHFE.i;
