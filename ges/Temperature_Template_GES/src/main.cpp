@@ -61,12 +61,10 @@ int main() {
     temperature.f = tempSensor.read(&pc, 10);
 
     // Set status LED if temperature data invalid
-    statusLed = (temperature.f < -998);
+    statusLed = (temperature.f < 0);
 
     // Set all misos to be sent back to the master
     miso.temperature = (int32_t) temperature.f; // if no conversion on the master side takes place
     // miso.temperature = temperature.i; // if conversion on the master size takes place
-
-    wait_ms(500); // Optional
   }
 }

@@ -57,7 +57,7 @@ int main() {
     temperatureRAPD.f = temperatureSensorRAPD.read();
 
     // Set status LED if any temperature data invalid
-    statusLed = (temperatureRAPD.f < -998);
+    statusLed = (temperatureRAPD.f < 0);
 
     // Set all misos to be sent back to the master
     miso.TemperatureRAPD = temperatureRAPD.i;

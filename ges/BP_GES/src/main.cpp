@@ -60,7 +60,7 @@ int main() {
     temperatureRHAA.f = temperatureSensorRHAA.read();
 
     // Set status LED if any temperature data invalid
-    statusLed = (temperatureLHAA.f < -998) || (temperatureRHAA.f < -998);
+    statusLed = (temperatureLHAA.f < 0) || (temperatureRHAA.f < 0);
 
     // Set all misos to be sent back to the master
     miso.TemperatureLHAA = temperatureLHAA.i;
