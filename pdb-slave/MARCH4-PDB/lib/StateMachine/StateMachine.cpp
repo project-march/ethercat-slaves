@@ -78,8 +78,11 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 this->ledTimer.start();
             }
             if(!masterOkState){
-                this->currentState = LVOn_s;
+                this->currentState = MasterLost_s;
             }
+            break;
+        case MasterLost_s:
+            this->currentState = LVOn_s;
             break;
         case ShutdownInit_s:
             this->masterShutdown = true;
