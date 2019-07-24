@@ -105,7 +105,7 @@ int main(){
             masterUpToDate = true;
             missedMasterCounter = 0;
         }
-        else if(masterOkTimer.read_ms() > 1000){ // More than 1000 ms since last masterOk signal
+        else if(masterOkTimer.read_ms() > 100){ // More than 100 ms since last masterOk signal
             masterUpToDate = false;
         }
         lastMasterOk = mosi.masterOk;
