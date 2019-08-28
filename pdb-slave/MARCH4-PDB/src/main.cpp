@@ -55,16 +55,13 @@ Ethercat ecat(LPC_ECAT_MOSI, LPC_ECAT_MISO, LPC_ECAT_SCK, LPC_ECAT_SCS, PDORX_si
 #define miso            Ethercat::pdoTx.Struct.miso
 #define mosi            Ethercat::pdoRx.Struct.mosi
 
-StateMachine stateMachine; // State machine instance
+StateMachine stateMachine; // State machine object
+MasterOnlineChecker masterOnlineChecker(100); // MasterOnlineChecker object
+
 Timer printTimer; // Timer to print debug statements only once per second
 
 int main(){
     pc.printf("\r\nMBED gets power now!");
-
-    bool masterUpToDate = false;
-    uint8_t lastMasterOk = 0;
-    int missedMasterCounter = 0;
-    Timer masterOkTimer;
 
     // Set initial EtherCAT outputs
     miso.masterShutdown = 0;
@@ -78,9 +75,9 @@ int main(){
     miso.HVCurrent = currentSensors.readHVCurrent();
 
     bit32 PDBCurrent, LV1Current, LV2Current, HVCurrent;
+    bool masterOnline;
 
     printTimer.start(); // Start print timer right before entering infinite loop
-    masterOkTimer.start();
 
     while(1){
         // Update EtherCAT variables
@@ -100,21 +97,10 @@ int main(){
         uint8_t hvResetStates = hvControl.readAllReset();
 
         // Keep track of whether an EtherCAT master is present
-        if(mosi.masterOk != lastMasterOk){ // Master sent a masterOk signal
-            masterOkTimer.reset();
-            masterUpToDate = true;
-            missedMasterCounter = 0;
-        }
-        else if(masterOkTimer.read_ms() > 100){ // More than 100 ms since last masterOk signal
-            masterUpToDate = false;
-        }
-        lastMasterOk = mosi.masterOk;
-        if(!masterUpToDate){
-            missedMasterCounter++;
-        }
+        masterOnline = masterOnlineChecker.isOnline(mosi.masterOk);
 
         // Update system state
-        stateMachine.updateState(buttonstate, masterUpToDate, (bool) mosi.masterShutdownAllowed);
+        stateMachine.updateState(buttonstate, masterOnline, (bool) mosi.masterShutdownAllowed);
 
         // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
         if(printTimer.read_ms() > 1000){ // Print once every x ms
