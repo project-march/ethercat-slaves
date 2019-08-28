@@ -13,9 +13,10 @@ public:
     MasterOnlineChecker(int timeOutValue){
         this->timeOutValue = timeOutValue;
         this->lastPing = false;
+        this->pingTimer.start();
     }
 
-    bool isOnline(uint8 masterOnline){
+    bool isOnline(uint8_t masterOnline){
         bool ping = masterOnline & 1; // Last bit
         if (ping != this->lastPing){
             this->pingTimer.reset();
