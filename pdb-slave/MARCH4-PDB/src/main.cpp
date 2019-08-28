@@ -6,6 +6,7 @@
 #include "utypes.h"
 #include "Ethercat.h"
 #include "StateMachine.h"
+#include "MasterOnlineChecker.h"
 
 Serial pc(USBTX, USBRX, 9600); // Serial communication for debugging
 
