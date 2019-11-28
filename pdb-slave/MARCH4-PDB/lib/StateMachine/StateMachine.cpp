@@ -14,7 +14,7 @@ StateMachine::StateMachine()
 }
 
 // Updates the current state based on the button inputs
-void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdownAllowedState){
+void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdownAllowedState, bool startupRequestedState){
     int buttonTimeMs = this->onOffButtonTimer.read_ms();
     int ledTimeMs = this->ledTimer.read_ms();
     switch(this->currentState){
@@ -54,7 +54,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 // Button held long enough, so forced shutdown
                 this->currentState = TurnOff_s;
             }
-            if(){
+            if(startupRequestedState){
                 this->currentState = MasterStartup_s;
             }
             break;

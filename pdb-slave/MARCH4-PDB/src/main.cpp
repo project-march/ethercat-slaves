@@ -101,7 +101,7 @@ int main(){
         masterOnline = masterOnlineChecker.isOnline(mosi.masterOk);
 
         // Update system state
-        stateMachine.updateState(buttonstate, masterOnline, (bool) mosi.masterShutdownAllowed);
+        stateMachine.updateState(buttonstate, masterOnline, (bool) mosi.masterShutdownAllowed, (bool) mosi.startupRequest);
 
         // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
         if(printTimer.read_ms() > 1000){ // Print once every x ms

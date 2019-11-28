@@ -21,7 +21,7 @@ private:
     
 public:
     StateMachine();
-    void updateState(bool buttonState, bool masterOkState, bool shutdownAllowedState);
+    void updateState(bool buttonState, bool masterOkState, bool shutdownAllowedState, bool startupRequestedState);
     std::string getState();
     bool getOnOffButtonLedState();
     bool getKeepPDBOn();
