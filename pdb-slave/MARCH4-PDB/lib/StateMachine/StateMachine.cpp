@@ -35,7 +35,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 this->onOffButtonTimer.reset();
             }
             break;
-        case LVOn_s:
+        case Idle_s:
             this->masterShutdown = false;
             this->onOffButtonLedState = true;
             // Turn on LV nets
@@ -46,7 +46,28 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 this->onOffButtonTimer.start();
             }
             else{
-                // Released too early, so stop and reset timer
+                // Relesased to early, so stop and reset timer
+                this->onOffButtonTimer.stop();
+                this->onOffButtonTimer.reset();
+            }
+            if(buttonTimeMs > this->onOffButtonTimeLong){
+                // Button held long enough, so forced shutdown
+                this->currentState = TurnOff_s;
+            }
+            if(){
+                this->currentState = MasterStartup_s;
+            }
+            break;
+        case MasterStartup_s:
+            this->masterShutdown = false;
+            this->onOffButtonLedState = true;
+            // Handling the on/off button
+            if(buttonState){
+                // Start shutdown timer when the button is pressed
+                this->onOffButtonTimer.start();
+            }
+            else{
+                // Relesased to early, so stop and reset timer
                 this->onOffButtonTimer.stop();
                 this->onOffButtonTimer.reset();
             }
@@ -78,7 +99,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                 this->ledTimer.start();
             }
             if(!masterOkState){
-                this->currentState = LVOn_s;
+                this->currentState = Idle_s;
             }
             break;
         case ShutdownInit_s:

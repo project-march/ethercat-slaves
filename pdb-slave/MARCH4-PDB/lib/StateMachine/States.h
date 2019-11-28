@@ -2,7 +2,8 @@
 #define STATES_H
 
 enum State {    Init_s,
-                LVOn_s,
+                Idle_s,
+                MasterStartup_s
                 MasterOk_s,
                 ShutdownInit_s,
                 Shutdown_s,

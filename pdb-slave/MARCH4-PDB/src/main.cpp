@@ -129,7 +129,7 @@ int main(){
         LVOn2 = stateMachine.getLVOn(); // (For now) Don't listen to what master says over EtherCAT: LV net 2 not controllable by master
 
         // Control HV
-        if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s" || stateMachine.getState() == "LVOn_s"){
+        if(stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s" || stateMachine.getState() == "MasterStartup_s"){
             // In an allowed state to have HV on
             emergencyButtonControl = mosi.emergencyButtonControl; // Enable HV, at least from software
             uint8_t desiredHVStates = mosi.HVControl; // Whatever nets the master wants
