@@ -29,7 +29,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
                     this->currentState = TurnOff_s;
                 }
                 else{
-                    this->currentState = LVOn_s;
+                    this->currentState = Idle_s;
                 }
                 this->onOffButtonTimer.stop();
                 this->onOffButtonTimer.reset();
