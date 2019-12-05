@@ -170,8 +170,10 @@ std::string StateMachine::getState(){
     switch(this->currentState){
         case Init_s:
             return "Init_s";
-        case LVOn_s:
-            return "LVOn_s";
+        case Idle_s:
+            return "Idle_s";
+        case MasterStartup_s:
+            return "MasterStartup_s";
         case MasterOk_s:
             return "MasterOk_s";
         case ShutdownInit_s:
