@@ -8,7 +8,7 @@
 // Include Temperature sensor library
 #include "Temperature.h"
 
-#define WAIT_TIME (2) // seconds
+#define WAIT_TIME (2000000) // micro-seconds
 #define APP_TITLE "Temperature Template GES" // Application name to be printed to terminal
 #define PC_BAUDRATE (9600) // per second
 
@@ -42,11 +42,11 @@ Temperature tempSensor(DBS_P04, &pc, 10); // DieBieSlave
 // Temperature tempSensor(p6, &pc, 2); // LPC1768
 
 int main() {
-  wait(WAIT_TIME);
+  wait_us(WAIT_TIME);
   // Print application title and compile information
   pc.printf("\f\r\n%s\r\n------------------\r\nTime compiled = %s.\r\nDate = %s.", APP_TITLE, __TIME__, __DATE__);
   statusLed = true;
-  wait(WAIT_TIME);
+  wait_us(WAIT_TIME);
   statusLed = false;
 
   // Set all initial misos
