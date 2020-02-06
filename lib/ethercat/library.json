@@ -1,5 +1,5 @@
 {
-    "name": "slave-peripherals",
+    "name": "ethercat",
     "version": "0.1.0",
     "keywords": "exoskeleton, slaves, ethercat",
     "description": "library for the ethercat slaves of the March exoskeleton",
@@ -13,6 +13,5 @@
             "email": "software@projectmarch.nl",
             "maintainer": true
         }
-    ],
-    "include": "src"
+    ]
 }
