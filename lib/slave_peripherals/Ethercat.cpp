@@ -26,7 +26,7 @@
 #define DEBUG_PRN(fmt) if((pc != NULL) & (debugLevel > 0)) pc->printf fmt
 #define DEBUG_ARG pc, debugLevel - 1
 
-#define LAN_WAIT_TIME (125) // milliseconds
+#define LAN_WAIT_TIME (125000) // microseconds
 
 bufferMiso Ethercat::pdoTx = {};
 bufferMosi Ethercat::pdoRx = {};
@@ -93,7 +93,7 @@ int Ethercat::init(DEBUG_IMP)
     *(this->m_nChipSelect) = 0;
 
     // Wait for internal registers to initialize
-    wait_ms(LAN_WAIT_TIME);
+    wait_us(LAN_WAIT_TIME);
 
     // check test register
     uint32_t testdata;
@@ -101,7 +101,7 @@ int Ethercat::init(DEBUG_IMP)
     for(int i = 0; i < maxchecks; i++)
     {
         // wait until registers are updated
-        wait_ms(LAN_WAIT_TIME/maxchecks);
+        wait_us(LAN_WAIT_TIME/maxchecks);
         testdata = read_register(BYTE_TEST, DEBUG_ARG);
         if (testdata == BYTE_TEST_RES)
         {
@@ -119,7 +119,7 @@ int Ethercat::init(DEBUG_IMP)
     for(int i = 0; i < maxchecks; i++)
     {
         // wait for internal registers
-        wait_ms(LAN_WAIT_TIME/maxchecks);
+        wait_us(LAN_WAIT_TIME/maxchecks);
         readydata = read_register(HW_CFG, DEBUG_ARG);
         if ((readydata & READY) != 0)
         {

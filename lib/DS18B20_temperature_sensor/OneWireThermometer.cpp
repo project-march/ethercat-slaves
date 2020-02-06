@@ -128,14 +128,14 @@ float OneWireThermometer::readTemperature(DEBUG_IMP)
 
     if (useParasiticPower) {
         // wait while converting - Tconv (according to resolution of reading)
-        wait_ms(CONVERSION_TIME[resolution]);
+        wait_us(CONVERSION_TIME[resolution]);
     } else {
         // TODO
         // after the Convert command, the device should respond by transmitting 0
         // while the temperature conversion is in progress and 1 when the conversion is done
         // - as were are not checking this (TODO), we use Tconv, as we would do for
         // parasitic power
-        // wait_ms(CONVERSION_TIME[resolution]);
+        // wait_us(CONVERSION_TIME[resolution]);
     }
 
     if (readAndValidateData(data)) {  // issue Read Scratchpad commmand and get data

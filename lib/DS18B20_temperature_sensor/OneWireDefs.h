@@ -51,7 +51,7 @@
 
 // temperature read resolutions
 enum eResolution {nineBit = 0, tenBit, elevenBit, twelveBit};
-const int CONVERSION_TIME[] = {94, 188, 375, 750};    // milli-seconds
+const int CONVERSION_TIME[] = {94000, 188000, 375000, 750000};    // micro-seconds
 
 // DS18B20/DS18S20 related
 #define TEMPERATURE_LSB    0
