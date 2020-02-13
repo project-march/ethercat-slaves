@@ -1,0 +1,17 @@
+{
+    "name": "ethercat",
+    "version": "0.1.0",
+    "keywords": "exoskeleton, slaves, ethercat",
+    "description": "library for the ethercat slaves of the March exoskeleton",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/project-march/slave-peripherals"
+    },
+    "authors": [
+        {
+            "name": "Project March",
+            "email": "software@projectmarch.nl",
+            "maintainer": true
+        }
+    ]
+}
