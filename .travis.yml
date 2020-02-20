@@ -1,6 +1,11 @@
 os: linux
 language: python
 
+addons:
+  apt:
+    packages:
+      - clang-format
+
 notifications:
   slack:
     secure: mCWNJ6yjkotu6P4oV0J1BnOboTPWpLjaBKt6vb2cGcvKZ858DMSib2qaHb1lAVh27HdH9e4+yNOZuQf4/GSvFUgJfLogWMz01zwyQXhTkzMpWPcTt46biFi1jMnzgIn+AhiaH87e82bGr06zAsCNu6A1iJeieVOXJcyVhlUGVkc4hzMir49rXWGvQOfID+WtQ9ChKIcu1UVWO3tiBGtOAqgaJu7qT9fuCJ1ggx+0wT1WLCwWrZyuO7SenshdzmeJIIPvdVzaNM7nTqdDI+GwsOcPXiOU4A1MhTN9OQrhG7YDbTj24Do2wxrC/cmVi/5Xpek/+num/dO+2/7LihSkhfM4V62roMWwinWOuz/18S8vnQEhu+THOmWHJEHtVGbq5VoBFyXaP6wWEWh58xWHgI7ppj9wlRX+Hau/pcIjJxArfL+vy9YBL3V2TEG5TrLPxfxFRRx8l7ugY+wAC7v3T7YxGGV3yfNIg4tLIG6DDsiK5Ti8l/zyDdSvbmpy+le5yHEpFxi2yyBeje5+hzj4HFykfKK56NYiPhoT5hIWluSLizzLogEB53qEuYe3H163qI1JPVPAn5/nNtsfChPDZ0eVaqLm4jLXATkI19Km/peZOmAE7B2A9Ar7DHk3tVDbaxMRz9IH0nSREp6yp7dwfAcUHWv/pK1idOoHTFJO5zg=
@@ -16,3 +21,4 @@ install:
 
 script:
   - platformio run
+  - wget -qO- https://raw.githubusercontent.com/Sarcasm/run-clang-format/master/run-clang-format.py | python - -r src include 
