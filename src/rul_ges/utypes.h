@@ -7,13 +7,13 @@
 CC_PACKED_BEGIN
 typedef struct
 {
-   CC_PACKED_BEGIN   
-   struct
-   {
-      int32_t TemperatureRHFE;
-      int32_t TemperatureRKFE;
-   } CC_PACKED miso;
-   CC_PACKED_END
+  CC_PACKED_BEGIN
+  struct
+  {
+    int32_t TemperatureRHFE;
+    int32_t TemperatureRKFE;
+  } CC_PACKED miso;
+  CC_PACKED_END
 } CC_PACKED _Rbuffer;
 CC_PACKED_END
 

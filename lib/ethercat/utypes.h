@@ -10,7 +10,7 @@
 CC_PACKED_BEGIN
 typedef struct
 {
-   uint8_t mosi_placeholder;
+  uint8_t mosi_placeholder;
 } CC_PACKED _Rbuffer;
 CC_PACKED_END
 
@@ -18,7 +18,7 @@ CC_PACKED_END
 CC_PACKED_BEGIN
 typedef struct
 {
-   uint8_t miso_placeholder;
+  uint8_t miso_placeholder;
 } CC_PACKED _Wbuffer;
 CC_PACKED_END
 
