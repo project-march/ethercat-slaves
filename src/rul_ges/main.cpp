@@ -7,9 +7,11 @@
 #include "Ethercat.h"
 // Include Temperature sensor library
 #include "Temperature.h"
+// Include Thermistor library
+#include "Thermistor.h"
 
 #define WAIT_TIME (2000000)                      // micro-seconds
-#define APP_TITLE "MARCH 4 Right Upper Leg GES"  // Application name to be printed to terminal
+#define APP_TITLE "MARCH Right Upper Leg GES"    // Application name to be printed to terminal
 #define PC_BAUDRATE (9600)                       // per second
 
 // Easy access to PDOs. Needs to be changed if different PDOs are used
@@ -39,6 +41,10 @@ Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS, PDORX_si
 Temperature temperatureSensorRHFE(DBS_P23);
 Temperature temperatureSensorRKFE(DBS_P04);
 
+// PTC Thermistor
+Thermistor ptcThermistorRHFE(DBS_P22);
+Thermistor ptcThermistorRKFE(DBS_P05);
+
 int main()
 {
   wait_us(WAIT_TIME);
@@ -51,6 +57,8 @@ int main()
   // Set all initial misos
   miso.TemperatureRHFE = 0;
   miso.TemperatureRKFE = 0;
+  miso.OverTemperatureRHFE = 0;
+  miso.OverTemperatureRKFE = 0;
 
   while (1)
   {
@@ -59,8 +67,12 @@ int main()
 
     // Get temperature data
     bit32 temperatureRHFE, temperatureRKFE;
+    bool thermistorOverTemperatureRHFE, thermistorOverTemperatureRKFE;
+
     temperatureRHFE.f = temperatureSensorRHFE.read();
     temperatureRKFE.f = temperatureSensorRKFE.read();
+    thermistorOverTemperatureRHFE = ptcThermistorRHFE.read();
+    thermistorOverTemperatureRKFE = ptcThermistorRKFE.read();
 
     // Set status LED if any temperature data invalid
     statusLed = (temperatureRHFE.f < 0) || (temperatureRKFE.f < 0);
@@ -68,5 +80,7 @@ int main()
     // Set all misos to be sent back to the master
     miso.TemperatureRHFE = temperatureRHFE.i;
     miso.TemperatureRKFE = temperatureRKFE.i;
+    miso.OverTemperatureRHFE = thermistorOverTemperatureRHFE;
+    miso.OverTemperatureRKFE = thermistorOverTemperatureRKFE;
   }
 }
