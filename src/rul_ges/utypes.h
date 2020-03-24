@@ -1,46 +1,23 @@
 #ifndef __UTYPES_H__
 #define __UTYPES_H__
 
-#include <cc.h>
+#include "cc.h"
 
-/* Inputs */
-CC_PACKED_BEGIN
+/* Object dictionary storage */
+
 typedef struct
 {
-  CC_PACKED_BEGIN
-  struct
-  {
-    int32_t TemperatureRHFE;
-    int32_t TemperatureRKFE;
-  } CC_PACKED miso;
-  CC_PACKED_END
-} CC_PACKED _Rbuffer;
-CC_PACKED_END
+   /* Inputs */
 
-/* Outputs */
-CC_PACKED_BEGIN
-typedef struct
-{
-} CC_PACKED _Wbuffer;
-CC_PACKED_END
+   struct
+   {
+      int32_t TemperatureLHFE;
+      int32_t TemperatureLKFE;
+      uint8_t OverTemperatureTriggerRUL;
+   } miso;
 
-/* Parameters */
-CC_PACKED_BEGIN
-typedef struct
-{
-} CC_PACKED _Cbuffer;
-CC_PACKED_END
+} _Objects;
 
-/* Manufacturer specific data */
-CC_PACKED_BEGIN
-typedef struct
-{
-} CC_PACKED _Mbuffer;
-CC_PACKED_END
-
-extern _Rbuffer Rb;
-extern _Wbuffer Wb;
-extern _Cbuffer Cb;
-extern _Mbuffer Mb;
+extern _Objects Obj;
 
 #endif /* __UTYPES_H__ */
