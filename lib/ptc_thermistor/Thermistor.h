@@ -6,7 +6,7 @@
 class Thermistor{
 public:
     Thermistor(PinName pin);
-    bool read();
+    uint8_t read();
 private:
     AnalogIn thermistorPin;
 

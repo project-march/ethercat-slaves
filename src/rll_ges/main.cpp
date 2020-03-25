@@ -54,7 +54,7 @@ int main()
 
   // Set all initial misos
   miso.TemperatureRAPD = 0;
-  miso.OverTemperatureRAPD = 0;
+  miso.OverTemperatureTriggerRLL = 0;
 
   while (1)
   {
@@ -63,7 +63,7 @@ int main()
 
     // Get temperature data
     bit32 temperatureRAPD;
-    bool thermistorOverTemperatureRAPD;
+    uint8_t thermistorOverTemperatureRAPD;
 
     temperatureRAPD.f = temperatureSensorRAPD.read();
     thermistorOverTemperatureRAPD = ptcThermistorRAPD.read();

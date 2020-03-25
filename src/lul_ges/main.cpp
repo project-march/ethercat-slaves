@@ -57,8 +57,7 @@ int main()
   // Set all initial misos
   miso.TemperatureLHFE = 0;
   miso.TemperatureLKFE = 0;
-  miso.OverTemperatureLHFE = 0;
-  miso.OverTemperatureLKFE = 0;
+  miso.OverTemperatureTriggerLUL = 0;
 
   while (1)
   {
@@ -67,7 +66,7 @@ int main()
 
     // Get temperature data
     bit32 temperatureLHFE, temperatureLKFE;
-    bool thermistorOverTemperatureLHFE, thermistorOverTemperatureLKFE;
+    uint8_t thermistorOverTemperatureLHFE, thermistorOverTemperatureLKFE;
 
     temperatureLHFE.f = temperatureSensorLHFE.read();
     temperatureLKFE.f = temperatureSensorLKFE.read();
@@ -80,7 +79,6 @@ int main()
     // Set all misos to be sent back to the master
     miso.TemperatureLHFE = temperatureLHFE.i;
     miso.TemperatureLKFE = temperatureLKFE.i;
-    miso.OverTemperatureLHFE = thermistorOverTemperatureLHFE;
-    miso.OverTemperatureLKFE = thermistorOverTemperatureLKFE;
+    miso.OverTemperatureTriggerLUL = thermistorOverTemperatureLHFE | (thermistorOverTemperatureLKFE << 1);
   }
 }

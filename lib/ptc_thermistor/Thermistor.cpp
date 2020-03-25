@@ -4,14 +4,14 @@ Thermistor::Thermistor(PinName pin) : thermistorPin(pin)
 {
 }
 
-bool Thermistor::read()
+uint8_t Thermistor::read()
 {
-    bool temperatureTooHigh = false;
+    uint8_t temperatureTooHigh = 0;
     float thermistorReadout = thermistorPin.read();
 
     if(thermistorReadout > cuttoffVoltageRatio)
     {
-        temperatureTooHigh = true;
+        temperatureTooHigh = 1;
     }
     return temperatureTooHigh;
 }

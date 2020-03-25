@@ -54,7 +54,7 @@ int main()
 
   // Set all initial misos
   miso.TemperatureLAPD = 0;
-  miso.OverTemperatureLAPD = 0;
+  miso.OverTemperatureTriggerLLL = 0;
 
   while (1)
   {
@@ -63,7 +63,7 @@ int main()
 
     // Get temperature data
     bit32 temperatureLAPD;
-    bool thermistorOverTemperatureLAPD;
+    uint8_t thermistorOverTemperatureLAPD;
 
     temperatureLAPD.f = temperatureSensorLAPD.read();
     thermistorOverTemperatureLAPD = ptcThermistorLAPD.read();
@@ -73,6 +73,6 @@ int main()
 
     // Set all misos to be sent back to the master
     miso.TemperatureLAPD = temperatureLAPD.i;
-    miso.OverTemperatureLAPD = thermistorOverTemperatureLAPD;
+    miso.OverTemperatureTriggerLLL = thermistorOverTemperatureLAPD;
   }
 }
