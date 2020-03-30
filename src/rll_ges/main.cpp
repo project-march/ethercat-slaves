@@ -73,6 +73,6 @@ int main()
 
     // Set all misos to be sent back to the master
     miso.TemperatureRAPD = temperatureRAPD.i;
-    miso.OverTemperatureRAPD = thermistorOverTemperatureRAPD;
+    miso.OverTemperatureTriggerRLL = thermistorOverTemperatureRAPD;
   }
 }

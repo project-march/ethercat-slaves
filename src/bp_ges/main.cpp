@@ -80,5 +80,6 @@ int main()
     miso.TemperatureLHAA = temperatureLHAA.i;
     miso.TemperatureRHAA = temperatureRHAA.i;
 
-    miso.overTemperatureTriggerBP = thermistorOverTemperatureLHAA | (thermistorOverTemperatureRHAA << 1);
+    miso.OverTemperatureTriggerBP = thermistorOverTemperatureLHAA | (thermistorOverTemperatureRHAA << 1);
+  }
 }
