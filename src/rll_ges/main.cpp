@@ -41,7 +41,7 @@ Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS, PDORX_si
 Temperature temperatureSensorRAPD(DBS_P04);
 
 // PTC Thermistor
-Thermistor ptcThermistorRAPD(DBS_P05);
+Thermistor ptcThermistorRAPD(DBS_P14);
 
 int main()
 {

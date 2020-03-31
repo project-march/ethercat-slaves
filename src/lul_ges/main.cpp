@@ -42,8 +42,8 @@ Temperature temperatureSensorLHFE(DBS_P04);
 Temperature temperatureSensorLKFE(DBS_P23);
 
 // PTC Thermistor
-Thermistor ptcThermistorLHFE(DBS_P05);
-Thermistor ptcThermistorLKFE(DBS_P22);
+Thermistor ptcThermistorLHFE(DBS_P14);
+Thermistor ptcThermistorLKFE(DBS_P15);
 
 int main()
 {

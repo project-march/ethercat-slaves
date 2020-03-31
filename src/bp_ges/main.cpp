@@ -42,8 +42,8 @@ Temperature temperatureSensorLHAA(DBS_P04);
 Temperature temperatureSensorRHAA(DBS_P23);
 
 // PTC Thermistor
-Thermistor ptcThermistorLHAA(DBS_P05);
-Thermistor ptcThermistorRHAA(DBS_P22);
+Thermistor ptcThermistorLHAA(DBS_P14);
+Thermistor ptcThermistorRHAA(DBS_P15);
 
 int main()
 {
