@@ -3,9 +3,6 @@
 
 #include <cc.h>
 
-// This file is a placeholder. Please include in your project a utypes.h file with the correct inputs and outputs.
-// Make sure to include your own utypes.h file in your main file before including this file.
-
 /* Inputs */
 CC_PACKED_BEGIN
 typedef struct
