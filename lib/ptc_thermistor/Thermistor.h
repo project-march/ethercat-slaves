@@ -3,16 +3,18 @@
 
 #include <mbed.h>
 
-class Thermistor{
+class Thermistor
+{
 public:
-    Thermistor(PinName pin);
-    uint8_t read();
-private:
-    AnalogIn thermistorPin;
+  Thermistor(PinName pin);
+  uint8_t read();
 
-    const float referenceResistance = 100;
-    const float cutoffResistance = 570;
-    const float cuttoffVoltageRatio = cutoffResistance/(cutoffResistance + referenceResistance);
+private:
+  AnalogIn thermistorPin;
+
+  const float referenceResistance = 100;
+  const float cutoffResistance = 570;
+  const float cuttoffVoltageRatio = cutoffResistance / (cutoffResistance + referenceResistance);
 };
 
-#endif  //THERMISTOR_
+#endif  // THERMISTOR_

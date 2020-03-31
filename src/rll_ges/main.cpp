@@ -10,9 +10,9 @@
 // Include Thermistor library
 #include "Thermistor.h"
 
-#define WAIT_TIME (2000000)                      // micro-seconds
-#define APP_TITLE "MARCH Right Lower Leg GES"    // Application name to be printed to terminal
-#define PC_BAUDRATE (9600)                       // per second
+#define WAIT_TIME (2000000)                    // micro-seconds
+#define APP_TITLE "MARCH Right Lower Leg GES"  // Application name to be printed to terminal
+#define PC_BAUDRATE (9600)                     // per second
 
 // Easy access to PDOs. Needs to be changed if different PDOs are used
 #define miso Ethercat::pdoTx.Struct.miso

@@ -7,14 +7,14 @@
 CC_PACKED_BEGIN
 typedef struct
 {
-   CC_PACKED_BEGIN
-   struct
-   {
-      int32_t TemperatureLHFE;
-      int32_t TemperatureLKFE;
-      uint8_t OverTemperatureTriggerLUL;
-   } miso;
-   CC_PACKED_END
+  CC_PACKED_BEGIN
+  struct
+  {
+    int32_t TemperatureLHFE;
+    int32_t TemperatureLKFE;
+    uint8_t OverTemperatureTriggerLUL;
+  } miso;
+  CC_PACKED_END
 } CC_PACKED _Rbuffer;
 CC_PACKED_END
 
