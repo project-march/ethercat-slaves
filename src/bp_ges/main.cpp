@@ -66,12 +66,11 @@ int main()
 
     // Get temperature data
     bit32 temperatureLHAA, temperatureRHAA;
-    uint8_t thermistorOverTemperatureLHAA, thermistorOverTemperatureRHAA;
 
     temperatureLHAA.f = temperatureSensorLHAA.read();
     temperatureRHAA.f = temperatureSensorRHAA.read();
-    thermistorOverTemperatureLHAA = ptcThermistorLHAA.read();
-    thermistorOverTemperatureRHAA = ptcThermistorRHAA.read();
+    uint8_t thermistorOverTemperatureLHAA = ptcThermistorLHAA.read();
+    uint8_t thermistorOverTemperatureRHAA = ptcThermistorRHAA.read();
 
     // Set status LED if any temperature data invalid
     statusLed = (temperatureLHAA.f < 0) || (temperatureRHAA.f < 0);

@@ -66,12 +66,11 @@ int main()
 
     // Get temperature data
     bit32 temperatureRHFE, temperatureRKFE;
-    uint8_t thermistorOverTemperatureRHFE, thermistorOverTemperatureRKFE;
 
     temperatureRHFE.f = temperatureSensorRHFE.read();
     temperatureRKFE.f = temperatureSensorRKFE.read();
-    thermistorOverTemperatureRHFE = ptcThermistorRHFE.read();
-    thermistorOverTemperatureRKFE = ptcThermistorRKFE.read();
+    uint8_t thermistorOverTemperatureRHFE = ptcThermistorRHFE.read();
+    uint8_t thermistorOverTemperatureRKFE = ptcThermistorRKFE.read();
 
     // Set status LED if any temperature data invalid
     statusLed = (temperatureRHFE.f < 0) || (temperatureRKFE.f < 0);

@@ -63,10 +63,9 @@ int main()
 
     // Get temperature data
     bit32 temperatureRAPD;
-    uint8_t thermistorOverTemperatureRAPD;
 
     temperatureRAPD.f = temperatureSensorRAPD.read();
-    thermistorOverTemperatureRAPD = ptcThermistorRAPD.read();
+    uint8_t thermistorOverTemperatureRAPD = ptcThermistorRAPD.read();
 
     // Set status LED if any temperature data invalid
     statusLed = (temperatureRAPD.f < 0);
