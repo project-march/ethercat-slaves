@@ -7,10 +7,12 @@
 #include "Ethercat.h"
 // Include Temperature sensor library
 #include "Temperature.h"
+// Include Thermistor Library
+#include "Thermistor.h"
 
-#define WAIT_TIME (2000000)                     // micro-seconds
-#define APP_TITLE "MARCH 4 Left Lower Leg GES"  // Application name to be printed to terminal
-#define PC_BAUDRATE (9600)                      // per second
+#define WAIT_TIME (2000000)                   // micro-seconds
+#define APP_TITLE "MARCH Left Lower Leg GES"  // Application name to be printed to terminal
+#define PC_BAUDRATE (9600)                    // per second
 
 // Easy access to PDOs. Needs to be changed if different PDOs are used
 #define miso Ethercat::pdoTx.Struct.miso
@@ -38,6 +40,9 @@ Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS, PDORX_si
 // Temperature sensor
 Temperature temperatureSensorLAPD(DBS_P04);
 
+// PTC Thermistor
+Thermistor ptcThermistorLAPD(DBS_P14);
+
 int main()
 {
   wait_us(WAIT_TIME);
@@ -49,6 +54,7 @@ int main()
 
   // Set all initial misos
   miso.TemperatureLAPD = 0;
+  miso.OverTemperatureTriggerLLL = 0;
 
   while (1)
   {
@@ -57,12 +63,15 @@ int main()
 
     // Get temperature data
     bit32 temperatureLAPD;
+
     temperatureLAPD.f = temperatureSensorLAPD.read();
+    uint8_t thermistorOverTemperatureLAPD = ptcThermistorLAPD.read();
 
     // Set status LED if any temperature data invalid
     statusLed = (temperatureLAPD.f < 0);
 
     // Set all misos to be sent back to the master
     miso.TemperatureLAPD = temperatureLAPD.i;
+    miso.OverTemperatureTriggerLLL = thermistorOverTemperatureLAPD;
   }
 }

@@ -77,7 +77,7 @@
               </DataType>
               <DataType>
                 <Name>DT1A00</Name>
-                <BitSize>48</BitSize>
+                <BitSize>56</BitSize>
                 <SubItem>
                   <SubIdx>0</SubIdx>
                   <Name>Max SubIndex</Name>
@@ -94,6 +94,52 @@
                   <Type>DINT</Type>
                   <BitSize>32</BitSize>
                   <BitOffs>16</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                    <PdoMapping>T</PdoMapping>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>2</SubIdx>
+                  <Name>OverTemperatureTriggerLLL</Name>
+                  <Type>USINT</Type>
+                  <BitSize>8</BitSize>
+                  <BitOffs>48</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                    <PdoMapping>T</PdoMapping>
+                  </Flags>
+                </SubItem>
+              </DataType>
+              <DataType>
+                <Name>DT1A00</Name>
+                <BitSize>80</BitSize>
+                <SubItem>
+                  <SubIdx>0</SubIdx>
+                  <Name>Max SubIndex</Name>
+                  <Type>USINT</Type>
+                  <BitSize>8</BitSize>
+                  <BitOffs>0</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>1</SubIdx>
+                  <Name>TemperatureLAPD</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>16</BitOffs>
+                  <Flags>
+                    <Access>ro</Access>
+                  </Flags>
+                </SubItem>
+                <SubItem>
+                  <SubIdx>2</SubIdx>
+                  <Name>OverTemperatureTriggerLLL</Name>
+                  <Type>UDINT</Type>
+                  <BitSize>32</BitSize>
+                  <BitOffs>48</BitOffs>
                   <Flags>
                     <Access>ro</Access>
                   </Flags>
@@ -164,10 +210,6 @@
                 </SubItem>
               </DataType>
               <DataType>
-                <Name>STRING(3)</Name>
-                <BitSize>24</BitSize>
-              </DataType>
-              <DataType>
                 <Name>UDINT</Name>
                 <BitSize>32</BitSize>
               </DataType>
@@ -182,6 +224,10 @@
               <DataType>
                 <Name>STRING(7)</Name>
                 <BitSize>56</BitSize>
+              </DataType>
+              <DataType>
+                <Name>STRING(0)</Name>
+                <BitSize>0</BitSize>
               </DataType>
               <DataType>
                 <Name>USINT</Name>
@@ -217,8 +263,8 @@
               <Object>
                 <Index>#x1009</Index>
                 <Name>Hardware Version</Name>
-                <Type>STRING(3)</Type>
-                <BitSize>24</BitSize>
+                <Type>STRING(0)</Type>
+                <BitSize>0</BitSize>
                 <Info>
                   <DefaultString>1.0</DefaultString>
                 </Info>
@@ -230,8 +276,8 @@
               <Object>
                 <Index>#x100A</Index>
                 <Name>Software Version</Name>
-                <Type>STRING(3)</Type>
-                <BitSize>24</BitSize>
+                <Type>STRING(0)</Type>
+                <BitSize>0</BitSize>
                 <Info>
                   <DefaultString>1.0</DefaultString>
                 </Info>
@@ -284,18 +330,53 @@
                 <Index>#x1A00</Index>
                 <Name>miso</Name>
                 <Type>DT1A00</Type>
-                <BitSize>48</BitSize>
+                <BitSize>56</BitSize>
                 <Info>
                   <SubItem>
                     <Name>Max SubIndex</Name>
                     <Info>
-                      <DefaultValue>1</DefaultValue>
+                      <DefaultValue>2</DefaultValue>
                     </Info>
                   </SubItem>
                   <SubItem>
                     <Name>TemperatureLAPD</Name>
                     <Info>
                       <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>OverTemperatureTriggerLLL</Name>
+                    <Info>
+                      <DefaultValue>0</DefaultValue>
+                    </Info>
+                  </SubItem>
+                </Info>
+                <Flags>
+                  <Access>ro</Access>
+                </Flags>
+              </Object>
+              <Object>
+                <Index>#x1A00</Index>
+                <Name>miso</Name>
+                <Type>DT1A00</Type>
+                <BitSize>80</BitSize>
+                <Info>
+                  <SubItem>
+                    <Name>Max SubIndex</Name>
+                    <Info>
+                      <DefaultValue>2</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>TemperatureLAPD</Name>
+                    <Info>
+                      <DefaultValue>#x1A000120</DefaultValue>
+                    </Info>
+                  </SubItem>
+                  <SubItem>
+                    <Name>OverTemperatureTriggerLLL</Name>
+                    <Info>
+                      <DefaultValue>#x1A000208</DefaultValue>
                     </Info>
                   </SubItem>
                 </Info>
@@ -380,15 +461,22 @@
           <Index>#x1A00</Index>
           <Name>miso</Name>
           <Entry>
-            <Index>#x1A00</Index>
-            <SubIndex>1</SubIndex>
+            <Index>#x1a00</Index>
+            <SubIndex>#x1</SubIndex>
             <BitLen>32</BitLen>
             <Name>TemperatureLAPD</Name>
             <DataType>DINT</DataType>
           </Entry>
+          <Entry>
+            <Index>#x1a00</Index>
+            <SubIndex>#x2</SubIndex>
+            <BitLen>8</BitLen>
+            <Name>OverTemperatureTriggerLLL</Name>
+            <DataType>USINT</DataType>
+          </Entry>
         </TxPdo>
         <Mailbox DataLinkLayer="true">
-          <CoE CompleteAccess="false" PdoUpload="true" SdoInfo="true"/>
+          <CoE CompleteAccess="false" PdoUpload="false" SdoInfo="true"/>
         </Mailbox>
         <Eeprom>
           <ByteSize>2048</ByteSize>
