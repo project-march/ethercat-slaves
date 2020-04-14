@@ -38,6 +38,8 @@ DigitalOut emergencyButtonControl(LPC_EMERGENCY_SWITCH, false);    // False mean
 // Current sensing related inputs/outputs
 CurrentSensors currentSensors(LPC_I2C_SDA, LPC_I2C_SCL);
 
+Button emergencyb(knop, pulldown)
+
 union bit32
 {
   float f;
@@ -61,6 +63,7 @@ StateMachine stateMachine;                     // State machine object
 MasterOnlineChecker masterOnlineChecker(100);  // MasterOnlineChecker object
 
 Timer printTimer;  // Timer to print debug statements only once per second
+
 
 int main()
 {
@@ -91,7 +94,6 @@ int main()
     bool buttonstate = button.read();
     bool LVOkay1State = LVOkay1.read();
     bool LVOkay2State = LVOkay2.read();
-    bool emergencyButtonState = emergencyButton.read();
     uint8_t hvOCTriggerStates = hvOCTriggers.readOCTriggers();
     PDBCurrent.f = currentSensors.readPDBCurrent();
     LV1Current.f = currentSensors.readLV1Current();
@@ -99,6 +101,12 @@ int main()
     HVCurrent.f = currentSensors.readHVCurrent();
     uint8_t hvOnStates = hvControl.readAllOn();
     uint8_t hvResetStates = hvControl.readAllReset();
+
+    if (debouncef (emergencyButton.read(), emergencyButtonState, 500) ) // debounce time is 500us PLEASE add object
+    {
+      emergencyButtonState = emergencyButton.read();    // if the button is not bouncing, update value
+    }
+      
 
     // Keep track of whether an EtherCAT master is present
     masterOnline = masterOnlineChecker.isOnline(mosi.masterOk);
