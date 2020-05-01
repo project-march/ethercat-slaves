@@ -75,7 +75,7 @@ void HVControl::resetHV(HVResetPinNames pin)
 {
   this->clearBit(pin);
   this->write();
-  wait_ms(20);
+  wait_us(20000);
   this->setBit(pin);
   this->write();
 }
@@ -111,7 +111,7 @@ void HVControl::resetAllHV()
     this->clearBit(this->resetPins[i]);
   }
   this->write();
-  wait_ms(20);
+  wait_us(20000);
   // Set all reset bits
   for (int i = 0; i < sizeof(this->resetPins) / sizeof(this->resetPins[0]); i++)
   {
@@ -186,7 +186,7 @@ void HVControl::setAllHVStagedStartup(uint8_t code)
     {
       // Turn on HV
       this->clearBit(this->onPins[i]);
-      wait_ms(100);  // Wait for a while before turning on a new net
+      wait_us(100000);  // Wait for a while before turning on a new net
     }
     else
     {

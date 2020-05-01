@@ -6,10 +6,14 @@
 class Button
 {
 private:
-  Timer dbtimer; 
+  Timer debounceTimer; 
+  DigitalIn input; 
+  uint8_t debounceTime;
 public:
-  Button(knop, pulldown);
-  bool debouncef (bool button, bool initbutton, uint8_t dbtime);
+  Button(PinName pin, PinMode mode, uint8_t debounceTime);     //constructor
+  bool debounceRead (bool initialbutton);
+  bool read();
+  
 };
 
 #endif  // BUTTON_H

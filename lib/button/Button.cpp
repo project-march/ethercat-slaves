@@ -1,23 +1,29 @@
 #include "button.h"
 
-Button::Button(){
-    this->dbtimer.reset();
+Button::Button(PinName pin, PinMode mode, uint8_t debounceTime) : input(pin, mode){
+    this->debounceTimer.reset();
+    this->debounceTime = debounceTime;    //debouncetime in us
 }
     
-bool Button::debouncef (bool button, bool initbutton, uint8_t dbtime) //dbtime in us
-{                                             // Function to check if the button is debounced
-  if (initbutton == button)                   // Is the button in the same state?
+bool Button::debounceRead (bool initialButton) 
+{                                             // Function to return debounced value
+  bool returnValue = initialButton;
+  bool ReadValue = this->input.read();
+  if (initialButton != ReadValue)                   // Is the button in the same state?
   {  
-    if (this->dbtimer.read_us() > dbtime)     // Howmuch time has passed? is this long enough
+    if (this->debounceTimer.read_us() > debounceTime)     // Howmuch time has passed? is this long enough
     {
-      return true;                            // Yes the button is not bouncing anymore
+      returnValue = ReadValue;                            // Yes the button is the new value
     }
-    else return false;                        // No the button is bouncing.
   }
   else
   {
-    this->dbtimer.reset();                    // A change has happened
-    this->dbtimer.start();                    // Start timer again, for next check
-    return false;                             // The button has changed ergo is still bouncing
+    this->debounceTimer.reset();                    // A change has happened
+    this->debounceTimer.start();                    // Start timer again, for next check
   } 
+  return returnValue;
+}
+
+bool Button::read(){
+    return this->input.read();
 }

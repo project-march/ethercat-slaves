@@ -76,7 +76,7 @@ bool CurrentSensors::writeConfReg(ADS1015MuxConfigs muxConf)
 
   // Write all three bytes to the ADS1015
   bool ack = this->bus.write(this->ADS1015_write, (char*)&write_data, 3);
-  wait_ms(1);  // Give the ADS some time to adjust settings
+  wait_us(1000);  // Give the ADS some time to adjust settings
   return ack;
 }
 

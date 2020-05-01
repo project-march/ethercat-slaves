@@ -7,13 +7,14 @@
 #include "Ethercat.h"
 #include "StateMachine.h"
 #include "MasterOnlineChecker.h"
+#include "Button.h"
 
 Serial pc(USBTX, USBRX, 9600);  // Serial communication for debugging
 
 // On/off-related inputs/outputs
-DigitalOut buttonLed(LPC_BUTTON_LED, false);     // True means LED on
+DigitalOut onOffButtonLed(LPC_ONOFFBUTTON_LED, false);     // True means LED on
 DigitalOut mbedLed1(LPC_LED1, false);            // Shows same as button led
-DigitalIn button(LPC_BUTTON_PRESSED, PullDown);  // True means button pressed
+Button onOffButton(LPC_ONOFFBUTTON_PRESSED, PullDown, 500);  // True means button(on off) pressed, time in us
 DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, false);    // True means keep PDB on
 DigitalOut mbedLed4(LPC_LED4, false);            // Shows if in Shutdown state
 
@@ -32,13 +33,11 @@ HVControl hvControl(LPC_I2C_SDA, LPC_I2C_SCL);
 HVOCTriggers hvOCTriggers(LPC_I2C_SDA, LPC_I2C_SCL);
 
 // Emergency button related inputs/outputs
-DigitalIn emergencyButton(LPC_EMERGENCY_SWITCH_STATUS, PullDown);  // False means disconnected HV
+Button emergencyButton(LPC_EMERGENCY_SWITCH_STATUS, PullDown, 50000000);  // False means disconnected HV time in us
 DigitalOut emergencyButtonControl(LPC_EMERGENCY_SWITCH, false);    // False means disconnect HV
 
 // Current sensing related inputs/outputs
 CurrentSensors currentSensors(LPC_I2C_SDA, LPC_I2C_SCL);
-
-Button emergencyb(knop, pulldown)
 
 union bit32
 {
@@ -85,13 +84,17 @@ int main()
 
   printTimer.start();  // Start print timer right before entering infinite loop
 
+  bool onOffButtonstate = false;
+  bool emergencyButtonState = false; 
+
   while (1)
   {
+    mbedLed2 = emergencyButtonState;
+
     // Update EtherCAT variables
     ecat.update();
 
     // Get inputs from digitalIns and I2C bus
-    bool buttonstate = button.read();
     bool LVOkay1State = LVOkay1.read();
     bool LVOkay2State = LVOkay2.read();
     uint8_t hvOCTriggerStates = hvOCTriggers.readOCTriggers();
@@ -102,17 +105,14 @@ int main()
     uint8_t hvOnStates = hvControl.readAllOn();
     uint8_t hvResetStates = hvControl.readAllReset();
 
-    if (debouncef (emergencyButton.read(), emergencyButtonState, 500) ) // debounce time is 500us PLEASE add object
-    {
-      emergencyButtonState = emergencyButton.read();    // if the button is not bouncing, update value
-    }
-      
+    emergencyButtonState = emergencyButton.debounceRead(emergencyButtonState);  
+    onOffButtonstate = onOffButton.debounceRead(onOffButtonstate); 
 
     // Keep track of whether an EtherCAT master is present
     masterOnline = masterOnlineChecker.isOnline(mosi.masterOk);
 
     // Update system state
-    stateMachine.updateState(buttonstate, masterOnline, (bool)mosi.masterShutdownAllowed);
+    stateMachine.updateState(onOffButtonstate, masterOnline, (bool)mosi.masterShutdownAllowed);
 
     // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
     if (printTimer.read_ms() > 1000)
@@ -131,14 +131,13 @@ int main()
     }
 
     // Set LEDs and digitalOuts
-    buttonLed = stateMachine.getOnOffButtonLedState();
+    onOffButtonLed = stateMachine.getOnOffButtonLedState();
     mbedLed1 = stateMachine.getOnOffButtonLedState();      // LED on if button LED is on
     mbedLed2 = (stateMachine.getState() == "MasterOk_s");  // LED on if in MasterOk state
     mbedLed3 = (hvOnStates != 0) && emergencyButtonState;  // LED on if any HV is on and not disabled by SSR
     mbedLed4 = (stateMachine.getState() == "Shutdown_s");  // LED on if in Shutdown state
     keepPDBOn = stateMachine.getKeepPDBOn();
-    LVOn1 =
-        stateMachine.getLVOn();  // Don't listen to what master says over EtherCAT: LV net 1 not controllable by master
+    LVOn1 = stateMachine.getLVOn();  // Don't listen to what master says over EtherCAT: LV net 1 not controllable by master
     LVOn2 = stateMachine.getLVOn();  // (For now) Don't listen to what master says over EtherCAT: LV net 2 not
                                      // controllable by master
 
