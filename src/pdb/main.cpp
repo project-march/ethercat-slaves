@@ -33,7 +33,7 @@ HVControl hvControl(LPC_I2C_SDA, LPC_I2C_SCL);
 HVOCTriggers hvOCTriggers(LPC_I2C_SDA, LPC_I2C_SCL);
 
 // Emergency button related inputs/outputs
-Button emergencyButton(LPC_EMERGENCY_SWITCH_STATUS, PullDown, 50000000);  // False means disconnected HV time in us
+Button emergencyButton(LPC_EMERGENCY_SWITCH_STATUS, PullDown, 5);  // False means disconnected HV time in us
 DigitalOut emergencyButtonControl(LPC_EMERGENCY_SWITCH, false);    // False means disconnect HV
 
 // Current sensing related inputs/outputs
@@ -84,12 +84,11 @@ int main()
 
   printTimer.start();  // Start print timer right before entering infinite loop
 
-  bool onOffButtonstate = false;
-  bool emergencyButtonState = false; 
+  bool onOffButtonstate = true;
+  bool emergencyButtonState = false;
 
   while (1)
   {
-    mbedLed2 = emergencyButtonState;
 
     // Update EtherCAT variables
     ecat.update();
@@ -116,31 +115,30 @@ int main()
 
     // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
     if (printTimer.read_ms() > 1000)
-    {  // Print once every x ms
-      // pc.printf("\r\nState: %s", stateMachine.getState().c_str());
-      // pc.printf("\tKeepPDBOn: %d", stateMachine.getKeepPDBOn());
-      // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
-      //     pc.printf("LV not okay");
-      // }
-      // pc.printf("\r\n HV reset: %x, HV on: %x", hvResetStates, hvOnStates);
-      // pc.printf("\r\n HV OC trigger: %x", hvOCTriggerStates);
-      // pc.printf("\r\n PDB current: %f", PDBCurrent.f);
-      // pc.printf("\r\n LV current: %f", LV1Current.f);
-      // pc.printf("\r\n counter: %d", missedMasterCounter);
-      printTimer.reset();
-    }
+    // {  // Print once every x ms
+    //   // pc.printf("\r\nState: %s", stateMachine.getState().c_str());
+    //   // pc.printf("\tKeepPDBOn: %d", stateMachine.getKeepPDBOn());
+    //   // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
+    //   //     pc.printf("LV not okay");
+    //   // }
+    //   // pc.printf("\r\n HV reset: %x, HV on: %x", hvResetStates, hvOnStates);
+    //   // pc.printf("\r\n HV OC trigger: %x", hvOCTriggerStates);
+    //   // pc.printf("\r\n PDB current: %f", PDBCurrent.f);
+    //   // pc.printf("\r\n LV current: %f", LV1Current.f);
+    //   // pc.printf("\r\n counter: %d", missedMasterCounter);
+       printTimer.reset();
+    // }
 
     // Set LEDs and digitalOuts
     onOffButtonLed = stateMachine.getOnOffButtonLedState();
     mbedLed1 = stateMachine.getOnOffButtonLedState();      // LED on if button LED is on
-    mbedLed2 = (stateMachine.getState() == "MasterOk_s");  // LED on if in MasterOk state
+    mbedLed2 = emergencyButtonState;//(stateMachine.getState() == "MasterOk_s");  // LED on if in MasterOk state
     mbedLed3 = (hvOnStates != 0) && emergencyButtonState;  // LED on if any HV is on and not disabled by SSR
     mbedLed4 = (stateMachine.getState() == "Shutdown_s");  // LED on if in Shutdown state
     keepPDBOn = stateMachine.getKeepPDBOn();
     LVOn1 = stateMachine.getLVOn();  // Don't listen to what master says over EtherCAT: LV net 1 not controllable by master
     LVOn2 = stateMachine.getLVOn();  // (For now) Don't listen to what master says over EtherCAT: LV net 2 not
                                      // controllable by master
-
     // Control HV
     if (stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s" ||
         stateMachine.getState() == "LVOn_s")
