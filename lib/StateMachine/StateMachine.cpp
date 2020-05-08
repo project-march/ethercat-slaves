@@ -14,7 +14,7 @@ StateMachine::StateMachine()
 }
 
 // Updates the current state based on the button inputs
-void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdownAllowedState)
+void StateMachine::updateState(bool onOffButtonState, bool masterOkState, bool shutdownAllowedState)
 {
   int buttonTimeMs = this->onOffButtonTimer.read_ms();
   int ledTimeMs = this->ledTimer.read_ms();
@@ -27,7 +27,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
         this->onOffButtonLedState = true;
         this->keepPDBOn = true;
       }
-      if (!buttonState)
+      if (!onOffButtonState) 
       {
         if (buttonTimeMs <= this->onOffButtonTimeShort)
         {
@@ -47,7 +47,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
       // Turn on LV nets
       this->LVon = true;
       // Handling the on/off button
-      if (buttonState)
+      if (onOffButtonState)
       {
         // Start shutdown timer when the button is pressed
         this->onOffButtonTimer.start();
@@ -72,7 +72,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
       this->onOffButtonLedState = true;
       this->masterShutdown = false;
       // Handling the on/off button
-      if (buttonState)
+      if (onOffButtonState)
       {
         // Start shutdown timer when the button is pressed
         this->onOffButtonTimer.start();
@@ -99,7 +99,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
       this->masterShutdown = true;
       if (buttonTimeMs > this->onOffButtonTimeLong)
       {
-        if (buttonState)
+        if (onOffButtonState)
         {
           // Forced shutdown
           this->currentState = TurnOff_s;
@@ -131,7 +131,7 @@ void StateMachine::updateState(bool buttonState, bool masterOkState, bool shutdo
       break;
     case Shutdown_s:
       // Handling the on/off button
-      if (buttonState)
+      if (onOffButtonState)
       {
         // Start shutdown timer when the button is pressed
         this->onOffButtonTimer.start();

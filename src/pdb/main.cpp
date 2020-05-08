@@ -14,7 +14,7 @@ Serial pc(USBTX, USBRX, 9600);  // Serial communication for debugging
 // On/off-related inputs/outputs
 DigitalOut onOffButtonLed(LPC_ONOFFBUTTON_LED, false);     // True means LED on
 DigitalOut mbedLed1(LPC_LED1, false);            // Shows same as button led
-Button onOffButton(LPC_ONOFFBUTTON_PRESSED, PullDown, 500);  // True means button(on off) pressed, time in us
+DigitalIn onOffButton(LPC_ONOFFBUTTON_PRESSED, PullDown);  // True means button(on off) pressed
 DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, false);    // True means keep PDB on
 DigitalOut mbedLed4(LPC_LED4, false);            // Shows if in Shutdown state
 
@@ -33,7 +33,7 @@ HVControl hvControl(LPC_I2C_SDA, LPC_I2C_SCL);
 HVOCTriggers hvOCTriggers(LPC_I2C_SDA, LPC_I2C_SCL);
 
 // Emergency button related inputs/outputs
-Button emergencyButton(LPC_EMERGENCY_SWITCH_STATUS, PullDown, 5);  // False means disconnected HV time in us
+Button emergencyButton(LPC_EMERGENCY_SWITCH_STATUS, PullDown, 1000000);  // False means disconnected HV time in us
 DigitalOut emergencyButtonControl(LPC_EMERGENCY_SWITCH, false);    // False means disconnect HV
 
 // Current sensing related inputs/outputs
@@ -63,7 +63,6 @@ MasterOnlineChecker masterOnlineChecker(100);  // MasterOnlineChecker object
 
 Timer printTimer;  // Timer to print debug statements only once per second
 
-
 int main()
 {
   pc.printf("\r\nMBED gets power now!");
@@ -84,18 +83,19 @@ int main()
 
   printTimer.start();  // Start print timer right before entering infinite loop
 
-  bool onOffButtonstate = true;
+  bool onOffButtonstate = false;
   bool emergencyButtonState = false;
 
   while (1)
   {
-
+    
     // Update EtherCAT variables
     ecat.update();
 
     // Get inputs from digitalIns and I2C bus
     bool LVOkay1State = LVOkay1.read();
     bool LVOkay2State = LVOkay2.read();
+    
     uint8_t hvOCTriggerStates = hvOCTriggers.readOCTriggers();
     PDBCurrent.f = currentSensors.readPDBCurrent();
     LV1Current.f = currentSensors.readLV1Current();
@@ -103,9 +103,10 @@ int main()
     HVCurrent.f = currentSensors.readHVCurrent();
     uint8_t hvOnStates = hvControl.readAllOn();
     uint8_t hvResetStates = hvControl.readAllReset();
-
+    
     emergencyButtonState = emergencyButton.debounceRead(emergencyButtonState);  
-    onOffButtonstate = onOffButton.debounceRead(onOffButtonstate); 
+    onOffButtonstate = onOffButton.read(); 
+    
 
     // Keep track of whether an EtherCAT master is present
     masterOnline = masterOnlineChecker.isOnline(mosi.masterOk);
@@ -128,17 +129,18 @@ int main()
     //   // pc.printf("\r\n counter: %d", missedMasterCounter);
        printTimer.reset();
     // }
-
+    
     // Set LEDs and digitalOuts
     onOffButtonLed = stateMachine.getOnOffButtonLedState();
     mbedLed1 = stateMachine.getOnOffButtonLedState();      // LED on if button LED is on
-    mbedLed2 = emergencyButtonState;//(stateMachine.getState() == "MasterOk_s");  // LED on if in MasterOk state
+    mbedLed2 = (stateMachine.getState() == "MasterOk_s");  // LED on if in MasterOk state
     mbedLed3 = (hvOnStates != 0) && emergencyButtonState;  // LED on if any HV is on and not disabled by SSR
     mbedLed4 = (stateMachine.getState() == "Shutdown_s");  // LED on if in Shutdown state
     keepPDBOn = stateMachine.getKeepPDBOn();
     LVOn1 = stateMachine.getLVOn();  // Don't listen to what master says over EtherCAT: LV net 1 not controllable by master
     LVOn2 = stateMachine.getLVOn();  // (For now) Don't listen to what master says over EtherCAT: LV net 2 not
                                      // controllable by master
+
     // Control HV
     if (stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s" ||
         stateMachine.getState() == "LVOn_s")
@@ -164,7 +166,7 @@ int main()
       emergencyButtonControl = false;  // Disable HV
       hvControl.setAllHV(0b00000000);  // Reset all HV nets to off, even though already disabled
     }
-
+    
     // Set miso's in EtherCAT buffers
     miso.emergencyButtonState = emergencyButtonState;
     miso.masterShutdown = stateMachine.getMasterShutdown();

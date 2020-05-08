@@ -10,7 +10,7 @@ private:
   DigitalIn input; 
   uint64_t debounceTime;
 public:
-  Button(PinName pin, PinMode mode, uint8_t debounceTime);     //constructor
+  Button(PinName pin, PinMode mode, uint64_t debounceTime);     //constructor
   bool debounceRead (bool initialbutton);
   bool read();
 };
