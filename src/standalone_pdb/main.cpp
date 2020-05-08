@@ -9,10 +9,10 @@ Serial pc(USBTX, USBRX, 9600);  // Serial communication for debugging
 
 // On/off-related inputs/outputs
 DigitalOut buttonLed(LPC_ONOFFBUTTON_LED, false);     // True means LED on
-DigitalOut mbedLed1(LPC_LED1, false);            // Shows same as button led
+DigitalOut mbedLed1(LPC_LED1, false);                 // Shows same as button led
 DigitalIn button(LPC_ONOFFBUTTON_PRESSED, PullDown);  // True means button pressed
-DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, false);    // True means keep PDB on
-DigitalOut mbedLed4(LPC_LED4, false);            // Shows if in Shutdown state
+DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, false);         // True means keep PDB on
+DigitalOut mbedLed4(LPC_LED4, false);                 // Shows if in Shutdown state
 
 // Low voltage related inputs/outputs
 DigitalOut LVOn1(LPC_LVON1, false);        // True means on
@@ -95,7 +95,7 @@ int main()
     keepPDBOn = stateMachine.getKeepPDBOn();
     LVOn1 = stateMachine.getLVOn();
     LVOn2 = stateMachine.getLVOn();
-    
+
     // Control HV
     if (stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s")
     {

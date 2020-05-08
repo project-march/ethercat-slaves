@@ -27,7 +27,7 @@ void StateMachine::updateState(bool onOffButtonState, bool masterOkState, bool s
         this->onOffButtonLedState = true;
         this->keepPDBOn = true;
       }
-      if (!onOffButtonState) 
+      if (!onOffButtonState)
       {
         if (buttonTimeMs <= this->onOffButtonTimeShort)
         {
