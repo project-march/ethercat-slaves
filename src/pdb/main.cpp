@@ -33,7 +33,7 @@ HVControl hvControl(LPC_I2C_SDA, LPC_I2C_SCL);
 HVOCTriggers hvOCTriggers(LPC_I2C_SDA, LPC_I2C_SCL);
 
 // Emergency button related inputs/outputs
-Button emergencyButton(LPC_EMERGENCY_SWITCH_STATUS, PullDown, 1000000);  // False means disconnected HV time in us
+Button emergencyButton(LPC_EMERGENCY_SWITCH_STATUS, PullDown, 1000000);  // False means disconnected HV, time in us
 DigitalOut emergencyButtonControl(LPC_EMERGENCY_SWITCH, false);          // False means disconnect HV
 
 // Current sensing related inputs/outputs
@@ -83,8 +83,7 @@ int main()
 
   printTimer.start();  // Start print timer right before entering infinite loop
 
-  bool onOffButtonstate = false;
-  bool emergencyButtonState = false;
+  bool emergencyButtonState = emergencyButton.read();
 
   while (1)
   {
@@ -92,6 +91,7 @@ int main()
     ecat.update();
 
     // Get inputs from digitalIns and I2C bus
+    bool onOffButtonstate = onOffbutton.read();
     bool LVOkay1State = LVOkay1.read();
     bool LVOkay2State = LVOkay2.read();
 
@@ -104,7 +104,6 @@ int main()
     uint8_t hvResetStates = hvControl.readAllReset();
 
     emergencyButtonState = emergencyButton.debounceRead(emergencyButtonState);
-    onOffButtonstate = onOffButton.read();
 
     // Keep track of whether an EtherCAT master is present
     masterOnline = masterOnlineChecker.isOnline(mosi.masterOk);
@@ -114,7 +113,7 @@ int main()
 
     // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
     if (printTimer.read_ms() > 1000)
-      // {  // Print once every x ms
+    {  // Print once every x ms
       //   // pc.printf("\r\nState: %s", stateMachine.getState().c_str());
       //   // pc.printf("\tKeepPDBOn: %d", stateMachine.getKeepPDBOn());
       //   // if((!LVOkayState) && (stateMachine.getState() == "LVOn_s")){
@@ -126,7 +125,7 @@ int main()
       //   // pc.printf("\r\n LV current: %f", LV1Current.f);
       //   // pc.printf("\r\n counter: %d", missedMasterCounter);
       printTimer.reset();
-    // }
+    }
 
     // Set LEDs and digitalOuts
     onOffButtonLed = stateMachine.getOnOffButtonLedState();
