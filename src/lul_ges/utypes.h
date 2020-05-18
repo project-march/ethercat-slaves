@@ -12,7 +12,8 @@ typedef struct
   {
     int32_t TemperatureLHFE;
     int32_t TemperatureLKFE;
-  } CC_PACKED miso;
+    uint8_t OverTemperatureTriggerLUL;
+  } miso;
   CC_PACKED_END
 } CC_PACKED _Rbuffer;
 CC_PACKED_END

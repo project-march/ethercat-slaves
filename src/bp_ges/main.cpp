@@ -7,10 +7,12 @@
 #include "Ethercat.h"
 // Include Temperature sensor library
 #include "Temperature.h"
+// Include Thermistor library
+#include "Thermistor.h"
 
-#define WAIT_TIME (2000000)               // micro-seconds
-#define APP_TITLE "MARCH 4 Backpack GES"  // Application name to be printed to terminal
-#define PC_BAUDRATE (9600)                // per second
+#define WAIT_TIME (2000000)             // micro-seconds
+#define APP_TITLE "MARCH Backpack GES"  // Application name to be printed to terminal
+#define PC_BAUDRATE (9600)              // per second
 
 // Easy access to PDOs. Needs to be changed if different PDOs are used
 #define miso Ethercat::pdoTx.Struct.miso
@@ -39,6 +41,10 @@ Ethercat ecat(DBS_ECAT_MOSI, DBS_ECAT_MISO, DBS_ECAT_SCK, DBS_ECAT_NCS, PDORX_si
 Temperature temperatureSensorLHAA(DBS_P04);
 Temperature temperatureSensorRHAA(DBS_P23);
 
+// PTC Thermistor
+Thermistor ptcThermistorLHAA(DBS_P14);
+Thermistor ptcThermistorRHAA(DBS_P15);
+
 int main()
 {
   wait_us(WAIT_TIME);
@@ -51,6 +57,7 @@ int main()
   // Set all initial misos
   miso.TemperatureLHAA = 0;
   miso.TemperatureRHAA = 0;
+  miso.OverTemperatureTriggerBP = 0;
 
   while (1)
   {
@@ -59,8 +66,11 @@ int main()
 
     // Get temperature data
     bit32 temperatureLHAA, temperatureRHAA;
+
     temperatureLHAA.f = temperatureSensorLHAA.read();
     temperatureRHAA.f = temperatureSensorRHAA.read();
+    uint8_t thermistorOverTemperatureLHAA = ptcThermistorLHAA.read();
+    uint8_t thermistorOverTemperatureRHAA = ptcThermistorRHAA.read();
 
     // Set status LED if any temperature data invalid
     statusLed = (temperatureLHAA.f < 0) || (temperatureRHAA.f < 0);
@@ -68,5 +78,7 @@ int main()
     // Set all misos to be sent back to the master
     miso.TemperatureLHAA = temperatureLHAA.i;
     miso.TemperatureRHAA = temperatureRHAA.i;
+
+    miso.OverTemperatureTriggerBP = thermistorOverTemperatureLHAA | (thermistorOverTemperatureRHAA << 1);
   }
 }

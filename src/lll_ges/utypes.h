@@ -11,7 +11,8 @@ typedef struct
   struct
   {
     int32_t TemperatureLAPD;
-  } CC_PACKED miso;
+    uint8_t OverTemperatureTriggerLLL;
+  } miso;
   CC_PACKED_END
 } CC_PACKED _Rbuffer;
 CC_PACKED_END
