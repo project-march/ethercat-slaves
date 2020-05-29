@@ -91,7 +91,7 @@ int main()
     ecat.update();
 
     // Get inputs from digitalIns and I2C bus
-    bool onOffButtonstate = onOffbutton.read();
+    bool onOffButtonState = onOffButton.read();
     bool LVOkay1State = LVOkay1.read();
     bool LVOkay2State = LVOkay2.read();
 
