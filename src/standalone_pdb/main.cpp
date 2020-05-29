@@ -8,7 +8,7 @@
 Serial pc(USBTX, USBRX, 9600);  // Serial communication for debugging
 
 // On/off-related inputs/outputs
-DigitalOut OnOffButtonLed(LPC_ONOFFBUTTON_LED, false);     // True means LED on
+DigitalOut onOffButtonLed(LPC_ONOFFBUTTON_LED, false);     // True means LED on
 DigitalOut mbedLed1(LPC_LED1, false);                      // Shows same as button led
 DigitalIn onOffButton(LPC_ONOFFBUTTON_PRESSED, PullDown);  // True means button pressed
 DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, false);              // True means keep PDB on
@@ -87,7 +87,7 @@ int main()
     }
 
     // Set LEDs and digitalOuts
-    OnOffButtonLed = stateMachine.getOnOffButtonLedState();
+    onOffButtonLed = stateMachine.getOnOffButtonLedState();
     mbedLed1 = stateMachine.getOnOffButtonLedState();      // LED on if button LED is on
     mbedLed2 = (stateMachine.getState() == "MasterOk_s");  // LED on if in MasterOk state
     mbedLed3 = (hvOnStates != 0) && emergencyButtonState;  // LED on if any HV is on and not disabled by SSR
