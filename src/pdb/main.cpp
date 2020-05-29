@@ -18,7 +18,7 @@ DigitalIn onOffButton(LPC_ONOFFBUTTON_PRESSED, PullDown);  // True means button(
 DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, false);              // True means keep PDB on
 DigitalOut mbedLed4(LPC_LED4, false);                      // Shows if in Shutdown state
 
-// Low voltage related inputs/outputs
+// Low voltage related inputs/output
 DigitalOut LVOn1(LPC_LVON1, false);        // True means on
 DigitalIn LVOkay1(LPC_LVOKAY1, PullDown);  // True means okay
 DigitalOut LVOn2(LPC_LVON2, false);        // True means on
@@ -91,7 +91,7 @@ int main()
     ecat.update();
 
     // Get inputs from digitalIns and I2C bus
-    bool onOffButtonState = onOffButton.read();
+    bool onOffButtonstate = onOffbutton.read();
     bool LVOkay1State = LVOkay1.read();
     bool LVOkay2State = LVOkay2.read();
 

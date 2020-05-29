@@ -8,11 +8,11 @@
 Serial pc(USBTX, USBRX, 9600);  // Serial communication for debugging
 
 // On/off-related inputs/outputs
-DigitalOut buttonLed(LPC_ONOFFBUTTON_LED, false);     // True means LED on
-DigitalOut mbedLed1(LPC_LED1, false);                 // Shows same as button led
-DigitalIn button(LPC_ONOFFBUTTON_PRESSED, PullDown);  // True means button pressed
-DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, false);         // True means keep PDB on
-DigitalOut mbedLed4(LPC_LED4, false);                 // Shows if in Shutdown state
+DigitalOut OnOffButtonLed(LPC_ONOFFBUTTON_LED, false);     // True means LED on
+DigitalOut mbedLed1(LPC_LED1, false);                      // Shows same as button led
+DigitalIn onOffButton(LPC_ONOFFBUTTON_PRESSED, PullDown);  // True means button pressed
+DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, false);              // True means keep PDB on
+DigitalOut mbedLed4(LPC_LED4, false);                      // Shows if in Shutdown state
 
 // Low voltage related inputs/outputs
 DigitalOut LVOn1(LPC_LVON1, false);        // True means on
@@ -55,7 +55,7 @@ int main()
   while (1)
   {
     // Get inputs from digitalIns and I2C bus
-    bool buttonstate = button.read();
+    bool onOffButtonState = onOffButton.read();
     bool LVOkay1State = LVOkay1.read();
     bool LVOkay2State = LVOkay2.read();
     bool emergencyButtonState = emergencyButton.read();
@@ -68,7 +68,7 @@ int main()
     uint8_t hvResetStates = hvControl.readAllReset();
 
     // Update system state
-    stateMachine.updateState(buttonstate, true, false);
+    stateMachine.updateState(OnOffbuttonState, true, false);
 
     // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
     if (printTimer.read_ms() > 1000)
@@ -87,7 +87,7 @@ int main()
     }
 
     // Set LEDs and digitalOuts
-    buttonLed = stateMachine.getOnOffButtonLedState();
+    OnOffButtonLed = stateMachine.getOnOffButtonLedState();
     mbedLed1 = stateMachine.getOnOffButtonLedState();      // LED on if button LED is on
     mbedLed2 = (stateMachine.getState() == "MasterOk_s");  // LED on if in MasterOk state
     mbedLed3 = (hvOnStates != 0) && emergencyButtonState;  // LED on if any HV is on and not disabled by SSR
