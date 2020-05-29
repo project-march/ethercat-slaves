@@ -91,7 +91,7 @@ int main()
     ecat.update();
 
     // Get inputs from digitalIns and I2C bus
-    bool onOffButtonstate = onOffbutton.read();
+    bool onOffButtonState = onOffButton.read();
     bool LVOkay1State = LVOkay1.read();
     bool LVOkay2State = LVOkay2.read();
 
@@ -109,7 +109,7 @@ int main()
     masterOnline = masterOnlineChecker.isOnline(mosi.masterOk);
 
     // Update system state
-    stateMachine.updateState(onOffButtonstate, masterOnline, (bool)mosi.masterShutdownAllowed);
+    stateMachine.updateState(onOffButtonState, masterOnline, (bool)mosi.masterShutdownAllowed);
 
     // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
     if (printTimer.read_ms() > 1000)

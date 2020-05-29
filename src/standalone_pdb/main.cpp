@@ -68,7 +68,7 @@ int main()
     uint8_t hvResetStates = hvControl.readAllReset();
 
     // Update system state
-    stateMachine.updateState(OnOffButtonState, true, false);
+    stateMachine.updateState(onOffButtonState, true, false);
 
     // Debug prints (Take care: these may take a lot of time and fuck up the masterOk timer!)
     if (printTimer.read_ms() > 1000)
