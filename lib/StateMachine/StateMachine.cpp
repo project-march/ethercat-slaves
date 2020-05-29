@@ -16,8 +16,8 @@ StateMachine::StateMachine()
 // Updates the current state based on the button inputs
 void StateMachine::updateState(bool onOffButtonState, bool masterOkState, bool shutdownAllowedState)
 {
-  int buttonTimeMs = this->onOffButtonTimer.read_ms();
-  int ledTimeMs = this->ledTimer.read_ms();
+  int buttonTimeMs = this->onOffButtonTimer.read_us();
+  int ledTimeMs = this->ledTimer.read_us();
   switch (this->currentState)
   {
     case Init_s:

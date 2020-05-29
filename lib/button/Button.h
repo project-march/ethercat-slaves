@@ -11,7 +11,7 @@ private:
   uint64_t debounceTime;
 
 public:
-  Button(PinName pin, PinMode mode, uint64_t debounceTime);  // constructor
+  Button(PinName pin, PinMode mode, uint64_t debounceTime);
   bool debounceRead(bool initialbutton);
   bool read();
 };
