@@ -17,8 +17,8 @@
 #define LPC_TX (p9)
 #define LPC_RX (p10)
 
-#define LPC_BUTTON_PRESSED (p13)
-#define LPC_BUTTON_LED (p25)
+#define LPC_ONOFFBUTTON_PRESSED (p13)
+#define LPC_ONOFFBUTTON_LED (p25)
 #define LPC_KEEP_PDB_ON (p20)
 
 #define LPC_EMERGENCY_SWITCH_STATUS (p18)
