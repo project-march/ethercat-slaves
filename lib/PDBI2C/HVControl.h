@@ -32,7 +32,7 @@ private:
 
   void setBit(uint8_t index);
   void clearBit(uint8_t index);
-  bool getBit(uint16_t word, uint8_t index);
+  bool getBit(uint8_t word, uint8_t index);
 
   void write();
   uint8_t read();

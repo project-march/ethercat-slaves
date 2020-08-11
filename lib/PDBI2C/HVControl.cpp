@@ -46,8 +46,8 @@ void HVControl::write()
 // This function reads and returns two bytes from the PCA8575
 uint8_t HVControl::read()
 {
-  uint8_t write_data = this->PCA9534PW_output_port;
-  bus.write(this->PCA9534PW_write, (char*)&write_data, 1);
+  uint8_t command = this->PCA9534PW_output_port;
+  bus.write(this->PCA9534PW_read, (char*)&command, 1);
 
   uint8_t read_data = 0;
   bus.read(this->PCA9534PW_read, (char*)&read_data, 1);
