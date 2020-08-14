@@ -1,7 +1,6 @@
 #include <mbed.h>
-#include "LPC1768_pindefs_M4.h"
+#include "LPC1768_pindefs_M4C.h"
 #include "HVControl.h"
-#include "HVOCTriggers.h"
 #include "CurrentSensors.h"
 #include "StateMachine.h"
 
@@ -15,10 +14,8 @@ DigitalOut keepPDBOn(LPC_KEEP_PDB_ON, false);              // True means keep PD
 DigitalOut mbedLed4(LPC_LED4, false);                      // Shows if in Shutdown state
 
 // Low voltage related inputs/outputs
-DigitalOut LVOn1(LPC_LVON1, false);        // True means on
-DigitalIn LVOkay1(LPC_LVOKAY1, PullDown);  // True means okay
-DigitalOut LVOn2(LPC_LVON2, false);        // True means on
-DigitalIn LVOkay2(LPC_LVOKAY2, PullDown);  // True means okay
+DigitalOut LVOn(LPC_LVON, false);        // True means on
+DigitalIn LVOkay(LPC_LVOKAY, PullDown);  // True means okay
 
 // Master communication related inputs/outputs
 DigitalOut mbedLed2(LPC_LED2, false);  // Shows if in MasterOk state
@@ -26,13 +23,14 @@ DigitalOut mbedLed2(LPC_LED2, false);  // Shows if in MasterOk state
 // High voltage related inputs/outputs
 DigitalOut mbedLed3(LPC_LED3, false);  // Shows if any HV is on
 HVControl hvControl(LPC_I2C_SDA, LPC_I2C_SCL);
-HVOCTriggers hvOCTriggers(LPC_I2C_SDA, LPC_I2C_SCL);
 
 // Emergency button related inputs/outputs
 DigitalIn emergencyButton(LPC_EMERGENCY_SWITCH_STATUS, PullDown);  // False means disconnected HV
 DigitalOut emergencyButtonControl(LPC_EMERGENCY_SWITCH, false);    // False means disconnect HV
 
 // Current sensing related inputs/outputs
+AnalogIn pdbCurrentSensor(LPC_PDB_CURRENT_SENSOR);
+AnalogIn lvCurrentSensor(LPC_LV_CURRENT_SENSOR);
 CurrentSensors currentSensors(LPC_I2C_SDA, LPC_I2C_SCL);
 
 union bit32
@@ -48,7 +46,7 @@ int main()
 {
   pc.printf("\r\nMBED gets power now!");
 
-  bit32 PDBCurrent, LV1Current, LV2Current, HVCurrent;
+  bit32 PDBCurrent, LVCurrent;
 
   printTimer.start();  // Start print timer right before entering infinite loop
 
@@ -56,16 +54,11 @@ int main()
   {
     // Get inputs from digitalIns and I2C bus
     bool onOffButtonState = onOffButton.read();
-    bool LVOkay1State = LVOkay1.read();
-    bool LVOkay2State = LVOkay2.read();
+    bool LVOkayState = LVOkay.read();
     bool emergencyButtonState = emergencyButton.read();
-    uint8_t hvOCTriggerStates = hvOCTriggers.readOCTriggers();
-    PDBCurrent.f = currentSensors.readPDBCurrent();
-    LV1Current.f = currentSensors.readLV1Current();
-    LV2Current.f = currentSensors.readLV2Current();
-    HVCurrent.f = currentSensors.readHVCurrent();
+    PDBCurrent.f = pdbCurrentSensor.read();
+    LVCurrent.f = lvCurrentSensor.read();
     uint8_t hvOnStates = hvControl.readAllOn();
-    uint8_t hvResetStates = hvControl.readAllReset();
 
     // Update system state
     stateMachine.updateState(onOffButtonState, true, false);
@@ -93,8 +86,7 @@ int main()
     mbedLed3 = (hvOnStates != 0) && emergencyButtonState;  // LED on if any HV is on and not disabled by SSR
     mbedLed4 = (stateMachine.getState() == "Shutdown_s");  // LED on if in Shutdown state
     keepPDBOn = stateMachine.getKeepPDBOn();
-    LVOn1 = stateMachine.getLVOn();
-    LVOn2 = stateMachine.getLVOn();
+    LVOn = stateMachine.getLVOn();
 
     // Control HV
     if (stateMachine.getState() == "MasterOk_s" || stateMachine.getState() == "ShutdownInit_s")

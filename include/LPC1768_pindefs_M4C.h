@@ -24,8 +24,8 @@
 #define LPC_EMERGENCY_SWITCH_STATUS (p20)
 #define LPC_EMERGENCY_SWITCH (p14)
 
-#define LPC_LVOKAY1 (p24)
-#define LPC_LVON1 (p22)
+#define LPC_LVOKAY (p24)
+#define LPC_LVON (p22)
 
 #define LPC_I2C_SDA (p28)
 #define LPC_I2C_SCL (p27)
