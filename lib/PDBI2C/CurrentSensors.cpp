@@ -3,33 +3,8 @@
 // Constructor
 CurrentSensors::CurrentSensors(PinName SDA_PIN, PinName SCL_PIN) : bus(SDA_PIN, SCL_PIN)
 {
-  this->ADS1015_read = (ADS1015_address << 1) | 0x01;   // Shift left and set LSB to one
-  this->ADS1015_write = (ADS1015_address << 1) & 0xFE;  // Shift left and set LSB to zero
-  this->FSR = fsr2048;                                  // Set default Full Scale Range
-  this->dataRate = dr1600sps;                           // Set default data rate
-}
-
-// This helper function returns the size (in Volt) of the least significant bit of the read data based on the set Full
-// Scale Range
-float CurrentSensors::getLSBSize()
-{
-  switch (this->FSR)
-  {
-    case fsr6144:
-      return 3.0f;
-    case fsr4096:
-      return 2.0f;
-    case fsr2048:
-      return 1.0f;
-    case fsr1024:
-      return 0.5f;
-    case fsr0512:
-      return 0.25f;
-    case fsr0256:
-      return 0.125f;
-    default:
-      return 0.0f;
-  }
+  this->ADC128D818_read = (ADC128D818_address << 1) | 0x01;   // Shift left and set LSB to one
+  this->ADC128D818_write = (ADC128D818_address << 1) & 0xFE;  // Shift left and set LSB to zero
 }
 
 // This helper function swaps the two bytes of the input argument
@@ -43,18 +18,18 @@ uint16_t CurrentSensors::swapBytes(uint16_t data)
 }
 
 // This function reads two bytes from the ADS1015
-uint16_t CurrentSensors::readReg()
+uint16_t CurrentSensors::readRegister()
 {
   uint16_t read_data = 0;
-  this->bus.read(this->ADS1015_read, (char*)&read_data, 2);
+  this->bus.read(this->ADC128D818_read, (char*)&read_data, 2);
   return read_data;
 }
 
 // This function writes a byte to the ADS1015 which sets which register to read/write from/to
-bool CurrentSensors::writeAddrReg(ADS1015RegAddressPtr reg)
+bool CurrentSensors::writeRegisterAddress(ADC128D818RegisterAddresses registerAddress)
 {
-  uint8_t addressPtrReg = reg;
-  return this->bus.write(this->ADS1015_write, (char*)&addressPtrReg, 1);
+  uint8_t registerAddressPtr = registerAddress;
+  return this->bus.write(this->ADC128D81_write, (char*)&addressPtrReg, 1);
 }
 
 // This function writes the Configuration register of the ADS1015
