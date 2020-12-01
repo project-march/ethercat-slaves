@@ -1,3 +1,5 @@
+This repository has been archived. A recent version can be found on https://gitlab.com/project-march.
+
 # 🤖 Ethercat Slaves
 Repository for the General EtherCAT Slaves (GES) and the PDB EtherCAT Slave of the March exoskeleton.
 
